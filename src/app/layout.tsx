@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/shared/components/layout/Navbar";
 
 export const metadata: Metadata = {
-  title: "Tech E-Commerce",
-  description: "Buy the best tech products online",
+  title: "Syntax | The Art of Performance",
+  description:
+    "Experience cutting-edge design and engineering. Syntax builds premium PC components and peripherals to elevate your entire setup.",
 };
 
 export default function RootLayout({
@@ -13,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`bg-gray-50 text-gray-900`}>
+        <Navbar />
+        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+      </body>
     </html>
   );
 }

@@ -1,3 +1,5 @@
+import HomePage from "@/features/home/HomePage";
+
 export default function Home() {
-  return <div>Hello from Homepage</div>;
+  return <HomePage />;
 }
