@@ -6,7 +6,6 @@ export default function Navbar() {
       <div className="flex-1">
         <Link href={"/"} className="justify-between">
           Synthax
-          <span className="badge">New</span>
         </Link>
       </div>
       <div className="flex-none">
@@ -66,19 +65,16 @@ export default function Navbar() {
             <li>
               <Link href={"/profile"} className="justify-between">
                 Profile
-                <span className="badge">New</span>
               </Link>
             </li>
             <li>
               <Link href={"/settings"} className="justify-between">
                 Settings
-                <span className="badge">New</span>
               </Link>
             </li>
             <li>
               <Link href={"/logout"} className="justify-between">
                 Logout
-                <span className="badge">New</span>
               </Link>
             </li>
           </ul>

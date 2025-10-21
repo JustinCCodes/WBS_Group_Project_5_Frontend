@@ -35,9 +35,7 @@ export default function HomePage() {
           {isLoading ? "Testing..." : "Test Backend Connection"}
         </Button>
       </div>
-      <p className="mt-4 rounded-md bg-gray-100 p-4 font-mono text-sm text-gray-700">
-        {apiResponse}
-      </p>
+      <p className="mt-4 rounded-md p-4 font-mono text-sm">{apiResponse}</p>
     </div>
   );
 }
