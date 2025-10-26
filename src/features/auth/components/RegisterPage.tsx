@@ -2,37 +2,35 @@
 
 import React, { useState, FormEvent } from "react";
 import Button from "@/shared/components/ui/Button";
-import { login } from "@/features/auth/services/authClient";
+import { registerUser } from "@/features/auth/services/userClient";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/features/auth/context/AuthProvider";
 
-export default function Login() {
+export default function RegisterPage() {
   const router = useRouter();
-  const { refreshUser } = useAuth();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
     setLoading(true);
-
     try {
-      const user = await login({ email, password });
-      setSuccess(`Login successful! Welcome ${user.name}`);
-      await refreshUser();
-      router.push("/");
+      const user = await registerUser({ name, email, password });
+      setSuccess(`Account created for ${user.name}. Redirecting to login...`);
+      setName("");
       setEmail("");
       setPassword("");
+      router.push("/login");
     } catch (err: any) {
-      console.error("Login failed:", err);
-      const errorMessage =
-        err?.response?.data?.error || "Login failed. Please try again.";
-      setError(errorMessage);
+      console.error("Registration failed:", err);
+      const message =
+        err?.response?.data?.error || "Registration failed. Please try again.";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -40,8 +38,25 @@ export default function Login() {
 
   return (
     <div className="mx-auto max-w-md p-4">
-      <h1 className="mb-4 text-center text-2xl font-bold">Login</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <h1 className="mb-4 text-center text-2xl font-bold">Register</h1>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            disabled={loading}
+            className="input input-bordered mt-1 block w-full"
+          />
+        </div>
         <div>
           <label
             htmlFor="email"
@@ -50,13 +65,13 @@ export default function Login() {
             Email
           </label>
           <input
-            type="email"
             id="email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="input input-bordered mt-1 block w-full"
             disabled={loading}
+            className="input input-bordered mt-1 block w-full"
           />
         </div>
         <div>
@@ -67,19 +82,19 @@ export default function Login() {
             Password
           </label>
           <input
-            type="password"
             id="password"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="input input-bordered mt-1 block w-full"
             disabled={loading}
+            className="input input-bordered mt-1 block w-full"
           />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
         {success && <p className="text-sm text-green-600">{success}</p>}
         <Button type="submit" className="btn-primary w-full" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Creating..." : "Create account"}
         </Button>
       </form>
     </div>
