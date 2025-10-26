@@ -1,6 +1,9 @@
+"use client";
 import Link from "next/link";
+import { useAuth } from "@/features/auth/context/AuthProvider";
 
 export default function Navbar() {
+  const { user, loading, logout } = useAuth();
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
@@ -9,6 +12,25 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex-none">
+        <div className="mr-2">
+          {loading ? null : user ? (
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Hi, {user.name}</span>
+              <button className="btn btn-sm" onClick={logout}>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link className="btn btn-sm" href="/login">
+                Login
+              </Link>
+              <Link className="btn btn-sm btn-primary" href="/register">
+                Sign up
+              </Link>
+            </div>
+          )}
+        </div>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <div className="indicator">
