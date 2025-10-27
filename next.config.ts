@@ -33,7 +33,20 @@ const nextConfig = {
       return `${b}/api/v1/auth/:path*`;
     };
 
+    const apiBaseNoSlash = API.replace(/\/$/, "");
+    const buildHealthDest = (base: string): string => {
+      let b = String(base).replace(/\/$/, "");
+      // Strip common API path suffixes to hit server root /health
+      b = b.replace(/\/(api\/v1\/auth|api\/v1|api|auth)$/i, "");
+      return `${b}/health`;
+    };
+
     return [
+      // Dedicated health check route
+      { source: "/health", destination: buildHealthDest(apiBaseNoSlash) },
+      // Authentication server health check route
+      { source: "/auth/health", destination: buildHealthDest(AUTH_BASE) },
+      // Auth and API proxies
       { source: "/api/auth/:path*", destination: buildAuthDest(AUTH_BASE) },
       { source: "/api/:path*", destination: buildApiDest(API) },
     ];

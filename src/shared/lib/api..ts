@@ -11,7 +11,7 @@ const api: AxiosInstance = axios.create({
   withCredentials: true, // For sending cookies
 });
 
-// --- 401 -> refresh token handling with a simple queue ---
+// Interceptor to handle 401 responses and refresh token logic
 let isRefreshing = false;
 let pendingQueue: Array<(ok: boolean) => void> = [];
 
