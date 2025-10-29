@@ -19,7 +19,7 @@ jobs:
           # The JSON payload for the Discord message
           JSON_PAYLOAD=$(cat <<EOF
           {
-            "content": "Hey @everyone, eine neue Pull Request wurde geöffnet und ist bereit um geprüft zu werdenn!",
+            "content": "Hey @everyone, eine neue Pull Request wurde geöffnet und ist bereit um geprüft zu werden!",
             "embeds": [{
               "title": "${PULL_REQUEST_TITLE}",
               "url": "${PULL_REQUEST_URL}",

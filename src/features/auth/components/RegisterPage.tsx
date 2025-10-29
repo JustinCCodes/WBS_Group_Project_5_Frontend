@@ -2,7 +2,8 @@
 
 import React, { useState, FormEvent } from "react";
 import Button from "@/shared/components/ui/Button";
-import { registerUser } from "@/features/auth/services/userClient";
+import { registerUser } from "@/features/auth/data";
+import { getErrorMessage } from "@/shared/types";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
@@ -26,11 +27,11 @@ export default function RegisterPage() {
       setEmail("");
       setPassword("");
       router.push("/login");
-    } catch (err: any) {
+    } catch (err) {
       console.error("Registration failed:", err);
-      const message =
-        err?.response?.data?.error || "Registration failed. Please try again.";
-      setError(message);
+      setError(
+        getErrorMessage(err) || "Registration failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }

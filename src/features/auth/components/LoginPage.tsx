@@ -2,7 +2,8 @@
 
 import React, { useState, FormEvent } from "react";
 import Button from "@/shared/components/ui/Button";
-import { login } from "@/features/auth/services/authClient";
+import { login } from "@/features/auth/data";
+import { getErrorMessage } from "@/shared/types";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/context/AuthProvider";
 
@@ -28,11 +29,9 @@ export default function Login() {
       router.push("/");
       setEmail("");
       setPassword("");
-    } catch (err: any) {
+    } catch (err) {
       console.error("Login failed:", err);
-      const errorMessage =
-        err?.response?.data?.error || "Login failed. Please try again.";
-      setError(errorMessage);
+      setError(getErrorMessage(err) || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
