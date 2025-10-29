@@ -8,8 +8,8 @@ export const getDashboardStats = async (): Promise<DashboardStats> => {
     const [usersRes, productsRes, categoriesRes, ordersRes] = await Promise.all(
       [
         api.get("/admin/users?limit=1000"), // Gets all users
-        api.get("/products?limit=1000"), // Gets all products (public endpoint)
-        api.get("/categories"), // Gets all categories (public endpoint)
+        api.get("/products?limit=1000"), // Gets all products (public)
+        api.get("/categories"), // Gets all categories (public)
         api.get("/admin/orders?limit=10&page=1"), // Gets first 10 orders
       ]
     );
@@ -114,4 +114,98 @@ export const getAllCategories = async () => {
     console.error("Error fetching categories:", error);
     throw error;
   }
+};
+
+export const createCategory = async (data: {
+  name: string;
+  description?: string;
+}) => {
+  const response = await api.post("/categories", data);
+  return response.data;
+};
+
+export const updateCategory = async (
+  categoryId: string,
+  data: { name: string; description?: string }
+) => {
+  const response = await api.put(`/categories/${categoryId}`, data);
+  return response.data;
+};
+
+export const deleteCategory = async (categoryId: string) => {
+  await api.delete(`/categories/${categoryId}`);
+};
+
+// Products API Functions
+export const getAllProducts = async () => {
+  const response = await api.get("/products?limit=1000");
+  return response.data;
+};
+
+export const createProduct = async (data: any) => {
+  const response = await api.post("/products", data);
+  return response.data;
+};
+
+export const updateProduct = async (productId: string, data: any) => {
+  const response = await api.put(`/products/${productId}`, data);
+  return response.data;
+};
+
+export const deleteProduct = async (productId: string) => {
+  await api.delete(`/products/${productId}`);
+};
+
+export const updateProductStock = async (productId: string, stock: number) => {
+  await api.put(`/admin/products/${productId}/stock`, { stock });
+};
+
+export const getLowStockProducts = async (threshold: number = 10) => {
+  const response = await api.get(
+    `/admin/products/low-stock?threshold=${threshold}`
+  );
+  return response.data;
+};
+
+// Orders API Functions (additional)
+export const deleteOrder = async (orderId: string) => {
+  await api.delete(`/admin/orders/${orderId}`);
+};
+
+// Users API Functions (additional)
+export const banUser = async (
+  userId: string,
+  data: { reason: string; bannedUntil?: string; isPermanent?: boolean }
+) => {
+  await api.put(`/admin/users/${userId}/ban`, data);
+};
+
+export const unbanUser = async (userId: string) => {
+  await api.put(`/admin/users/${userId}/unban`);
+};
+
+export const searchUsers = async (searchTerm: string) => {
+  const response = await api.get(
+    `/admin/users/search?email=${searchTerm}&id=${searchTerm}&limit=1000`
+  );
+  return response.data;
+};
+
+// Test Orders API Functions
+export const createTestOrder = async (data: {
+  userId: string;
+  products: { productId: string; quantity: number }[];
+  status: string;
+}) => {
+  const response = await api.post("/admin/test-orders", data);
+  return response.data;
+};
+
+export const getAllTestOrders = async () => {
+  const response = await api.get("/admin/test-orders?limit=1000");
+  return response.data;
+};
+
+export const deleteTestOrder = async (orderId: string) => {
+  await api.delete(`/admin/test-orders/${orderId}`);
 };
