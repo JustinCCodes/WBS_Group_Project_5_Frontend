@@ -1,14 +1,7 @@
 import { cookies } from "next/headers";
-import { z } from "zod";
+import { UserSchema, type CurrentUser } from "./types";
 
-const UserSchema = z.object({
-  id: z.string().optional(),
-  name: z.string(),
-  email: z.email(),
-  role: z.enum(["user", "admin"]),
-});
-export type CurrentUser = z.infer<typeof UserSchema> | null;
-
+// Server side functions
 export async function getCurrentUser(): Promise<CurrentUser> {
   cookies();
   try {

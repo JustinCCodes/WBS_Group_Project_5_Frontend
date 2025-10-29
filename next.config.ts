@@ -46,9 +46,27 @@ const nextConfig = {
       { source: "/health", destination: buildHealthDest(apiBaseNoSlash) },
       // Authentication server health check route
       { source: "/auth/health", destination: buildHealthDest(AUTH_BASE) },
-      // Auth and API proxies
+      // Auth and API proxies - auth must come before general api to match first
       { source: "/api/auth/:path*", destination: buildAuthDest(AUTH_BASE) },
       { source: "/api/:path*", destination: buildApiDest(API) },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        // Apply to all API routes
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+        ],
+      },
     ];
   },
 };

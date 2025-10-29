@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getDashboardStats, DashboardStats } from "../services/adminClient";
+import { getDashboardStats } from "@/features/admin/data";
+import type { DashboardStats } from "@/features/admin/types";
 import Link from "next/link";
 
 export default function AdminDashboard() {
@@ -104,6 +105,15 @@ export default function AdminDashboard() {
           <Link href="/admin/categories" className="btn btn-primary">
             Manage Categories
           </Link>
+          <Link href="/admin/products" className="btn btn-primary">
+            Manage Products
+          </Link>
+          <Link
+            href="/admin/test-orders"
+            className="btn btn-outline btn-secondary"
+          >
+            Test Orders
+          </Link>
         </div>
       </div>
 
@@ -130,8 +140,10 @@ export default function AdminDashboard() {
                 </tr>
               ) : (
                 stats.newestOrders.map((order) => (
-                  <tr key={order._id}>
-                    <td className="font-mono text-sm">{order._id.slice(-8)}</td>
+                  <tr key={order.id || order._id}>
+                    <td className="font-mono text-sm">
+                      {(order.id || order._id || "").slice(-8)}
+                    </td>
                     <td>
                       <div>
                         <div className="font-semibold">{order.userId.name}</div>
