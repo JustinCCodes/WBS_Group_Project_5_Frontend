@@ -51,6 +51,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  stock: number;
   categoryId: string | { id: string; _id?: string; name: string };
   createdBy?:
     | string

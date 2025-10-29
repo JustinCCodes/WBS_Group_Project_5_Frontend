@@ -2,15 +2,14 @@ import api from "@/shared/lib/api";
 import {
   LoginInput,
   LoginInputSchema,
+  LoginResponseSchema,
   RegisterInput,
   RegisterInputSchema,
   User,
   UserSchema,
 } from "./types";
-import { z } from "zod";
 
 // Auth API Functions
-const LoginResponseSchema = z.object({ user: UserSchema });
 
 export async function login(input: LoginInput): Promise<User> {
   const payload = LoginInputSchema.parse(input);
