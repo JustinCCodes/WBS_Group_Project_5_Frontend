@@ -19,7 +19,7 @@ export default function Navbar({ categories }: NavbarProps) {
 
   const profileRef = useRef<HTMLDivElement>(null); // Closes profile dropdown on outside click
 
-  // Close dropdowns when clicking outside
+  // Closes dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -54,7 +54,7 @@ export default function Navbar({ categories }: NavbarProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-6">
             <Link
               href="/products"
               className="text-gray-300 hover:text-amber-400 transition-colors font-medium"
@@ -82,7 +82,7 @@ export default function Navbar({ categories }: NavbarProps) {
           <div className="flex items-center space-x-4">
             {/* Auth Buttons */}
             {!loading && !user && (
-              <div className="hidden md:flex items-center space-x-3">
+              <div className="hidden lg:flex items-center space-x-3">
                 <Link
                   href="/login"
                   className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-amber-400 transition-colors"
@@ -113,7 +113,7 @@ export default function Navbar({ categories }: NavbarProps) {
 
             {/* User Profile Icon */}
             {user && (
-              <div className="relative hidden md:block" ref={profileRef}>
+              <div className="relative hidden lg:block" ref={profileRef}>
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="p-2 text-gray-300 hover:text-amber-400 transition-colors"
@@ -173,7 +173,7 @@ export default function Navbar({ categories }: NavbarProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-300 hover:text-amber-400 transition-colors"
+              className="lg:hidden p-2 text-gray-300 hover:text-amber-400 transition-colors"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -186,20 +186,22 @@ export default function Navbar({ categories }: NavbarProps) {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-zinc-800 py-4 space-y-4">
-            {categories.map((category) => (
-              <Link
-                key={category._id || category.id}
-                href={`/products?categoryId=${category._id || category.id}`}
-                className="block text-gray-300 hover:text-amber-400 transition-colors font-medium capitalize"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {category.name}
-              </Link>
-            ))}
+          <div className="lg:hidden border-t border-zinc-800 py-4 text-center">
+            <div className="grid grid-cols-2 gap-3">
+              {categories.map((category) => (
+                <Link
+                  key={category._id || category.id}
+                  href={`/products?categoryId=${category._id || category.id}`}
+                  className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors font-medium capitalize py-2 px-3 border border-zinc-800 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
             <Link
               href="/about"
-              className="block text-gray-300 hover:text-amber-400 transition-colors font-medium"
+              className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors font-medium py-3 border-t border-zinc-800 mt-4"
               onClick={() => setIsMenuOpen(false)}
             >
               About
@@ -207,19 +209,19 @@ export default function Navbar({ categories }: NavbarProps) {
 
             {/* Mobile Auth */}
             {!loading && (
-              <div className="pt-4 border-t border-zinc-800 space-y-3">
+              <div className="border-t border-zinc-800 text-center">
                 {user ? (
                   <>
                     <Link
                       href="/profile"
-                      className="block text-gray-300 hover:text-amber-400 transition-colors"
+                      className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors py-3 border-b border-zinc-800"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Profile
                     </Link>
                     <Link
                       href="/orders"
-                      className="block text-gray-300 hover:text-amber-400 transition-colors"
+                      className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors py-3 border-b border-zinc-800"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Orders
@@ -227,7 +229,7 @@ export default function Navbar({ categories }: NavbarProps) {
                     {user.role === "admin" && (
                       <Link
                         href="/admin/dashboard"
-                        className="block text-amber-400 font-semibold"
+                        className="block text-amber-400 hover:bg-zinc-800 font-semibold py-3 border-b border-zinc-800"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Admin Dashboard
@@ -238,7 +240,7 @@ export default function Navbar({ categories }: NavbarProps) {
                         logout();
                         setIsMenuOpen(false);
                       }}
-                      className="block w-full text-left text-gray-300 hover:text-amber-400 transition-colors"
+                      className="block w-full text-center text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors py-3"
                     >
                       Logout
                     </button>
@@ -247,14 +249,14 @@ export default function Navbar({ categories }: NavbarProps) {
                   <>
                     <Link
                       href="/login"
-                      className="block text-gray-300 hover:text-amber-400 transition-colors"
+                      className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors py-3 border-b border-zinc-800"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Login
                     </Link>
                     <Link
                       href="/register"
-                      className="block text-center px-4 py-2 bg-linear-to-r from-amber-500 to-yellow-600 text-black font-bold rounded-lg"
+                      className="block text-center px-4 py-3 mt-3 bg-linear-to-r from-amber-500 to-yellow-600 text-black font-bold rounded-lg hover:scale-105 transition-transform"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Sign Up

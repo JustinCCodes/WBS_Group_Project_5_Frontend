@@ -155,8 +155,8 @@ export default function HomePage({
                     {/* Hover glow effect */}
                     <div className="absolute inset-0 bg-linear-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/10 group-hover:to-transparent transition-all duration-300"></div>
 
-                    <div className="relative z-10">
-                      <div className="w-16 h-16 bg-linear-to-br from-amber-500/20 to-yellow-600/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div className="relative z-10 text-center md:text-left">
+                      <div className="w-16 h-16 bg-linear-to-br from-amber-500/20 to-yellow-600/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 mx-auto md:mx-0">
                         <IconComponent className="w-8 h-8 text-amber-400" />
                       </div>
 
@@ -168,7 +168,7 @@ export default function HomePage({
                         Premium {category.name.toLowerCase()} for professionals
                       </p>
 
-                      <div className="flex items-center text-amber-400 text-sm font-semibold">
+                      <div className="flex items-center justify-center md:justify-start text-amber-400 text-sm font-semibold">
                         Explore
                         <svg
                           className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform"

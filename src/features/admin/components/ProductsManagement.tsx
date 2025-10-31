@@ -8,11 +8,18 @@ import {
   updateProduct,
   deleteProduct,
   updateProductStock,
+  uploadImageToCloudinary,
 } from "@/features/admin/data";
 import type { Category, Product } from "@/features/admin/types";
 import { getErrorMessage } from "@/shared/types";
 import { useAdminForm } from "@/features/admin/hooks";
-import { AlertTriangle, Check, X } from "lucide-react";
+import {
+  AlertTriangle,
+  Check,
+  X,
+  Upload,
+  Image as ImageIcon,
+} from "lucide-react";
 
 // Stock Editor Component
 function StockEditor({
@@ -109,6 +116,11 @@ export default function ProductsManagement() {
   const [isEditing, setIsEditing] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
+  // Image upload state
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
   // Search & filter
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
@@ -123,17 +135,34 @@ export default function ProductsManagement() {
       stock: 0,
       categoryId: "",
       imageUrl: "",
+      imagePublicId: "",
     },
     onSubmit: async (data) => {
-      // Ensure stock is a number
-      const productData = {
-        ...data,
-        stock: Number(data.stock) || 0,
-        price: Number(data.price) || 0,
-      };
-      await createProduct(productData);
-      setIsCreating(false);
-      await fetchProducts();
+      try {
+        if (selectedImage) {
+          setIsUploadingImage(true);
+          const uploadResult = await uploadImageToCloudinary(selectedImage);
+          data.imageUrl = uploadResult.imageUrl;
+          data.imagePublicId = uploadResult.imagePublicId;
+          setIsUploadingImage(false);
+        }
+
+        if (!data.imageUrl) {
+          alert(
+            "Product image is required. Please upload an image or provide an image URL."
+          );
+          return;
+        }
+
+        await createProduct(data);
+        setIsCreating(false);
+        setSelectedImage(null);
+        setImagePreview("");
+        await fetchProducts();
+      } catch (error: any) {
+        setIsUploadingImage(false);
+        alert(`Failed to create product: ${error.message}`);
+      }
     },
   });
 
@@ -145,19 +174,42 @@ export default function ProductsManagement() {
       stock: 0,
       categoryId: "",
       imageUrl: "",
+      imagePublicId: "",
     },
     onSubmit: async (data) => {
       if (!editingProduct) return;
-      // Ensure stock and price are numbers
-      const productData = {
-        ...data,
-        stock: Number(data.stock) || 0,
-        price: Number(data.price) || 0,
-      };
-      await updateProduct(editingProduct.id || editingProduct._id || "", productData);
-      setIsEditing(false);
-      setEditingProduct(null);
-      await fetchProducts();
+      try {
+        // Upload new image if selected
+        if (selectedImage) {
+          setIsUploadingImage(true);
+          const uploadResult = await uploadImageToCloudinary(selectedImage);
+          data.imageUrl = uploadResult.imageUrl;
+          data.imagePublicId = uploadResult.imagePublicId;
+          setIsUploadingImage(false);
+        }
+
+        const productData = {
+          ...data,
+          stock: Number(data.stock) || 0,
+          price: Number(data.price) || 0,
+        };
+        await updateProduct(
+          editingProduct.id || editingProduct._id || "",
+          productData
+        );
+        setIsEditing(false);
+        setEditingProduct(null);
+        setSelectedImage(null);
+        setImagePreview("");
+        await fetchProducts();
+      } catch (error) {
+        setIsUploadingImage(false);
+        alert(
+          `Failed to update product: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`
+        );
+      }
     },
   });
 
@@ -221,8 +273,11 @@ export default function ProductsManagement() {
         typeof product.categoryId === "object"
           ? product.categoryId.id || product.categoryId._id || ""
           : product.categoryId,
-      imageUrl: "",
+      imageUrl: product.imageUrl || "",
+      imagePublicId: product.imagePublicId || "",
     });
+    setImagePreview(product.imageUrl || "");
+    setSelectedImage(null);
     setIsEditing(true);
     setIsCreating(false);
   };
@@ -231,8 +286,42 @@ export default function ProductsManagement() {
     setIsCreating(false);
     setIsEditing(false);
     setEditingProduct(null);
+    setSelectedImage(null);
+    setImagePreview("");
     createForm.reset();
     updateForm.reset();
+  };
+
+  // Image upload handlers
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
+        alert("Image size must be less than 5MB");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        alert("Please select a valid image file");
+        return;
+      }
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+    setImagePreview("");
+    activeForm.setFormData({
+      ...activeForm.formData,
+      imageUrl: "",
+      imagePublicId: "",
+    });
   };
 
   // Filters and sorts products
@@ -385,7 +474,10 @@ export default function ProductsManagement() {
                     onChange={(e) =>
                       activeForm.setFormData({
                         ...activeForm.formData,
-                        stock: e.target.value === '' ? 0 : parseInt(e.target.value, 10),
+                        stock:
+                          e.target.value === ""
+                            ? 0
+                            : parseInt(e.target.value, 10),
                       })
                     }
                     required
@@ -439,26 +531,86 @@ export default function ProductsManagement() {
                   </select>
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Image URL (Optional)
+                    Product Image
                   </label>
-                  <input
-                    type="url"
-                    className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
-                    value={activeForm.formData.imageUrl}
-                    onChange={(e) =>
-                      activeForm.setFormData({
-                        ...activeForm.formData,
-                        imageUrl: e.target.value,
-                      })
-                    }
-                    placeholder="https://example.com/image.jpg"
-                    disabled={activeForm.loading}
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    Cloudinary integration coming soon
-                  </p>
+
+                  {/* Image Preview */}
+                  {imagePreview && (
+                    <div className="mb-4 relative">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-48 object-cover rounded-lg border border-zinc-700"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="absolute top-2 right-2 p-2 bg-red-900/80 hover:bg-red-900 border border-red-800 text-red-400 rounded-lg transition-all"
+                        disabled={activeForm.loading || isUploadingImage}
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Upload Button */}
+                  {!imagePreview && (
+                    <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-zinc-700 border-dashed rounded-lg cursor-pointer bg-zinc-800 hover:bg-zinc-750 transition-all">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <Upload className="w-10 h-10 mb-3 text-gray-500" />
+                        <p className="mb-2 text-sm text-gray-400">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          PNG, JPG, WEBP (MAX. 5MB)
+                        </p>
+                      </div>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={handleImageSelect}
+                        disabled={activeForm.loading || isUploadingImage}
+                      />
+                    </label>
+                  )}
+
+                  {/* Alternative: Manual URL Input */}
+                  {!selectedImage && !imagePreview && (
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-500 mb-2 text-center">
+                        Or enter image URL manually
+                      </p>
+                      <input
+                        type="url"
+                        className="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                        value={activeForm.formData.imageUrl}
+                        onChange={(e) => {
+                          const url = e.target.value;
+                          activeForm.setFormData({
+                            ...activeForm.formData,
+                            imageUrl: url,
+                            imagePublicId: url ? "manual-upload" : "", // Set a placeholder publicId for manual URLs
+                          });
+                          if (url) {
+                            setImagePreview(url);
+                          }
+                        }}
+                        placeholder="https://example.com/image.jpg"
+                        disabled={activeForm.loading || isUploadingImage}
+                      />
+                    </div>
+                  )}
+
+                  {isUploadingImage && (
+                    <p className="text-sm text-amber-400 mt-2 flex items-center gap-2">
+                      <span className="animate-spin">⏳</span>
+                      Uploading image to Cloudinary...
+                    </p>
+                  )}
                 </div>
               </div>
 

@@ -33,7 +33,7 @@ export function CartDrawer() {
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-zinc-950 border-l border-zinc-800 z-50 shadow-2xl flex flex-col">
+      <div className="fixed right-0 top-0 h-full w-full md:max-w-md bg-zinc-950 md:border-l border-zinc-800 z-50 shadow-2xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-zinc-800">
           <div className="flex items-center gap-3">

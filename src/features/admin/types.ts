@@ -53,6 +53,8 @@ export interface Product {
   price: number;
   stock: number;
   categoryId: string | { id: string; _id?: string; name: string };
+  imageUrl?: string;
+  imagePublicId?: string;
   createdBy?:
     | string
     | { id: string; _id?: string; name: string; email: string };

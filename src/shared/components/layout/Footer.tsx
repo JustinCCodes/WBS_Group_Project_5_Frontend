@@ -9,9 +9,9 @@ export default function Footer() {
     <footer className="bg-zinc-950 border-t border-zinc-800 text-gray-400">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-8">
           {/* Brand Section */}
-          <div className="space-y-4">
+          <div className="space-y-4 text-center lg:text-left col-span-3 lg:col-span-1">
             <div className="text-2xl font-bold">
               <span className="bg-linear-to-r from-amber-200 to-yellow-600 bg-clip-text text-transparent">
                 Syntax
@@ -21,44 +21,10 @@ export default function Footer() {
               Premium peripherals engineered for professionals. Elevate your
               setup with cutting-edge design and performance.
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
           {/* Shop Section */}
-          <div>
+          <div className="text-center lg:text-left">
             <h3 className="text-white font-semibold mb-4">Shop</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -105,7 +71,7 @@ export default function Footer() {
           </div>
 
           {/* Support Section */}
-          <div>
+          <div className="text-center lg:text-left">
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -152,7 +118,7 @@ export default function Footer() {
           </div>
 
           {/* Company Section */}
-          <div>
+          <div className="text-center lg:text-left">
             <h3 className="text-white font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -165,6 +131,42 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Social Media Links - Centered on small/medium screens, below the content */}
+        <div className="flex space-x-4 justify-center lg:justify-start pt-8 border-t border-zinc-800 lg:border-0 lg:pt-0">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
+          >
+            <Twitter className="w-5 h-5" />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
+          >
+            <Instagram className="w-5 h-5" />
+          </a>
+          <a
+            href="https://youtube.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
+          >
+            <Youtube className="w-5 h-5" />
+          </a>
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all"
+          >
+            <Github className="w-5 h-5" />
+          </a>
         </div>
       </div>
 

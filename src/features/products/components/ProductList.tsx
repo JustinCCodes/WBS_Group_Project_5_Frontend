@@ -30,7 +30,7 @@ export default function ProductList({
     null
   );
 
-  // Update selected category when categoryId changes
+  // Updates selected category when categoryId changes
   useEffect(() => {
     if (categoryId && categories.length > 0) {
       const category = categories.find(
@@ -42,7 +42,7 @@ export default function ProductList({
     }
   }, [categoryId, categories]);
 
-  // Fetch products when page or category changes (client-side pagination/filtering)
+  // Fetches products when page or category changes (client-side pagination/filtering)
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -63,13 +63,13 @@ export default function ProductList({
       }
     }
 
-    // Only fetch if not initial load or if page/category changed
+    // Only fetches if not initial load or if page/category changed
     if (currentPage !== 1 || categoryId) {
       fetchProducts();
     }
   }, [categoryId, currentPage]);
 
-  // Get category name from product
+  // Gets category name from product
   const getCategoryName = (product: Product): string => {
     if (typeof product.categoryId === "object" && product.categoryId !== null) {
       return product.categoryId.name;
@@ -138,12 +138,21 @@ export default function ProductList({
                     className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300"
                   >
                     <Link href={`/products/${product.id || product._id}`}>
-                      {/* Product image placeholder */}
-                      <div className="aspect-square bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-linear-to-br from-amber-500/5 to-transparent group-hover:from-amber-500/10 transition-all"></div>
-                        <span className="text-gray-600 text-sm font-semibold">
-                          {getCategoryName(product)}
-                        </span>
+                      <div className="aspect-square bg-zinc-800 relative overflow-hidden">
+                        {product.imageUrl ? (
+                          <img
+                            src={product.imageUrl}
+                            alt={product.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
+                            <div className="absolute inset-0 bg-linear-to-br from-amber-500/5 to-transparent group-hover:from-amber-500/10 transition-all"></div>
+                            <span className="text-gray-600 text-sm font-semibold">
+                              {getCategoryName(product)}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </Link>
 
