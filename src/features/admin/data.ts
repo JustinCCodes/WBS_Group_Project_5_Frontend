@@ -209,3 +209,46 @@ export const getAllTestOrders = async () => {
 export const deleteTestOrder = async (orderId: string) => {
   await api.delete(`/admin/test-orders/${orderId}`);
 };
+
+// Cloudinary Image Upload Function (Direct Upload)
+export const uploadImageToCloudinary = async (
+  file: File
+): Promise<{ imageUrl: string; imagePublicId: string }> => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append(
+    "upload_preset",
+    process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""
+  );
+  formData.append("folder", "products");
+
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+  if (!cloudName) {
+    throw new Error(
+      "Cloudinary cloud name not configured. Please add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME to your .env.local file."
+    );
+  }
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(
+      error.error?.message || "Failed to upload image to Cloudinary"
+    );
+  }
+
+  const data = await response.json();
+
+  return {
+    imageUrl: data.secure_url,
+    imagePublicId: data.public_id,
+  };
+};
