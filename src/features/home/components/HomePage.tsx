@@ -13,6 +13,7 @@ import {
   Headset,
 } from "lucide-react";
 import type { Product, Category } from "@/features/products/types";
+import { Package } from "lucide-react";
 
 interface HomePageProps {
   categories: Category[];
@@ -225,14 +226,23 @@ export default function HomePage({
                   href={`/products/${product.id || product._id}`}
                   className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300"
                 >
-                  {/* Product image placeholder */}
-                  <div className="aspect-square bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-linear-to-br from-amber-500/5 to-transparent group-hover:from-amber-500/10 transition-all"></div>
-                    <span className="text-gray-600 text-sm font-semibold">
-                      {getCategoryName(product)}
-                    </span>
+                  {/* Product Image */}
+                  <div className="relative">
+                    <div className="aspect-square bg-linear-to-br from-zinc-900 to-zinc-950 rounded-2xl border border-zinc-800 flex items-center justify-center overflow-hidden group">
+                      {product.imageUrl ? (
+                        <img
+                          src={product.imageUrl}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-linear-to-br from-amber-500/10 to-transparent"></div>
+                          <Package className="w-32 h-32 text-zinc-700" />
+                        </div>
+                      )}
+                    </div>
                   </div>
-
                   <div className="p-6">
                     <h3 className="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors line-clamp-1">
                       {product.name}

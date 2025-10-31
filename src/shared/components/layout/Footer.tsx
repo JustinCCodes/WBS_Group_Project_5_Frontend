@@ -76,7 +76,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/contact"
+                  href="/about"
                   className="hover:text-amber-400 transition-colors"
                 >
                   Contact Us
