@@ -10,11 +10,19 @@ import {
 import { CartContextType, Cart, CartItem } from "../types";
 import { Product } from "@/features/products/types";
 import { validateProductIds } from "@/features/products/data";
+import toast from "react-hot-toast";
+import {
+  validateStockAvailability,
+  validateQuantityUpdate,
+} from "../utils/stockValidation";
 
+// Create cart context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// Key for storing cart data in localStorage
 const CART_STORAGE_KEY = "luxe-cart";
 
+// Provides cart context to manage cart state and actions
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart>({
     items: [],
@@ -37,42 +45,53 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Loads cart from localStorage and validates products still exist
   useEffect(() => {
+    let cancelled = false;
+
+    // Loads and validates cart
     const loadAndValidateCart = async () => {
       const savedCart = localStorage.getItem(CART_STORAGE_KEY);
       if (savedCart) {
         try {
           const parsedCart: Cart = JSON.parse(savedCart);
-          
-          // Extract product IDs from cart
+
+          // Extracts product IDs from cart
           const productIds = parsedCart.items.map((item) => item.product.id);
-          
-          // Validate which products still exist
+
+          // Validates which products still exist
           const validIds = await validateProductIds(productIds);
-          
-          // Filter out deleted products
+
+          if (cancelled) return;
+
+          // Filters out deleted products
           const validItems = parsedCart.items.filter((item) =>
             validIds.includes(item.product.id)
           );
-          
-          // Update cart with valid items
+
+          // Updates cart with valid items
           const totals = calculateTotals(validItems);
           setCart({
             items: validItems,
             ...totals,
           });
-          
-          // Only log if products were actually removed
+
+          // Notifies if products were removed
           if (validItems.length < parsedCart.items.length) {
             const removedCount = parsedCart.items.length - validItems.length;
-            console.info(`Removed ${removedCount} deleted product(s) from cart`);
+            toast.error(
+              `${removedCount} product(s) removed from cart (no longer available)`
+            );
           }
         } catch (error) {
-          console.error("Failed to parse or validate cart:", error);
+          // Silent fail cart will be empty no user disruption
         }
       }
     };
 
     loadAndValidateCart();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Saves cart to localStorage whenever it changes
@@ -80,49 +99,48 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
 
+  // Adds a product to the cart
   const addToCart = (product: Product, quantity: number = 1) => {
-    // Checks stock availability
-    if (product.stock === 0) {
-      alert("This product is out of stock");
-      return;
-    }
-
     setCart((prevCart) => {
       const existingItemIndex = prevCart.items.findIndex(
         (item) => item.product.id === product.id
       );
 
+      // Current quantity in cart
+      const currentCartQuantity =
+        existingItemIndex > -1 ? prevCart.items[existingItemIndex].quantity : 0;
+
+      // Validate stock availability
+      const validation = validateStockAvailability(
+        product,
+        quantity,
+        currentCartQuantity
+      );
+
+      // If validation fails show error and do not update cart
+      if (!validation.isValid) {
+        toast.error(validation.errorMessage!);
+        return prevCart;
+      }
+
+      // Prepare new items array
       let newItems: CartItem[];
 
       if (existingItemIndex > -1) {
-        // Updates quantity if product already in cart
-        const existingItem = prevCart.items[existingItemIndex];
-        const newQuantity = existingItem.quantity + quantity;
-
-        // Checks if new quantity exceeds stock
-        if (newQuantity > product.stock) {
-          alert(
-            `Only ${product.stock} items available. You already have ${existingItem.quantity} in your cart.`
-          );
-          return prevCart; // Don't update cart
-        }
-
+        // Update existing item quantity
         newItems = prevCart.items.map((item, index) =>
           index === existingItemIndex
-            ? { ...item, quantity: newQuantity }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
+        toast.success(`Updated ${product.name} quantity`);
       } else {
-        // Checks if initial quantity exceeds stock
-        if (quantity > product.stock) {
-          alert(`Only ${product.stock} items available.`);
-          return prevCart; // Don't update cart
-        }
-
         // Add new product to cart
         newItems = [...prevCart.items, { product, quantity }];
+        toast.success(`Added ${product.name} to cart`);
       }
 
+      // Calculates new totals
       const totals = calculateTotals(newItems);
 
       return {
@@ -132,6 +150,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Removes a product from cart
   const removeFromCart = (productId: string) => {
     setCart((prevCart) => {
       const newItems = prevCart.items.filter(
@@ -146,21 +165,28 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Updates quantity of a product in cart
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
     }
 
+    // Updates cart with new quantity
     setCart((prevCart) => {
       const item = prevCart.items.find((item) => item.product.id === productId);
 
-      // Checks stock availability
-      if (item && quantity > item.product.stock) {
-        alert(`Only ${item.product.stock} items available in stock.`);
-        return prevCart; // Don't update cart
+      if (!item) return prevCart;
+
+      // Validate quantity update
+      const validation = validateQuantityUpdate(item.product, quantity);
+
+      if (!validation.isValid) {
+        toast.error(validation.errorMessage!);
+        return prevCart;
       }
 
+      // Prepares new items array with updated quantity
       const newItems = prevCart.items.map((item) =>
         item.product.id === productId ? { ...item, quantity } : item
       );
@@ -173,6 +199,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Clears the entire cart
   const clearCart = () => {
     setCart({
       items: [],
@@ -181,19 +208,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Opens and closes cart drawer
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
 
+  // Provides cart context values
   return (
     <CartContext.Provider
       value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        isDrawerOpen,
-        openDrawer,
+        cart, // Current cart state
+        addToCart, // Function to add products to cart
+        removeFromCart, // Function to remove products from cart
+        updateQuantity, // Function to update product quantity in cart
+        clearCart, // Function to clear the cart
+        isDrawerOpen, // Cart drawer open state
+        openDrawer, // Function to open cart drawer
         closeDrawer,
       }}
     >
@@ -202,6 +231,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Custom hook to use cart context
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {

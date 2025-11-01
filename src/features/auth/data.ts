@@ -10,7 +10,6 @@ import {
 } from "./types";
 
 // Auth API Functions
-
 export async function login(input: LoginInput): Promise<User> {
   const payload = LoginInputSchema.parse(input);
   const res = await api.post("/auth/login", payload);

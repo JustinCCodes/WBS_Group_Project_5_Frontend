@@ -10,9 +10,13 @@ const getBaseURL = () => {
     process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseURL) {
-    console.warn(
-      "API_BASE_URL or NEXT_PUBLIC_API_BASE_URL not set. Falling back to http://localhost:8000/api/v1"
-    );
+    // In production, this should fail - environment variables must be set
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "API_BASE_URL or NEXT_PUBLIC_API_BASE_URL must be set in production"
+      );
+    }
+    // Development fallback
     return "http://localhost:8000/api/v1";
   }
 
@@ -32,20 +36,6 @@ const apiServer: AxiosInstance = axios.create({
 apiServer.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response) {
-      // Server responded with error status
-      console.error(
-        `[Server API Error] ${error.response.status}: ${
-          error.response.data?.message || error.message
-        }`
-      );
-    } else if (error.request) {
-      // Request made but no response received
-      console.error("[Server API Error] No response received:", error.message);
-    } else {
-      // Error in request setup
-      console.error("[Server API Error]", error.message);
-    }
     return Promise.reject(error);
   }
 );

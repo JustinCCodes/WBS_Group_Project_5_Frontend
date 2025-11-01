@@ -5,16 +5,17 @@ import { UserSchema, type CurrentUser } from "./types";
 export async function getCurrentUser(): Promise<CurrentUser> {
   cookies();
   try {
+    // Fetches current user data from the API
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/users/me`,
       {
-        credentials: "include",
-        cache: "no-store",
+        credentials: "include", // Include cookies
+        cache: "no-store", // Always fetch fresh data
       }
     );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return UserSchema.parse(data);
+    if (!res.ok) return null; // Not logged in
+    const data = await res.json(); // User data
+    return UserSchema.parse(data); // Validate and return user
   } catch {
     return null;
   }

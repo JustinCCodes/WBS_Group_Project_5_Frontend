@@ -1,8 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    const DEFAULT_API = "http://localhost:8000";
-    const DEFAULT_AUTH = "http://localhost:8001";
+    // Use environment variables - no hardcoded defaults for security
+    const DEFAULT_API =
+      process.env.NODE_ENV === "production"
+        ? "" // Must be set in production
+        : "http://localhost:8000";
+    const DEFAULT_AUTH =
+      process.env.NODE_ENV === "production"
+        ? "" // Must be set in production
+        : "http://localhost:8001";
 
     const apiCandidate =
       process.env.NEXT_PUBLIC_API_URL ||

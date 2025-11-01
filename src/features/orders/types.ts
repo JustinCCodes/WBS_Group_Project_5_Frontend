@@ -1,7 +1,6 @@
 // Order Types for Customer Orders Page
 export interface OrderProduct {
   productId: {
-    _id?: string;
     id: string;
     name: string;
     price: number;
@@ -10,11 +9,10 @@ export interface OrderProduct {
   quantity: number;
 }
 
+// Main Order interface
 export interface Order {
-  _id?: string;
   id: string;
   userId: {
-    _id?: string;
     id: string;
     name: string;
     email: string;
@@ -26,6 +24,7 @@ export interface Order {
   updatedAt: string;
 }
 
+// Response structure for fetching orders with pagination
 export interface OrdersResponse {
   orders: Order[];
   pagination?: {
@@ -35,3 +34,4 @@ export interface OrdersResponse {
     totalPages: number;
   };
 }
+

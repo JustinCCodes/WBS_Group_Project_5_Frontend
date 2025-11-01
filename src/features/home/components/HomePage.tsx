@@ -60,17 +60,10 @@ export default function HomePage({
   categories,
   featuredProducts,
 }: HomePageProps) {
-  // Gets category name from product
-  const getCategoryName = (product: Product): string => {
-    if (typeof product.categoryId === "object" && product.categoryId !== null) {
-      return product.categoryId.name;
-    }
-    return "Product";
-  };
   return (
-    <div className="min-h-screen bg-black text-white">
+    <>
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-black">
         {/* Static background gradient */}
         <div className="absolute inset-0 bg-linear-to-br from-black via-zinc-900 to-black"></div>
 
@@ -146,11 +139,10 @@ export default function HomePage({
               // Real categories from API
               categories.map((category) => {
                 const IconComponent = getCategoryIcon(category.name);
-                const categoryId = category._id || category.id;
                 return (
                   <Link
-                    key={categoryId}
-                    href={`/products?categoryId=${categoryId}`}
+                    key={category.id}
+                    href={`/products?categoryId=${category.id}`}
                     className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all duration-300 overflow-hidden"
                   >
                     {/* Hover glow effect */}
@@ -222,8 +214,8 @@ export default function HomePage({
             {featuredProducts.length > 0 ? (
               featuredProducts.map((product) => (
                 <Link
-                  key={product.id || product._id}
-                  href={`/products/${product.id || product._id}`}
+                  key={product.id}
+                  href={`/products/${product.id}`}
                   className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300"
                 >
                   {/* Product Image */}
@@ -335,6 +327,6 @@ export default function HomePage({
           </Link>
         </div>
       </section>
-    </div>
+    </>
   );
 }

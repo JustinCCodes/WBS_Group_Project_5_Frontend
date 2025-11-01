@@ -1,7 +1,7 @@
 import api from "@/shared/lib/api";
 import type { Order, OrdersResponse } from "./types";
 
-// Fetches user's orders
+// Fetches users orders
 export async function getUserOrders(
   page: number = 1,
   limit: number = 100
@@ -12,7 +12,7 @@ export async function getUserOrders(
   return response.data?.orders || [];
 }
 
-// Get single order by ID
+// Gets single order by ID
 export async function getOrderById(orderId: string): Promise<Order> {
   const response = await api.get(`/orders/${orderId}`);
   return response.data;

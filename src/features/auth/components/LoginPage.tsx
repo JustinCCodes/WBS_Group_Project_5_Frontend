@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
-import Button from "@/shared/components/ui/Button";
 import { login } from "@/features/auth/data";
-import { getErrorMessage } from "@/shared/types";
+import { getErrorMessage } from "@/shared/lib/utils";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/context/AuthProvider";
 
@@ -16,12 +15,14 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
 
+  // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
     setLoading(true);
 
+    // Attempt to log in
     try {
       const user = await login({ email, password });
       setSuccess(`Login successful! Welcome ${user.name}`);
@@ -30,7 +31,6 @@ export default function Login() {
       setEmail("");
       setPassword("");
     } catch (err) {
-      console.error("Login failed:", err);
       setError(getErrorMessage(err) || "Login failed. Please try again.");
     } finally {
       setLoading(false);

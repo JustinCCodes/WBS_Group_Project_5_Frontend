@@ -13,11 +13,14 @@ export const parseBanInfo = (
     return null;
   }
 
+  // Extract reason and until date using regex
   const reasonMatch = errorMessage.match(
     /Reason:\s*(.+?)(?:\s+Banned until:|$)/
   );
+  // Extracts until date if present
   const untilMatch = errorMessage.match(/Banned until:\s*(.+?)$/);
 
+  // Builds ban info object
   const reason = reasonMatch
     ? reasonMatch[1].trim()
     : "Your account has been banned.";
@@ -31,6 +34,7 @@ let globalBanHandler:
   | ((banInfo: { reason: string; until?: string }) => void)
   | null = null;
 
+// Function to set the global ban handler
 export const setGlobalBanHandler = (
   handler: (banInfo: { reason: string; until?: string }) => void
 ) => {
@@ -51,6 +55,7 @@ let failedQueue: Array<{
   reject: (reason?: unknown) => void;
 }> = [];
 
+// Processes the queued requests after token refresh
 const processQueue = (error: unknown = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
@@ -67,6 +72,25 @@ api.interceptors.request.use(
   (config) => {
     // Ensures credentials are included in every request
     config.withCredentials = true;
+
+    // Attach CSRF token for state-changing requests (double submit cookie pattern)
+    try {
+      // Only adds to methods that modify state
+      const method = (config.method || "get").toLowerCase();
+      if (["post", "put", "patch", "delete"].includes(method)) {
+        // Reads csrfToken cookie (non-httpOnly cookie set by backend)
+        if (typeof window !== "undefined") {
+          const match = document.cookie.match(/(?:^|; )csrfToken=([^;]+)/);
+          if (match && match[1]) {
+            config.headers = config.headers || {};
+            (config.headers as Record<string, string>)["X-CSRF-Token"] =
+              decodeURIComponent(match[1]);
+          }
+        }
+      }
+    } catch (e) {
+      // Silent fail request continues without CSRF token
+    }
     return config;
   },
   (error) => {
@@ -74,6 +98,7 @@ api.interceptors.request.use(
   }
 );
 
+// Response interceptor for handling 401 errors and token refresh
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
@@ -81,14 +106,14 @@ api.interceptors.response.use(
       | (AxiosRequestConfig & { _retry?: boolean })
       | undefined;
 
+    // If no original request reject
     if (!original) {
       return Promise.reject(error);
     }
 
+    // Extract status and path information
     const status = (error.response && error.response.status) || 0;
-    const isAuthPath = Boolean(
-      original.url && original.url.startsWith("/auth/")
-    );
+    // Checks if the request is a refresh call
     const isRefreshCall = Boolean(
       original.url &&
         (original.url === "/auth/refresh" || original.url.endsWith("/refresh"))
@@ -96,9 +121,12 @@ api.interceptors.response.use(
 
     // Checks for 403 ban status
     if (status === 403 && error.response?.data) {
+      // Parses the error message for ban information
       const errorData = error.response.data as { error?: string };
+      // If the error message contains ban information, call the global ban handler
       if (errorData.error) {
         const banInfo = parseBanInfo(errorData.error);
+        // If the ban info is valid and a global handler is set, call it
         if (banInfo && globalBanHandler) {
           globalBanHandler(banInfo);
           return Promise.reject(error);
@@ -106,31 +134,38 @@ api.interceptors.response.use(
       }
     }
 
-    // Handle 401 Unauthorized - try to refresh token
+    // Handles 401 Unauthorized try to refresh token
     if (status === 401 && !original._retry && !isRefreshCall) {
+      // Checks if the request is a login or registration attempt
       if (
         original.url?.includes("/auth/login") ||
         original.url?.includes("/auth/register") ||
         (original.url?.includes("/users") &&
           original.method?.toLowerCase() === "post")
       ) {
+        // If the request is a login or registration attempt reject it
         return Promise.reject(error);
       }
 
       if (isRefreshing) {
         // Queues this request to retry after refresh completes
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then(() => {
-            original._retry = true;
-            return api(original);
+        return (
+          new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
           })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+            // Waits for the token refresh to complete
+            .then(() => {
+              original._retry = true;
+              return api(original);
+            })
+            // Catches any errors during the retry
+            .catch((err) => {
+              return Promise.reject(err);
+            })
+        );
       }
 
+      // Marks the request as retried
       original._retry = true;
       isRefreshing = true;
 
@@ -146,14 +181,10 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError); // Rejects all queued requests
 
-        // If refresh fails redirect to login
+        // If refresh fails clear any stored client state and let
+        // the application UI decide whether to navigate to /login.
         if (typeof window !== "undefined") {
-          // Clears any stored state
           window.localStorage.removeItem("user");
-          // Only redirects if not already on login/register page
-          if (!window.location.pathname.match(/^\/(login|register)/)) {
-            window.location.href = "/login";
-          }
         }
 
         return Promise.reject(refreshError);
@@ -165,19 +196,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// Proactive token refresh calls this periodically to refresh before expiry
-export const proactiveRefresh = async (): Promise<boolean> => {
-  try {
-    await api.post("/auth/refresh", {}, {
-      withCredentials: true,
-      _retry: true,
-    } as AxiosRequestConfig & { _retry?: boolean });
-    return true;
-  } catch (error) {
-    console.error("Proactive refresh failed:", error);
-    return false;
-  }
-};
 
 export default api;

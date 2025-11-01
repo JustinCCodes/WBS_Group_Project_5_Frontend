@@ -4,21 +4,15 @@ import Link from "next/link";
 import { ArrowLeft, ShoppingCart, Package, Shield, Truck } from "lucide-react";
 import { useCart } from "@/features/cart/context/CartProvider";
 import type { Product } from "@/features/products/types";
+import { getCategoryName } from "@/shared/lib/utils";
 
+// Props for ProductDetail component
 interface ProductDetailProps {
   product: Product;
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addToCart } = useCart();
-
-  // Gets category name from product
-  const getCategoryName = (product: Product): string => {
-    if (typeof product.categoryId === "object" && product.categoryId !== null) {
-      return product.categoryId.name;
-    }
-    return "Product";
-  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -87,7 +81,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Product ID</span>
                 <span className="text-white font-mono">
-                  {(product.id || product._id || "").slice(-8)}
+                  {product.id.slice(-8)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
