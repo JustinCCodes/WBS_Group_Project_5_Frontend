@@ -1,9 +1,9 @@
+// Defines types for products and categories
 export interface Category {
-  _id: string;
   id: string;
   name: string;
   createdBy?: {
-    _id: string;
+    id: string;
     name: string;
     email: string;
   };
@@ -11,8 +11,8 @@ export interface Category {
   updatedAt?: string;
 }
 
+// Main Product interface
 export interface Product {
-  _id: string;
   id: string;
   name: string;
   description: string;
@@ -22,7 +22,7 @@ export interface Product {
   imageUrl?: string;
   featured?: boolean;
   createdBy?: {
-    _id: string;
+    id: string;
     name: string;
     email: string;
   };
@@ -30,6 +30,7 @@ export interface Product {
   updatedAt?: string;
 }
 
+// Response structure for fetching products with pagination
 export interface ProductsResponse {
   data: Product[];
   pagination: {

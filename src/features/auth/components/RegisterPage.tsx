@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
-import Button from "@/shared/components/ui/Button";
 import { registerUser } from "@/features/auth/data";
-import { getErrorMessage } from "@/shared/types";
+import { getErrorMessage } from "@/shared/lib/utils";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
@@ -15,6 +14,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
 
+  // Handle form submission
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -28,7 +28,6 @@ export default function RegisterPage() {
       setPassword("");
       router.push("/login");
     } catch (err) {
-      console.error("Registration failed:", err);
       setError(
         getErrorMessage(err) || "Registration failed. Please try again."
       );
@@ -96,10 +95,17 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                minLength={8}
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                title="Password must be at least 8 characters with uppercase, lowercase, number, and special character (@$!%*?&)"
                 disabled={loading}
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Enter a strong password"
               />
+              <p className="mt-1 text-xs text-gray-400">
+                At least 8 characters with uppercase, lowercase, number, and
+                special character
+              </p>
             </div>
             {error && (
               <div className="bg-red-900/20 border border-red-800 rounded-lg p-3">

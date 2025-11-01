@@ -14,7 +14,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { getErrorMessage } from "@/shared/types";
+import { getErrorMessage } from "@/shared/lib/utils";
+import toast from "react-hot-toast";
 
 export function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -22,7 +23,9 @@ export function OrdersPage() {
   const [error, setError] = useState<string | null>(null);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [deletingOrderId, setDeletingOrderId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
+  // Fetches user orders from the server
   const fetchOrders = async () => {
     try {
       setLoading(true);
@@ -30,48 +33,56 @@ export function OrdersPage() {
       setOrders(data);
       setError(null);
     } catch (err) {
-      setError("Failed to load orders. Please try again.");
-      console.error("Failed to fetch orders:", err);
+      const errorMsg = "Failed to load orders. Please try again.";
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
   };
 
+  // Fetch orders on component mount
   useEffect(() => {
     fetchOrders();
   }, []);
 
+  // Handles order deletion with confirmation
   const handleDeleteOrder = async (
     orderId: string,
     orderStatus: Order["status"]
   ) => {
     // Only allows deletion for pending or cancelled orders
     if (orderStatus !== "pending" && orderStatus !== "cancelled") {
-      alert("Only pending or cancelled orders can be deleted.");
+      toast.error("Only pending or cancelled orders can be deleted.");
       return;
     }
 
-    const confirmed = confirm(
-      "Are you sure you want to delete this order? This action cannot be undone."
-    );
+    // Show confirmation dialog
+    setConfirmDeleteId(orderId);
+  };
 
-    if (!confirmed) return;
+  // Confirms and deletes the order
+  const confirmDelete = async () => {
+    if (!confirmDeleteId) return;
 
+    // Deletes the order
     try {
-      setDeletingOrderId(orderId);
-      await deleteOrder(orderId);
+      setDeletingOrderId(confirmDeleteId);
+      await deleteOrder(confirmDeleteId);
+      toast.success("Order deleted successfully");
       // Refreshes orders list after successful deletion
       await fetchOrders();
     } catch (err) {
-      alert(
+      toast.error(
         getErrorMessage(err) || "Failed to delete order. Please try again."
       );
-      console.error("Failed to delete order:", err);
     } finally {
       setDeletingOrderId(null);
+      setConfirmDeleteId(null);
     }
   };
 
+  // Returns a styled badge based on order status
   const getStatusBadge = (status: Order["status"]) => {
     const badges = {
       pending: "bg-yellow-900/20 border-yellow-800 text-yellow-400",
@@ -89,10 +100,12 @@ export function OrdersPage() {
     );
   };
 
+  // Toggles the expanded state of an order
   const toggleOrderExpand = (orderId: string) => {
     setExpandedOrder(expandedOrder === orderId ? null : orderId);
   };
 
+  // Renders loading error empty state or orders list
   if (loading) {
     return (
       <div className="min-h-screen bg-black pt-24 pb-16">
@@ -105,6 +118,7 @@ export function OrdersPage() {
     );
   }
 
+  // Renders error state
   if (error) {
     return (
       <div className="min-h-screen bg-black pt-24 pb-16">
@@ -117,6 +131,7 @@ export function OrdersPage() {
     );
   }
 
+  // Renders empty state if no orders
   if (orders.length === 0) {
     return (
       <div className="min-h-screen bg-black pt-24 pb-16">
@@ -142,6 +157,7 @@ export function OrdersPage() {
     );
   }
 
+  // Renders orders list
   return (
     <div className="min-h-screen bg-black pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -156,7 +172,7 @@ export function OrdersPage() {
         {/* Orders List */}
         <div className="space-y-4">
           {orders.map((order) => {
-            const orderId = order.id || order._id || "";
+            const orderId = order.id;
             const isExpanded = expandedOrder === orderId;
 
             return (
@@ -210,7 +226,7 @@ export function OrdersPage() {
 
                     {/* Right Section - Actions & Expand Button */}
                     <div className="flex items-center gap-2 shrink-0">
-                      {/* Delete Button - Only for pending/cancelled orders */}
+                      {/* Delete Button only for pending/cancelled orders */}
                       {(order.status === "pending" ||
                         order.status === "cancelled") && (
                         <button
@@ -281,9 +297,7 @@ export function OrdersPage() {
                             {/* Product Info */}
                             <div className="flex-1 min-w-0">
                               <Link
-                                href={`/products/${
-                                  item.productId.id || item.productId._id
-                                }`}
+                                href={`/products/${item.productId.id}`}
                                 className="text-white font-semibold hover:text-amber-400 transition-colors line-clamp-1"
                               >
                                 {item.productId.name}
@@ -328,6 +342,47 @@ export function OrdersPage() {
             );
           })}
         </div>
+
+        {/* Confirmation Modal */}
+        {confirmDeleteId && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-lg shadow-2xl max-w-md w-full mx-4 p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-red-900/20 border border-red-800 rounded-lg flex items-center justify-center">
+                  <AlertCircle className="w-6 h-6 text-red-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white">Delete Order</h3>
+                  <p className="text-sm text-gray-400">
+                    #{confirmDeleteId.slice(-8).toUpperCase()}
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-300 mb-6">
+                Are you sure you want to delete this order? This action cannot
+                be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setConfirmDeleteId(null)}
+                  disabled={deletingOrderId === confirmDeleteId}
+                  className="flex-1 px-4 py-2 bg-zinc-800 border border-zinc-700 text-white rounded-lg hover:bg-zinc-700 transition-all disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  disabled={deletingOrderId === confirmDeleteId}
+                  className="flex-1 px-4 py-2 bg-red-900/30 border border-red-800 text-red-400 rounded-lg hover:bg-red-900/50 transition-all disabled:opacity-50"
+                >
+                  {deletingOrderId === confirmDeleteId
+                    ? "Deleting..."
+                    : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

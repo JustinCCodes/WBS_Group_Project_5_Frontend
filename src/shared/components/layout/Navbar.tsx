@@ -30,6 +30,7 @@ export default function Navbar({ categories }: NavbarProps) {
       }
     };
 
+    // Close profile dropdown on outside click
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -43,7 +44,7 @@ export default function Navbar({ categories }: NavbarProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
             <Image
-              src="/ChatGPT Image 29. Okt. 2025, 15_49_39.png"
+              src="/Company_Logo.png"
               alt="Syntax Logo"
               width={160}
               height={53}
@@ -63,8 +64,8 @@ export default function Navbar({ categories }: NavbarProps) {
             </Link>
             {categories.map((category) => (
               <Link
-                key={category._id || category.id}
-                href={`/products?categoryId=${category._id || category.id}`}
+                key={category.id}
+                href={`/products?categoryId=${category.id}`}
                 className="text-gray-300 hover:text-amber-400 transition-colors font-medium capitalize"
               >
                 {category.name}
@@ -145,15 +146,6 @@ export default function Navbar({ categories }: NavbarProps) {
                     >
                       Settings
                     </Link>
-                    {user.role === "admin" && (
-                      <Link
-                        href="/admin/dashboard"
-                        className="block px-4 py-3 text-amber-400 hover:bg-zinc-800 transition-colors font-semibold"
-                        onClick={() => setIsProfileOpen(false)}
-                      >
-                        Admin Dashboard
-                      </Link>
-                    )}
                     <div className="border-t border-zinc-800">
                       <button
                         onClick={() => {
@@ -190,8 +182,8 @@ export default function Navbar({ categories }: NavbarProps) {
             <div className="grid grid-cols-2 gap-3">
               {categories.map((category) => (
                 <Link
-                  key={category._id || category.id}
-                  href={`/products?categoryId=${category._id || category.id}`}
+                  key={category.id}
+                  href={`/products?categoryId=${category.id}`}
                   className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors font-medium capitalize py-2 px-3 border border-zinc-800 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -226,15 +218,6 @@ export default function Navbar({ categories }: NavbarProps) {
                     >
                       Orders
                     </Link>
-                    {user.role === "admin" && (
-                      <Link
-                        href="/admin/dashboard"
-                        className="block text-amber-400 hover:bg-zinc-800 font-semibold py-3 border-b border-zinc-800"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Admin Dashboard
-                      </Link>
-                    )}
                     <button
                       onClick={() => {
                         logout();

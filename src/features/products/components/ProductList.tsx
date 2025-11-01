@@ -6,7 +6,9 @@ import { ShoppingCart } from "lucide-react";
 import { getProducts } from "@/features/products/data";
 import { useCart } from "@/features/cart/context/CartProvider";
 import type { Product, Category } from "@/features/products/types";
+import { getCategoryName } from "@/shared/lib/utils";
 
+// Props for ProductList component
 interface ProductListProps {
   initialProducts: Product[];
   initialTotalPages: number;
@@ -33,9 +35,7 @@ export default function ProductList({
   // Updates selected category when categoryId changes
   useEffect(() => {
     if (categoryId && categories.length > 0) {
-      const category = categories.find(
-        (cat) => cat._id === categoryId || cat.id === categoryId
-      );
+      const category = categories.find((cat) => cat.id === categoryId);
       setSelectedCategory(category || null);
     } else {
       setSelectedCategory(null);
@@ -57,7 +57,7 @@ export default function ProductList({
         setProducts(productsData.data);
         setTotalPages(productsData.pagination.totalPages);
       } catch (error) {
-        console.error("Failed to fetch products:", error);
+        // Error is handled silently - products will remain as initial data
       } finally {
         setLoading(false);
       }
@@ -69,16 +69,8 @@ export default function ProductList({
     }
   }, [categoryId, currentPage]);
 
-  // Gets category name from product
-  const getCategoryName = (product: Product): string => {
-    if (typeof product.categoryId === "object" && product.categoryId !== null) {
-      return product.categoryId.name;
-    }
-    return "Product";
-  };
-
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="bg-black text-white">
       {/* Header Section */}
       <section className="py-12 px-4 border-b border-zinc-800">
         <div className="max-w-7xl mx-auto">
@@ -134,10 +126,10 @@ export default function ProductList({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {products.map((product) => (
                   <div
-                    key={product.id || product._id}
+                    key={product.id}
                     className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-amber-500/50 transition-all duration-300"
                   >
-                    <Link href={`/products/${product.id || product._id}`}>
+                    <Link href={`/products/${product.id}`}>
                       <div className="aspect-square bg-zinc-800 relative overflow-hidden">
                         {product.imageUrl ? (
                           <img
@@ -157,7 +149,7 @@ export default function ProductList({
                     </Link>
 
                     <div className="p-6">
-                      <Link href={`/products/${product.id || product._id}`}>
+                      <Link href={`/products/${product.id}`}>
                         <h3 className="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors line-clamp-1">
                           {product.name}
                         </h3>
