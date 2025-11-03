@@ -17,14 +17,17 @@ export async function login(input: LoginInput): Promise<User> {
   return data.user;
 }
 
+// Refreshes the authentication token
 export async function refresh(): Promise<void> {
   await api.post("/auth/refresh");
 }
 
+// Gets a valid access token refreshing if necessary
 export async function logout(): Promise<void> {
   await api.post("/auth/logout");
 }
 
+// Fetches current user data
 export async function getMe(): Promise<User> {
   const res = await api.get("/users/me");
   return UserSchema.parse(res.data);

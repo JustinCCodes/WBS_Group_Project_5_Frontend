@@ -2,7 +2,7 @@
 
 import axios, { AxiosInstance } from "axios";
 
-// Get the backend URL from environment variables
+// Gets the backend URL from environment variables
 // Falls back to localhost if not set
 const getBaseURL = () => {
   // For server side rendering use the non public env variable
@@ -10,7 +10,6 @@ const getBaseURL = () => {
     process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseURL) {
-    // In production, this should fail - environment variables must be set
     if (process.env.NODE_ENV === "production") {
       throw new Error(
         "API_BASE_URL or NEXT_PUBLIC_API_BASE_URL must be set in production"

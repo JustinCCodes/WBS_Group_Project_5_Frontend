@@ -23,17 +23,21 @@ export function BanNotificationModal() {
     }
   }, [banInfo]);
 
+  // If not banned do not render the modal
   if (!banInfo) return null;
 
+  // Handles logout action
   const handleLogout = async () => {
     await logout();
   };
 
+  // Formats ban duration for display
   const formatBanDuration = (until?: string) => {
     if (!until) {
       return "permanently";
     }
 
+    // Tries to parse date
     try {
       const date = new Date(until);
       return `until ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;

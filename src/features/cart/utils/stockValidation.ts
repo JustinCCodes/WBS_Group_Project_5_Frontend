@@ -7,7 +7,7 @@ export function validateStockAvailability(
   requestedQuantity: number, // Quantity user wants to add
   currentCartQuantity: number = 0 // Current quantity in cart
 ): StockValidationResult {
-  // Check if product is out of stock
+  // Checks if product is out of stock
   if (product.stock === 0) {
     return {
       isValid: false, // Product cannot be added
@@ -18,7 +18,7 @@ export function validateStockAvailability(
   // Total quantity after addition
   const totalQuantity = currentCartQuantity + requestedQuantity;
 
-  // Check if requested quantity exceeds available stock
+  // Checks if requested quantity exceeds available stock
   if (totalQuantity > product.stock) {
     if (currentCartQuantity > 0) {
       return {
@@ -44,7 +44,7 @@ export function validateQuantityUpdate(
     return { isValid: false, errorMessage: "Quantity must be greater than 0" };
   }
 
-  // Check if new quantity exceeds stock
+  // Checks if new quantity exceeds stock
   if (newQuantity > product.stock) {
     return {
       isValid: false,

@@ -15,19 +15,19 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Handle form submission
+  // Handles form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
     setLoading(true);
 
-    // Attempt to log in
+    // Attempts to log in
     try {
       const user = await login({ email, password });
       setSuccess(`Login successful! Welcome ${user.name}`);
-      await refreshUser();
-      router.push("/");
+      await refreshUser(); // Refreshes user context
+      router.push("/"); // Redirects to home
       setEmail("");
       setPassword("");
     } catch (err) {

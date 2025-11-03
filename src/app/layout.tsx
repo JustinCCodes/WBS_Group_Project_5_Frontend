@@ -9,6 +9,7 @@ import { getCategoriesServer } from "@/features/products/data.server";
 import { Toaster } from "react-hot-toast";
 import { ErrorBoundary } from "@/shared/components/ErrorBoundary";
 
+// Metadata for the entire application
 export const metadata: Metadata = {
   title: "Syntax | Online Shop",
   description:
@@ -33,7 +34,7 @@ export default async function RootLayout({
           <AuthProvider>
             <CartProvider>
               <Toaster
-                position="top-right"
+                position="bottom-center"
                 toastOptions={{
                   duration: 4000,
                   style: {

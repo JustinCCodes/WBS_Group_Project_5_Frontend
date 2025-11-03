@@ -11,6 +11,7 @@ interface NavbarProps {
   categories: Category[];
 }
 
+// Navbar component
 export default function Navbar({ categories }: NavbarProps) {
   const { user, loading, logout } = useAuth();
   const { cart, openDrawer } = useCart();

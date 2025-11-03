@@ -17,6 +17,7 @@ import Link from "next/link";
 import { getErrorMessage } from "@/shared/lib/utils";
 import toast from "react-hot-toast";
 
+// OrdersPage component
 export function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +58,7 @@ export function OrdersPage() {
       return;
     }
 
-    // Show confirmation dialog
+    // Shows confirmation dialog
     setConfirmDeleteId(orderId);
   };
 
@@ -69,7 +70,6 @@ export function OrdersPage() {
     try {
       setDeletingOrderId(confirmDeleteId);
       await deleteOrder(confirmDeleteId);
-      toast.success("Order deleted successfully");
       // Refreshes orders list after successful deletion
       await fetchOrders();
     } catch (err) {

@@ -3,14 +3,10 @@
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, Package, Shield, Truck } from "lucide-react";
 import { useCart } from "@/features/cart/context/CartProvider";
-import type { Product } from "@/features/products/types";
+import type { ProductDetailProps } from "@/features/products/types";
 import { getCategoryName } from "@/shared/lib/utils";
 
-// Props for ProductDetail component
-interface ProductDetailProps {
-  product: Product;
-}
-
+// ProductDetail component
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addToCart } = useCart();
 

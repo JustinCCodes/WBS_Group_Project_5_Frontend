@@ -46,7 +46,6 @@ export async function getCategoryById(id: string): Promise<Category> {
 }
 
 // Validates if products exist by their IDs
-
 export async function validateProductIds(
   productIds: string[]
 ): Promise<string[]> {

@@ -16,7 +16,7 @@ import {
   validateQuantityUpdate,
 } from "../utils/stockValidation";
 
-// Create cart context
+// Creates cart context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Key for storing cart data in localStorage
@@ -101,52 +101,50 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Adds a product to the cart
   const addToCart = (product: Product, quantity: number = 1) => {
-    setCart((prevCart) => {
-      const existingItemIndex = prevCart.items.findIndex(
-        (item) => item.product.id === product.id
+    const existingItemIndex = cart.items.findIndex(
+      (item) => item.product.id === product.id
+    );
+
+    // Current quantity in cart
+    const currentCartQuantity =
+      existingItemIndex > -1 ? cart.items[existingItemIndex].quantity : 0;
+
+    // Validate stock availability
+    const validation = validateStockAvailability(
+      product,
+      quantity,
+      currentCartQuantity
+    );
+
+    // If validation fails show error and do not update cart
+    if (!validation.isValid) {
+      toast.error(validation.errorMessage!);
+      return;
+    }
+
+    // Prepare new items array
+    let newItems: CartItem[];
+    let isUpdate = false;
+
+    if (existingItemIndex > -1) {
+      // Update existing item quantity
+      newItems = cart.items.map((item, index) =>
+        index === existingItemIndex
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
       );
+      isUpdate = true;
+    } else {
+      // Add new product to cart
+      newItems = [...cart.items, { product, quantity }];
+    }
 
-      // Current quantity in cart
-      const currentCartQuantity =
-        existingItemIndex > -1 ? prevCart.items[existingItemIndex].quantity : 0;
+    // Calculates new totals
+    const totals = calculateTotals(newItems);
 
-      // Validate stock availability
-      const validation = validateStockAvailability(
-        product,
-        quantity,
-        currentCartQuantity
-      );
-
-      // If validation fails show error and do not update cart
-      if (!validation.isValid) {
-        toast.error(validation.errorMessage!);
-        return prevCart;
-      }
-
-      // Prepare new items array
-      let newItems: CartItem[];
-
-      if (existingItemIndex > -1) {
-        // Update existing item quantity
-        newItems = prevCart.items.map((item, index) =>
-          index === existingItemIndex
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-        toast.success(`Updated ${product.name} quantity`);
-      } else {
-        // Add new product to cart
-        newItems = [...prevCart.items, { product, quantity }];
-        toast.success(`Added ${product.name} to cart`);
-      }
-
-      // Calculates new totals
-      const totals = calculateTotals(newItems);
-
-      return {
-        items: newItems,
-        ...totals,
-      };
+    setCart({
+      items: newItems,
+      ...totals,
     });
   };
 

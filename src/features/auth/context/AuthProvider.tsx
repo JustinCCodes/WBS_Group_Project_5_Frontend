@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { BanNotificationModal } from "../components/BanNotificationModal";
 import { setGlobalBanHandler } from "@/shared/lib/api";
 
-// Create authentication context
+// Creates authentication context
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 // Provides authentication context to children components

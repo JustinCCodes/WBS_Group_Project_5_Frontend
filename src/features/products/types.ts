@@ -40,3 +40,19 @@ export interface ProductsResponse {
     totalPages: number;
   };
 }
+
+// Component Props
+export interface ProductDetailProps {
+  product: Product;
+}
+
+export interface ProductListProps {
+  initialProducts: Product[];
+  initialTotalPages: number;
+  categories: Category[];
+}
+
+export interface HomePageProps {
+  categories: Category[];
+  featuredProducts: Product[];
+}

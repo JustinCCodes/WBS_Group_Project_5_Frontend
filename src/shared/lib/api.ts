@@ -13,7 +13,7 @@ export const parseBanInfo = (
     return null;
   }
 
-  // Extract reason and until date using regex
+  // Extracts reason and until date using regex
   const reasonMatch = errorMessage.match(
     /Reason:\s*(.+?)(?:\s+Banned until:|$)/
   );
