@@ -5,9 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Minus, Plus, Trash2, ShoppingBag, Package } from "lucide-react";
 
+// CartPage component
 export function CartPage() {
   const { cart, updateQuantity, removeFromCart } = useCart();
 
+  // Renders empty cart state
   if (cart.items.length === 0) {
     return (
       <div className="min-h-screen bg-black pt-24 pb-16">
@@ -32,6 +34,7 @@ export function CartPage() {
     );
   }
 
+  // Renders cart with items
   return (
     <div className="min-h-screen bg-black pt-24 pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

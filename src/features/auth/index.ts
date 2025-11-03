@@ -6,6 +6,7 @@ export type {
   LoginResponse,
   CurrentUser,
   BanInfo,
+  AuthContextValue,
 } from "./types";
 
 // Schemas

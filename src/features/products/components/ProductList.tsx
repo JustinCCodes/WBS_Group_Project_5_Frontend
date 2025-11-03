@@ -5,16 +5,14 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { getProducts } from "@/features/products/data";
 import { useCart } from "@/features/cart/context/CartProvider";
-import type { Product, Category } from "@/features/products/types";
+import type {
+  Product,
+  Category,
+  ProductListProps,
+} from "@/features/products/types";
 import { getCategoryName } from "@/shared/lib/utils";
 
-// Props for ProductList component
-interface ProductListProps {
-  initialProducts: Product[];
-  initialTotalPages: number;
-  categories: Category[];
-}
-
+// ProductList component
 export default function ProductList({
   initialProducts,
   initialTotalPages,
@@ -42,7 +40,7 @@ export default function ProductList({
     }
   }, [categoryId, categories]);
 
-  // Fetches products when page or category changes (client-side pagination/filtering)
+  // Fetches products when page or category changes (client side pagination/filtering)
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -57,7 +55,7 @@ export default function ProductList({
         setProducts(productsData.data);
         setTotalPages(productsData.pagination.totalPages);
       } catch (error) {
-        // Error is handled silently - products will remain as initial data
+        // Error is handled silently products will remain as initial data
       } finally {
         setLoading(false);
       }

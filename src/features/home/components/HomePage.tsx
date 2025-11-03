@@ -11,14 +11,9 @@ import {
   Truck,
   Zap,
   Headset,
+  Package,
 } from "lucide-react";
-import type { Product, Category } from "@/features/products/types";
-import { Package } from "lucide-react";
-
-interface HomePageProps {
-  categories: Category[];
-  featuredProducts: Product[];
-}
+import type { HomePageProps } from "@/features/products/types";
 
 // Icon mapping for categories
 const categoryIconMap: Record<
@@ -41,6 +36,7 @@ const categoryIconMap: Record<
   chair: Armchair,
 };
 
+// Trust indicators data
 const trustIndicators = [
   { icon: Truck, title: "Free Shipping", description: "On orders over $50" },
   { icon: Shield, title: "2-Year Warranty", description: "Premium protection" },
@@ -56,6 +52,7 @@ function getCategoryIcon(
   return categoryIconMap[normalized] || Keyboard; // Default to keyboard icon
 }
 
+// HomePage component
 export default function HomePage({
   categories,
   featuredProducts,

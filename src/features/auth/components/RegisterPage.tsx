@@ -5,6 +5,7 @@ import { registerUser } from "@/features/auth/data";
 import { getErrorMessage } from "@/shared/lib/utils";
 import { useRouter } from "next/navigation";
 
+// RegisterPage component
 export default function RegisterPage() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -14,12 +15,13 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Handle form submission
+  // Handles form submission
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
     setLoading(true);
+    // Attempts to register user
     try {
       const user = await registerUser({ name, email, password });
       setSuccess(`Account created for ${user.name}. Redirecting to login...`);

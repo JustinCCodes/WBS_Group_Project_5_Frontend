@@ -1,7 +1,7 @@
 "use client";
 
-import { Github, Linkedin, Mail, Code, Briefcase, Wrench } from "lucide-react";
-import { teamMembers } from "../types";
+import { Github, Linkedin, Code, Briefcase, Wrench } from "lucide-react";
+import { teamMembers } from "../data";
 
 export default function AboutPage() {
   return (

@@ -1,7 +1,6 @@
 import type { Product } from "@/features/products/types";
 
 // Extracts the category name from a product
-
 export function getCategoryName(product: Product): string {
   if (typeof product.categoryId === "object" && product.categoryId !== null) {
     return product.categoryId.name;
