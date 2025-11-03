@@ -5,7 +5,7 @@ import {
 } from "@/features/products/data.server";
 
 export default async function Home() {
-  // Fetches data on server for instant page load
+  // Fetches data on server for  instant page load
   const [categories, featuredProductsData] = await Promise.all([
     getCategoriesServer(),
     getProductsServer({ featured: true, limit: 4 }),

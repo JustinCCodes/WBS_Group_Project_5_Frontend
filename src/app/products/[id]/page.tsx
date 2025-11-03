@@ -7,9 +7,10 @@ import { getProductByIdServer } from "@/features/products/data.server";
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const product = await getProductByIdServer(params.id);
+  const { id } = await params;
+  const product = await getProductByIdServer(id);
 
   if (!product) {
     return {
@@ -51,10 +52,11 @@ export async function generateMetadata({
 export default async function ProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   // Fetch product on the server
-  const product = await getProductByIdServer(params.id);
+  const { id } = await params;
+  const product = await getProductByIdServer(id);
 
   // If product not found, show 404
   if (!product) {
