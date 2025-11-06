@@ -41,9 +41,42 @@ export const setGlobalBanHandler = (
   globalBanHandler = handler;
 };
 
-// Axios instance that points to proxied API route
+// Gets the base URL for API requests
+const getBaseURL = () => {
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  if (!baseURL) {
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "CRITICAL: NEXT_PUBLIC_API_BASE_URL is not set in production."
+      );
+      return "/api"; // Fallback but it will fail
+    }
+    // Development fallback
+    return "http://localhost:8000/api/v1";
+  }
+  return baseURL;
+};
+
+const getAuthBaseURL = () => {
+  const baseURL = process.env.NEXT_PUBLIC_AUTH_SERVER_URL;
+
+  if (!baseURL) {
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "CRITICAL: NEXT_PUBLIC_AUTH_SERVER_URL is not set in production."
+      );
+      return "/api/auth"; // Fallback but it will fail
+    }
+    // Development fallback
+    return "http://localhost:8001/api/v1/auth";
+  }
+  return baseURL;
+};
+
+// Axios instance that points to the FULL backend URL
 const api: AxiosInstance = axios.create({
-  baseURL: "/api",
+  baseURL: getBaseURL(), // <-- Use the function
   withCredentials: true, // For sending cookies
   timeout: 30000, // 30 second timeout
 });
@@ -113,10 +146,15 @@ api.interceptors.response.use(
 
     // Extract status and path information
     const status = (error.response && error.response.status) || 0;
+
+    // We get the full auth URL now
+    const authBaseURL = getAuthBaseURL();
+    const refreshPath = authBaseURL.replace(getBaseURL(), "") + "/refresh"; // e.g., /auth/refresh
+
     // Checks if the request is a refresh call
     const isRefreshCall = Boolean(
       original.url &&
-        (original.url === "/auth/refresh" || original.url.endsWith("/refresh"))
+        (original.url === refreshPath || original.url.endsWith("/refresh"))
     );
 
     // Checks for 403 ban status
@@ -170,11 +208,18 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Attempts to refresh the token
-        await api.post("/auth/refresh", {}, {
+        // Create a separate client for auth to avoid interceptor loops
+        const authApi = axios.create({
+          baseURL: getAuthBaseURL(),
           withCredentials: true,
-          _retry: true, // Prevents infinite loop
-        } as AxiosRequestConfig & { _retry?: boolean });
+        });
+
+        // Attempts to refresh the token
+        await authApi.post(
+          "/refresh",
+          {},
+          { _retry: true } as any // Prevents infinite loop
+        );
 
         processQueue(null); // Resolves all queued requests
         return api(original); // Retries the original request
