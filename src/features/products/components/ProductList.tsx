@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -30,8 +30,9 @@ export default function ProductList({
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
+  const isInitialLoad = useRef(true);
 
-  // Updates selected category when categoryId changes
+  // Updates selected category name when categoryId changes
   useEffect(() => {
     if (categoryId && categories.length > 0) {
       const category = categories.find((cat) => cat.id === categoryId);
@@ -41,7 +42,7 @@ export default function ProductList({
     }
   }, [categoryId, categories]);
 
-  // Fetches products when page or category changes (client side pagination/filtering)
+  // Fetch products when categoryId or currentPage changes
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -56,16 +57,23 @@ export default function ProductList({
         setProducts(productsData.data);
         setTotalPages(productsData.pagination.totalPages);
       } catch {
-        // Error is handled silently products will remain as initial data
+        // On error resets to empty state to avoid showing stale data
+        setProducts([]);
+        setTotalPages(0);
       } finally {
         setLoading(false);
       }
     }
 
-    // Only fetches if not initial load or if page/category changed
-    if (currentPage !== 1 || categoryId) {
-      fetchProducts();
+    // Check that prevents fetching on the initial server render
+    // cause we have initialProducts
+    if (isInitialLoad.current) {
+      isInitialLoad.current = false; // Set to false for all subsequent renders
+      return;
     }
+
+    // On any subsequent render triggered by deps fetch new data
+    fetchProducts();
   }, [categoryId, currentPage]);
 
   return (
