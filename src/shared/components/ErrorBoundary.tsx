@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Component, ReactNode } from "react";
+import React, { Component } from "react";
 import Link from "next/link";
 import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 import type { Props, State } from "@/shared/types/types";
@@ -53,8 +53,8 @@ export class ErrorBoundary extends Component<Props, State> {
 
               {/* Description */}
               <p className="text-gray-400 text-center mb-6">
-                We're sorry, but something unexpected happened. Our team has
-                been notified and we're working to fix the issue.
+                We&apos;re sorry, but something unexpected happened. Our team
+                has been notified and we&apos;re working to fix the issue.
               </p>
 
               {/* Error Details (Development only) */}

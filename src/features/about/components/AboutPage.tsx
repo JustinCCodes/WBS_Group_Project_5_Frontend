@@ -75,7 +75,7 @@ export default function AboutPage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               <span className="bg-linear-to-r from-amber-200 to-yellow-600 bg-clip-text text-transparent">
-                Our Developers
+                Developer
               </span>
             </h2>
             <p className="text-gray-400 text-lg">
@@ -83,7 +83,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 gap-8 max-w-5xl mx-auto">
             {teamMembers.map((member, index) => (
               <div
                 key={index}
