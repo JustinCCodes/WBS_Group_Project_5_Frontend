@@ -142,7 +142,7 @@ export function OrdersPage() {
               No Orders Yet
             </h1>
             <p className="text-gray-400 mb-8">
-              You haven't placed any orders yet. Start shopping to see your
+              You haven&apos;t placed any orders yet. Start shopping to see your
               orders here!
             </p>
             <Link
