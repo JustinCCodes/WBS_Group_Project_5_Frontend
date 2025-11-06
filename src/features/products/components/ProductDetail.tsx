@@ -101,7 +101,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         {/* Sticky Bottom Bar */}
-        <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/95 backdrop-blur-lg border-t border-zinc-800 z-50">
+        <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/95 backdrop-blur-lg border-t border-zinc-800 z-40 lg:z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Left Section - Price & Availability */}
