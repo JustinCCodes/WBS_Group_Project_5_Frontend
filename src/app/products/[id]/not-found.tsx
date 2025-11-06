@@ -11,7 +11,7 @@ export default function ProductNotFound() {
             Product Not Found
           </h1>
           <p className="text-gray-400 mb-8 text-lg">
-            Sorry, we couldn't find the product you're looking for.
+            Sorry, we couldn&apos;t find the product you&apos;re looking for.
           </p>
           <Link
             href="/products"
