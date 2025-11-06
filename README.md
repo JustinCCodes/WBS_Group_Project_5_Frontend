@@ -1,4 +1,4 @@
-# Syntax E-Commerce Frontend 🛍️
+# 🛍️ E-Commerce Frontend
 
 A modern, high-performance e-commerce customer-facing application built with Next.js 15, React 19, and TypeScript 5. Features a sleek shopping experience with cart management, order tracking, and user authentication.
 
