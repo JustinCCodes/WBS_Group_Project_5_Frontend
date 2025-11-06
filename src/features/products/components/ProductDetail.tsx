@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ShoppingCart, Package, Shield, Truck } from "lucide-react";
 import { useCart } from "@/features/cart/context/CartProvider";
 import type { ProductDetailProps } from "@/features/products/types";
@@ -27,10 +28,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className="relative">
             <div className="aspect-square bg-linear-to-br from-zinc-900 to-zinc-950 rounded-2xl border border-zinc-800 flex items-center justify-center overflow-hidden group">
               {product.imageUrl ? (
-                <img
+                <Image
                   src={product.imageUrl}
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 640px) 100vw, 640px"
                 />
               ) : (
                 <div className="relative">
