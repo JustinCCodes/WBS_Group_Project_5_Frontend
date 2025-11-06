@@ -218,7 +218,7 @@ api.interceptors.response.use(
         await authApi.post(
           "/refresh",
           {},
-          { _retry: true } as any // Prevents infinite loop
+          { _retry: true } as AxiosRequestConfig & { _retry?: boolean } // Prevents infinite loop
         );
 
         processQueue(null); // Resolves all queued requests
