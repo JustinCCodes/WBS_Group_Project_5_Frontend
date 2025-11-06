@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ProductList from "@/features/products/components/ProductList";
 import {
   getCategoriesServer,
@@ -12,10 +13,12 @@ export default async function ProductPage() {
   ]);
 
   return (
-    <ProductList
-      initialProducts={productsData.data}
-      initialTotalPages={productsData.pagination.totalPages}
-      categories={categories}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductList
+        initialProducts={productsData.data}
+        initialTotalPages={productsData.pagination.totalPages}
+        categories={categories}
+      />
+    </Suspense>
   );
 }
