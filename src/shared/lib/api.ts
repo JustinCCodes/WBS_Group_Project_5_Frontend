@@ -12,20 +12,14 @@ export const parseBanInfo = (
   if (!errorMessage.includes("Account is banned")) {
     return null;
   }
-
-  // Extracts reason and until date using regex
   const reasonMatch = errorMessage.match(
     /Reason:\s*(.+?)(?:\s+Banned until:|$)/
   );
-  // Extracts until date if present
   const untilMatch = errorMessage.match(/Banned until:\s*(.+?)$/);
-
-  // Builds ban info object
   const reason = reasonMatch
     ? reasonMatch[1].trim()
     : "Your account has been banned.";
   const until = untilMatch ? untilMatch[1].trim() : undefined;
-
   return { reason, until };
 };
 
@@ -43,6 +37,7 @@ export const setGlobalBanHandler = (
 
 // Gets the base URL for API requests
 const getBaseURL = () => {
+  // This will be "/api" from Vercel env
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseURL) {
@@ -50,33 +45,17 @@ const getBaseURL = () => {
       console.error(
         "CRITICAL: NEXT_PUBLIC_API_BASE_URL is not set in production."
       );
-      return "/api"; // Fallback but it will fail
+      return "/api"; // Fallback
     }
     // Development fallback
-    return "http://localhost:8000/api/v1";
+    return "/api";
   }
   return baseURL;
 };
 
-const getAuthBaseURL = () => {
-  const baseURL = process.env.NEXT_PUBLIC_AUTH_SERVER_URL;
-
-  if (!baseURL) {
-    if (process.env.NODE_ENV === "production") {
-      console.error(
-        "CRITICAL: NEXT_PUBLIC_AUTH_SERVER_URL is not set in production."
-      );
-      return "/api/auth"; // Fallback but it will fail
-    }
-    // Development fallback
-    return "http://localhost:8001/api/v1/auth";
-  }
-  return baseURL;
-};
-
-// Axios instance that points to the FULL backend URL
+// Axios instance that points to the proxy
 const api: AxiosInstance = axios.create({
-  baseURL: getBaseURL(), // <-- Use the function
+  baseURL: getBaseURL(), // This will now be /api
   withCredentials: true, // For sending cookies
   timeout: 30000, // 30 second timeout
 });
@@ -147,24 +126,22 @@ api.interceptors.response.use(
     // Extract status and path information
     const status = (error.response && error.response.status) || 0;
 
-    // We get the full auth URL now
-    const authBaseURL = getAuthBaseURL();
-    const refreshPath = authBaseURL.replace(getBaseURL(), "") + "/refresh"; // e.g., /auth/refresh
+    // Uses relative path for refresh it will use the /api base URL
+    const refreshPath = "/auth/refresh";
 
     // Checks if the request is a refresh call
     const isRefreshCall = Boolean(
-      original.url &&
-        (original.url === refreshPath || original.url.endsWith("/refresh"))
+      original.url && original.url.endsWith(refreshPath)
     );
 
     // Checks for 403 ban status
     if (status === 403 && error.response?.data) {
       // Parses the error message for ban information
       const errorData = error.response.data as { error?: string };
-      // If the error message contains ban information, call the global ban handler
+      // If the error message contains ban information calls the global ban handler
       if (errorData.error) {
         const banInfo = parseBanInfo(errorData.error);
-        // If the ban info is valid and a global handler is set, call it
+        // If the ban info is valid and a global handler is set call it
         if (banInfo && globalBanHandler) {
           globalBanHandler(banInfo);
           return Promise.reject(error);
@@ -177,16 +154,15 @@ api.interceptors.response.use(
       // Checks if the request is a login or registration attempt
       if (
         original.url?.includes("/auth/login") ||
-        original.url?.includes("/auth/register") ||
         (original.url?.includes("/users") &&
           original.method?.toLowerCase() === "post")
       ) {
-        // If the request is a login or registration attempt reject it
+        // If request is a login or registration attempt reject it
         return Promise.reject(error);
       }
 
       if (isRefreshing) {
-        // Queues this request to retry after refresh completes
+        // Queues request to retry after refresh completes
         return (
           new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });
@@ -208,15 +184,16 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Create a separate client for auth to avoid interceptor loops
+        // Creates a separate client for auth to avoid interceptor loops
+        // It will also use the /api base URL
         const authApi = axios.create({
-          baseURL: getAuthBaseURL(),
+          baseURL: getBaseURL(), // This is /api
           withCredentials: true,
         });
 
-        // Attempts to refresh the token
+        // Attempts to refresh the token at /api/auth/refresh
         await authApi.post(
-          "/refresh",
+          refreshPath, // Uses relative path
           {},
           { _retry: true } as AxiosRequestConfig & { _retry?: boolean } // Prevents infinite loop
         );
@@ -226,8 +203,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError); // Rejects all queued requests
 
-        // If refresh fails clear any stored client state and let
-        // the application UI decide whether to navigate to /login.
+        // If refresh fails clear user data from localStorage
         if (typeof window !== "undefined") {
           window.localStorage.removeItem("user");
         }

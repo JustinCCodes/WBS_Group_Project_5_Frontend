@@ -10,61 +10,17 @@ const nextConfig = {
     ],
   },
   async rewrites() {
-    // Use environment variables - no hardcoded defaults for security
-    const DEFAULT_API =
-      process.env.NODE_ENV === "production"
-        ? "" // Must be set in production
-        : "http://localhost:8000";
-    const DEFAULT_AUTH =
-      process.env.NODE_ENV === "production"
-        ? "" // Must be set in production
-        : "http://localhost:8001";
-
-    const apiCandidate =
-      process.env.NEXT_PUBLIC_API_URL ||
-      process.env.NEXT_PUBLIC_API_BASE_URL ||
-      process.env.API_BASE_URL ||
-      DEFAULT_API;
-
-    const authCandidate =
-      process.env.NEXT_PUBLIC_AUTH_API_URL ||
-      process.env.NEXT_PUBLIC_AUTH_SERVER_URL ||
-      process.env.AUTH_SERVER_URL ||
-      "";
-
-    const API = String(apiCandidate).replace(/\/$/, "");
-    const AUTH_BASE =
-      String(authCandidate).replace(/\/$/, "") || API || DEFAULT_AUTH;
-
-    const buildApiDest = (base: string): string => {
-      const b = String(base).replace(/\/$/, "");
-      // If base already includes /api/v1 don't append it again
-      return /\/api\/v1(\/)?$/.test(b) ? `${b}/:path*` : `${b}/api/v1/:path*`;
-    };
-
-    const buildAuthDest = (base: string): string => {
-      const b = String(base).replace(/\/$/, "");
-      if (/\/api\/v1\/auth(\/)?$/.test(b)) return `${b}/:path*`;
-      if (/\/api\/v1(\/)?$/.test(b)) return `${b}/auth/:path*`;
-      return `${b}/api/v1/auth/:path*`;
-    };
-
-    const apiBaseNoSlash = API.replace(/\/$/, "");
-    const buildHealthDest = (base: string): string => {
-      let b = String(base).replace(/\/$/, "");
-      // Strip common API path suffixes to hit server root /health
-      b = b.replace(/\/(api\/v1\/auth|api\/v1|api|auth)$/i, "");
-      return `${b}/health`;
-    };
+    // This will get full backend URL from Vercel env
+    const API_DESTINATION = (
+      process.env.API_BASE_URL || "http://localhost:8000/api/v1"
+    ).replace(/\/$/, ""); // Removes trailing slash
 
     return [
-      // Dedicated health check route
-      { source: "/health", destination: buildHealthDest(apiBaseNoSlash) },
-      // Authentication server health check route
-      { source: "/auth/health", destination: buildHealthDest(AUTH_BASE) },
-      // Auth and API proxies - auth must come before general api to match first
-      { source: "/api/auth/:path*", destination: buildAuthDest(AUTH_BASE) },
-      { source: "/api/:path*", destination: buildApiDest(API) },
+      // This single rule proxies all /api/* requests to the backend's /api/v1/*
+      {
+        source: "/api/:path*",
+        destination: `${API_DESTINATION}/:path*`,
+      },
     ];
   },
   async headers() {
