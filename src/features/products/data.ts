@@ -66,7 +66,7 @@ export async function validateProductIds(
     });
 
     return validIds;
-  } catch (error) {
+  } catch {
     // Silent catch validation errors are not critical
     return [];
   }

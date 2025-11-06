@@ -10,13 +10,4 @@ export const teamMembers: TeamMember[] = [
     image:
       "https://res.cloudinary.com/dikyba2uk/image/upload/v1761919476/IMG_64051_qbmprd.png",
   },
-  {
-    name: "Lara-Marie Kerstian",
-    role: "Junior Full Stack Developer",
-    bio: "Als angehende Full-Stack-Entwicklerin (JavaScript, React, Node.js) bringe ich einen fundierten Hintergrund aus dem sozialen Sektor mit.\nIn meiner früheren Tätigkeit habe ich gelernt, komplexe Systeme zu analysieren, Perspektiven zu verbinden und empathisch zu kommunizieren.\nDiese Fähigkeiten kombiniere ich nun mit meiner technischen Ausbildung. Mein Ziel ist es, digitale Lösungen zu entwickeln, die nicht nur technisch sauber, sondern auch inklusiv, nutzerzentriert und nachhaltig sind.\nIch verbinde systemisches Denken mit digitaler Neugier und einem klaren gesellschaftlichen Kompass.",
-    github: "https://github.com/laerra",
-    linkedin: "https://www.linkedin.com/in/lara-marie-kerstian/",
-    image:
-      "https://res.cloudinary.com/dikyba2uk/image/upload/v1761919269/1719405654366_wubyub.jpg",
-  },
 ];

@@ -88,7 +88,7 @@ api.interceptors.request.use(
           }
         }
       }
-    } catch (e) {
+    } catch {
       // Silent fail request continues without CSRF token
     }
     return config;

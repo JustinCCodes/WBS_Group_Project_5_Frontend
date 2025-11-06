@@ -7,7 +7,7 @@ export async function getCategoriesServer(): Promise<Category[]> {
   try {
     const response = await apiServer.get<Category[]>("/categories");
     return response.data;
-  } catch (error) {
+  } catch {
     // Returns empty array on error to prevent breaking the UI
     return [];
   }
@@ -20,7 +20,7 @@ export async function getProductByIdServer(
   try {
     const response = await apiServer.get<Product>(`/products/${id}`);
     return response.data;
-  } catch (error) {
+  } catch {
     // Returns null on error so page can show 404
     return null;
   }
@@ -50,7 +50,7 @@ export async function getProductsServer(params?: {
     );
 
     return response.data;
-  } catch (error) {
+  } catch {
     // Returns empty response on error to prevent page crash
     return {
       data: [],

@@ -358,7 +358,7 @@ Private project for educational purposes.
 
 ---
 
-## 👥 Team
+## � Project
 
 **Justin Sturm**
 
