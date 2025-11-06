@@ -14,6 +14,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { getErrorMessage } from "@/shared/lib/utils";
 import toast from "react-hot-toast";
 
@@ -33,7 +34,7 @@ export function OrdersPage() {
       const data = await getUserOrders();
       setOrders(data);
       setError(null);
-    } catch (err) {
+    } catch {
       const errorMsg = "Failed to load orders. Please try again.";
       setError(errorMsg);
       toast.error(errorMsg);
@@ -284,10 +285,12 @@ export function OrdersPage() {
                             {/* Product Image Placeholder */}
                             <div className="w-16 h-16 bg-zinc-800 rounded-lg flex items-center justify-center shrink-0">
                               {item.productId.imageUrl ? (
-                                <img
+                                <Image
                                   src={item.productId.imageUrl}
                                   alt={item.productId.name}
-                                  className="w-full h-full object-cover rounded-lg"
+                                  fill
+                                  className="object-cover rounded-lg"
+                                  sizes="64px"
                                 />
                               ) : (
                                 <Package className="w-8 h-8 text-zinc-600" />

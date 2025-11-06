@@ -81,7 +81,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
               `${removedCount} product(s) removed from cart (no longer available)`
             );
           }
-        } catch (error) {
+        } catch {
           // Silent fail cart will be empty no user disruption
         }
       }
@@ -124,7 +124,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     // Prepare new items array
     let newItems: CartItem[];
-    let isUpdate = false;
 
     if (existingItemIndex > -1) {
       // Update existing item quantity
@@ -133,7 +132,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
           ? { ...item, quantity: item.quantity + quantity }
           : item
       );
-      isUpdate = true;
     } else {
       // Add new product to cart
       newItems = [...cart.items, { product, quantity }];

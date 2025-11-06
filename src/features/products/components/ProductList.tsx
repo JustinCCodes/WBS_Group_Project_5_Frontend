@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { getProducts } from "@/features/products/data";
 import { useCart } from "@/features/cart/context/CartProvider";
@@ -54,7 +55,7 @@ export default function ProductList({
 
         setProducts(productsData.data);
         setTotalPages(productsData.pagination.totalPages);
-      } catch (error) {
+      } catch {
         // Error is handled silently products will remain as initial data
       } finally {
         setLoading(false);
@@ -130,10 +131,12 @@ export default function ProductList({
                     <Link href={`/products/${product.id}`}>
                       <div className="aspect-square bg-zinc-800 relative overflow-hidden">
                         {product.imageUrl ? (
-                          <img
+                          <Image
                             src={product.imageUrl}
                             alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 640px) 100vw, 640px"
                           />
                         ) : (
                           <div className="w-full h-full bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
