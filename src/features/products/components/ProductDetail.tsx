@@ -23,17 +23,18 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           Back to Products
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
           {/* Product Image */}
-          <div className="relative">
-            <div className="aspect-square bg-linear-to-br from-zinc-900 to-zinc-950 rounded-2xl border border-zinc-800 flex items-center justify-center overflow-hidden group">
+          <div className="relative max-w-2xl mx-auto w-full">
+            <div className="aspect-square bg-linear-to-br from-zinc-900 to-zinc-950 rounded-2xl border border-zinc-800 flex items-center justify-center overflow-hidden group relative">
               {product.imageUrl ? (
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  sizes="(max-width: 640px) 100vw, 640px"
+                  className="object-contain p-8 group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
                 />
               ) : (
                 <div className="relative">
@@ -45,7 +46,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
             {/* Featured Badge */}
             {product.featured && (
-              <div className="absolute top-4 right-4 px-4 py-2 bg-amber-500 text-black font-bold rounded-lg">
+              <div className="absolute top-4 right-4 px-4 py-2 bg-amber-500 text-black font-bold rounded-lg shadow-lg">
                 Featured
               </div>
             )}
