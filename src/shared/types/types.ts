@@ -22,3 +22,20 @@ export interface State {
   hasError: boolean;
   error: Error | null;
 }
+
+export type ModalType =
+  | "privacy"
+  | "terms"
+  | "cookies"
+  | "faq"
+  | "shipping"
+  | "warranty"
+  | "returns"
+  | null;
+
+export interface ModalContextType {
+  modalType: ModalType;
+  isModalOpen: boolean;
+  openModal: (type: ModalType) => void;
+  closeModal: () => void;
+}

@@ -8,6 +8,8 @@ import { CartDrawer } from "@/features/cart/components/CartDrawer";
 import { getCategoriesServer } from "@/features/products/data.server";
 import { Toaster } from "react-hot-toast";
 import { ErrorBoundary } from "@/shared/components/ErrorBoundary";
+import { ModalProvider } from "@/shared/context/ModalProvider";
+import InfoModal from "@/shared/components/layout/InfoModal";
 
 // Metadata for the entire application
 export const metadata: Metadata = {
@@ -33,35 +35,38 @@ export default async function RootLayout({
         <ErrorBoundary>
           <AuthProvider>
             <CartProvider>
-              <Toaster
-                position="bottom-center"
-                toastOptions={{
-                  duration: 4000,
-                  style: {
-                    background: "#18181b",
-                    color: "#fff",
-                    border: "1px solid #27272a",
-                  },
-                  success: {
-                    iconTheme: {
-                      primary: "#f59e0b",
-                      secondary: "#fff",
+              <ModalProvider>
+                <Toaster
+                  position="bottom-center"
+                  toastOptions={{
+                    duration: 4000,
+                    style: {
+                      background: "#18181b",
+                      color: "#fff",
+                      border: "1px solid #27272a",
                     },
-                  },
-                  error: {
-                    iconTheme: {
-                      primary: "#ef4444",
-                      secondary: "#fff",
+                    success: {
+                      iconTheme: {
+                        primary: "#f59e0b",
+                        secondary: "#fff",
+                      },
                     },
-                  },
-                }}
-              />
-              <Navbar categories={categories} />
-              <CartDrawer />
-              <div className="rgb-border"></div>
-              <main className="flex-1">{children}</main>
-              <div className="rgb-border"></div>
-              <Footer />
+                    error: {
+                      iconTheme: {
+                        primary: "#ef4444",
+                        secondary: "#fff",
+                      },
+                    },
+                  }}
+                />
+                <Navbar categories={categories} />
+                <CartDrawer />
+                <InfoModal />
+                <div className="rgb-border"></div>
+                <main className="flex-1">{children}</main>
+                <div className="rgb-border"></div>
+                <Footer />
+              </ModalProvider>
             </CartProvider>
           </AuthProvider>
         </ErrorBoundary>
