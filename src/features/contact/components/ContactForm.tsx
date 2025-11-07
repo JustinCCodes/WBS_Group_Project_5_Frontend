@@ -66,7 +66,7 @@ export function ContactForm() {
         <CheckCircle className="w-16 h-16 text-green-400 mb-6" />
         <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
         <p className="text-gray-400">
-          Thanks for reaching out. We'll get back to you soon (if this were a
+          Thanks for reaching out. We&apos;ll get back to you soon (if this were a
           real site).
         </p>
       </div>
