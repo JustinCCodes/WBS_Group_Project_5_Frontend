@@ -5,6 +5,9 @@ import {
   getProductsServer,
 } from "@/features/products/data.server";
 
+// Revalidates the page every hour
+export const revalidate = 3600;
+
 export default async function ProductPage() {
   // Fetches first page of products and categories on server
   const [productsData, categories] = await Promise.all([

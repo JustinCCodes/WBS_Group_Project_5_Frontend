@@ -38,12 +38,12 @@ A modern, high-performance e-commerce customer-facing application built with Nex
 
 ### 🎨 User Experience
 
-- **Server-Side Rendering (SSR):** Fast initial page loads with SEO optimization
-- **Client-Side Navigation:** Smooth SPA-like transitions
-- **Responsive Design:** Mobile-first, works on all screen sizes
-- **Toast Notifications:** Non-blocking feedback for user actions
-- **Loading States:** Skeleton screens and loading indicators
-- **Accessibility:** WCAG compliant with proper ARIA labels
+**Server-Side Rendering (SSR):** Fast initial page loads with SEO optimization
+**Incremental Static Regeneration (ISR):** Home, Products, and Product ID pages use ISR with a revalidation interval of one hour (set higher for portfolio/demo purposes to save DB requests).
+**Client-Side Navigation:** Smooth SPA-like transitions
+**Responsive Design:** Mobile-first, works on all screen sizes
+**Loading States:** Skeleton screens and spinners for better UX
+**Toast Notifications:** Real-time feedback for user actions
 
 ### 🏗️ Architecture
 
@@ -60,66 +60,103 @@ A modern, high-performance e-commerce customer-facing application built with Nex
 ```
 ecommerce-frontend/
 ├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── layout.tsx          # Root layout with providers
-│   │   ├── page.tsx            # Homepage
-│   │   ├── about/              # About page
-│   │   ├── cart/               # Shopping cart page
-│   │   ├── login/              # Login page
-│   │   ├── orders/             # Order history page
-│   │   ├── products/           # Product listing & details
-│   │   └── register/           # Registration page
-│   │
-│   ├── features/               # Feature modules
-│   │   ├── auth/               # Authentication feature
-│   │   │   ├── components/     # Login, Register, BanModal
-│   │   │   ├── context/        # AuthProvider
-│   │   │   ├── data.ts         # API calls (client)
-│   │   │   └── types.ts        # Auth types
-│   │   │
-│   │   ├── cart/               # Shopping cart feature
-│   │   │   ├── components/     # CartDrawer, CartItem
-│   │   │   ├── context/        # CartProvider
-│   │   │   ├── utils/          # Stock validation
-│   │   │   └── types.ts        # Cart types
-│   │   │
-│   │   ├── products/           # Product catalog feature
-│   │   │   ├── components/     # ProductList, ProductDetail
-│   │   │   ├── data.ts         # API calls (client)
-│   │   │   ├── data.server.ts  # API calls (server)
-│   │   │   └── types.ts        # Product types
-│   │   │
-│   │   ├── orders/             # Order management feature
-│   │   │   ├── components/     # OrdersPage, OrderItem
-│   │   │   ├── data.ts         # API calls
-│   │   │   └── types.ts        # Order types
-│   │   │
-│   │   └── home/               # Homepage feature
-│   │       └── components/     # HomePage, Hero
-│   │
-│   └── shared/                 # Shared resources
-│       ├── components/         # Reusable UI components
-│       │   ├── layout/         # Navbar, Footer
-│       │   └── ErrorBoundary.tsx
-│       │
-│       ├── lib/                # Core utilities
-│       │   ├── api.ts          # Client-side API client
-│       │   ├── api-server.ts   # Server-side API client
-│       │   └── utils.ts        # Helper functions
-│       │
-│       ├── constants/          # App constants
-│       │   └── apiPaths.ts     # API route definitions
-│       │
-│       └── types/              # Shared types
-│           └── types.ts        # Common interfaces
-│
-├── public/                     # Static assets
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── globals.css
+│   │   ├── page.tsx
+│   │   ├── not-found.tsx
+│   │   ├── about/
+│   │   │   └── page.tsx
+│   │   ├── cart/
+│   │   │   └── page.tsx
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   ├── orders/
+│   │   │   └── page.tsx
+│   │   ├── products/
+│   │   │   ├── page.tsx
+│   │   │   ├── [id]/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── not-found.tsx
+│   │   └── register/
+│   │       └── page.tsx
+│   ├── features/
+│   │   ├── about/
+│   │   │   ├── components/
+│   │   │   │   └── AboutPage.tsx
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── auth/
+│   │   │   ├── components/
+│   │   │   │   ├── BanNotificationModal.tsx
+│   │   │   │   ├── LoginPage.tsx
+│   │   │   │   └── RegisterPage.tsx
+│   │   │   ├── context/
+│   │   │   │   └── AuthProvider.tsx
+│   │   │   ├── data.server.ts
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── cart/
+│   │   │   ├── components/
+│   │   │   │   ├── CartDrawer.tsx
+│   │   │   │   └── CartPage.tsx
+│   │   │   ├── context/
+│   │   │   │   └── CartProvider.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── types.ts
+│   │   │   ├── utils/
+│   │   │   │   └── stockValidation.ts
+│   │   ├── home/
+│   │   │   ├── components/
+│   │   │   │   └── HomePage.tsx
+│   │   │   └── index.ts
+│   │   ├── orders/
+│   │   │   ├── components/
+│   │   │   │   └── OrdersPage.tsx
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── products/
+│   │   │   ├── components/
+│   │   │   │   ├── ProductDetail.tsx
+│   │   │   │   └── ProductList.tsx
+│   │   │   ├── data.server.ts
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── contact/
+│   │   │   ├── components/
+│   │   │   │   └── ContactForm.tsx
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   ├── shared/
+│   │   ├── components/
+│   │   │   ├── layout/
+│   │   │   │   ├── Footer.tsx
+│   │   │   │   ├── InfoModal.tsx
+│   │   │   │   └── Navbar.tsx
+│   │   │   └── ErrorBoundary.tsx
+│   │   ├── constants/
+│   │   │   └── apiPaths.ts
+│   │   ├── context/
+│   │   │   └── ModalProvider.tsx
+│   │   ├── lib/
+│   │   │   ├── api-server.ts
+│   │   │   ├── api.ts
+│   │   │   └── utils.ts
+│   │   ├── types/
+│   │   │   └── types.ts
+├── public/
 │   └── Company_Logo.png
-│
-├── .env.local.example          # Environment variable template
-├── next.config.ts              # Next.js configuration
-├── tailwind.config.js          # Tailwind CSS configuration
-└── tsconfig.json               # TypeScript configuration
+├── .env.local.example
+├── next.config.ts
+├── postcss.config.mjs
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
 ```
 
 ---
