@@ -153,15 +153,15 @@ const PrivacyContent = () => (
     <h3 className={h3Class}>Heads Up: This is a Portfolio Project</h3>
     <p className={pClass}>
       Thanks for checking out my privacy policy! This is a portfolio website
-      ("Syntax") built to demonstrate my coding skills, not a real e-commerce
-      store.
+      (&quot;Syntax&quot;) built to demonstrate my coding skills, not a real
+      e-commerce store.
     </p>
     <p className={pClass}>
-      Because of that, the "privacy" here is pretty simple and not the scary
-      legal document you're used to.
+      Because of that, the &quot;privacy&quot; here is pretty simple and not the
+      scary legal document you&apos;re used to.
     </p>
 
-    <h3 className={h3Class}>What I "Collect" (and Why)</h3>
+    <h3 className={h3Class}>What I &quot;Collect&quot; (and Why)</h3>
     <ul className={ulClass}>
       <li>
         <strong className={strongClass}>Account Info:</strong> When you
@@ -170,15 +170,16 @@ const PrivacyContent = () => (
       </li>
       <li>
         <strong className={strongClass}>Cart Items:</strong> Your shopping cart
-        is saved in your browser's{" "}
+        is saved in your browser&apos;s{" "}
         <code className={codeClass}>localStorage</code>. This is so your items
-        are still there if you close the tab and come back. I can't see this
-        data.
+        are still there if you close the tab and come back. I can&apos;t see
+        this data.
       </li>
       <li>
-        <strong className={strongClass}>Order History:</strong> If you "place an
-        order," I save that information (what you bought, the total price) in
-        the database. This is just to populate the "My Orders" page for you.
+        <strong className={strongClass}>Order History:</strong> If you
+        &quot;place an order,&quot; I save that information (what you bought,
+        the total price) in the database. This is just to populate the &quot;My
+        Orders&quot; page for you.
       </li>
     </ul>
 
@@ -193,22 +194,22 @@ const PrivacyContent = () => (
         cookie containing your token.
       </li>
       <li>
-        This cookie is sent automatically with each request to prove you're
+        This cookie is sent automatically with each request to prove you&apos;re
         logged in.
       </li>
       <li>
-        <strong>What this means for you:</strong> It's a standard, secure way to
-        keep you logged in. I am not using this token to track you across the
-        internet, build an ad profile, or anything shady. It's just for session
-        management within this one website.
+        <strong>What this means for you:</strong> It&apos;s a standard, secure
+        way to keep you logged in. I am not using this token to track you across
+        the internet, build an ad profile, or anything shady. It&apos;s just for
+        session management within this one website.
       </li>
     </ul>
 
-    <h3 className={h3Class}>tl;dr (Too Long; Didn't Read)</h3>
+    <h3 className={h3Class}>tl;dr (Too Long; Didn&apos;t Read)</h3>
     <p className={pClass}>
-      I'm only collecting the absolute minimum data needed to make the website
-      features (like login, cart, and order history) work for this demo. No data
-      is sold, shared, or used for marketing.
+      I&apos;m only collecting the absolute minimum data needed to make the
+      website features (like login, cart, and order history) work for this demo.
+      No data is sold, shared, or used for marketing.
     </p>
   </div>
 );
@@ -222,9 +223,9 @@ const TermsContent = () => (
     </p>
     <ul className={ulClass}>
       <li>
-        Don't try to *actually* buy anything. No products will be shipped.
+        Don&apos;t try to *actually* buy anything. No products will be shipped.
       </li>
-      <li>Don't use a real password you use anywhere else.</li>
+      <li>Don&apos;t use a real password you use anywhere else.</li>
       <li>
         Feel free to try and break things (in a friendly way) and let me know
         what you find!
@@ -237,7 +238,7 @@ const CookieContent = () => (
   <div className="text-white">
     <h3 className={h3Class}>Cookie Policy</h3>
     <p className={pClass}>
-      You'll be happy to know this site has a very simple cookie policy.
+  You&apos;ll be happy to know this site has a very simple cookie policy.
     </p>
     <ul className={ulClass}>
       <li>
@@ -249,7 +250,7 @@ const CookieContent = () => (
         authentication token. This is essential for keeping you logged in.
       </li>
       <li>
-        <strong className={strongClass}>That's it.</strong> No analytics
+  <strong className={strongClass}>That&apos;s it.</strong> No analytics
         cookies, no tracking pixels, no third-party ad network cookies. Just the
         one we need for login.
       </li>
@@ -264,43 +265,46 @@ const FaqContent = () => (
     <h3 className={h3Class}>Is this a real store?</h3>
     <p className={pClass}>
       No, this is a portfolio project to demonstrate full-stack development
-      skills (Next.js, React, Node.js, Express.js, etc.). You can't *actually*
-      buy anything.
+      skills (Next.js, React, Node.js, Express.js, etc.). You can&apos;t
+      *actually* buy anything.
     </p>
 
     <h3 className={h3Class}>How long does shipping take?</h3>
     <p className={pClass}>
-      Shipping is "virtually" instantaneous! Since no products are real, nothing
-      will be shipped. If this were a real store, we'd promise 2-day shipping,
-      of course.
+      Shipping is &quot;virtually&quot; instantaneous! Since no products are
+      real, nothing will be shipped. If this were a real store, we&apos;d
+      promise 2-day shipping, of course.
     </p>
 
-    <h3 className={h3Class}>What's your return policy?</h3>
+  <h3 className={h3Class}>What&apos;s your return policy?</h3>
     <p className={pClass}>
-      We have a fantastic 30-day "virtual" return policy. If you're unhappy with
-      a "pending" or "cancelled" order in your order history, you can delete it.
-      It's like it never happened!
+  We have a fantastic 30-day &quot;virtual&quot; return policy. If
+  you&apos;re unhappy with a &quot;pending&quot; or &quot;cancelled&quot;
+  order in your order history, you can delete it. It&apos;s like it never
+  happened!
     </p>
 
-    <h3 className={h3Class}>Why can't I delete a 'Processing' order?</h3>
+    <h3 className={h3Class}>
+      Why can&apos;t I delete a &apos;Processing&apos; order?
+    </h3>
     <p className={pClass}>
-      That's a feature! It demonstrates role-based access control and state
+      That&apos;s a feature! It demonstrates role-based access control and state
       management. In a real app, once an order is being processed, a user
-      shouldn't be able to delete it.
+      shouldn&apos;t be able to delete it.
     </p>
   </div>
 );
 
 const ShippingContent = () => (
   <div className="text-white">
-    <h3 className={h3Class}>Shipping (The "Not Really" Policy)</h3>
+    <h3 className={h3Class}>Shipping (The &quot;Not Really&quot; Policy)</h3>
     <p className={pClass}>
-      We offer complimentary "conceptual" shipping on all orders.
+      We offer complimentary &quot;conceptual&quot; shipping on all orders.
     </p>
     <p className={pClass}>
-      Your demo products will be "shipped" to your "My Orders" page as soon as
-      you complete the checkout flow (which is also not yet implemented, but
-      it's on the roadmap!).
+      Your demo products will be &quot;shipped&quot; to your &quot;My
+      Orders&quot; page as soon as you complete the checkout flow (which is also
+  not yet implemented, but it&apos;s on the roadmap!).
     </p>
     <p className={pClass}>
       No physical items will ever be sent. This is a portfolio project.
@@ -312,45 +316,46 @@ const WarrantyContent = () => (
   <div className="text-white">
     <h3 className={h3Class}>Our Portfolio-Grade Warranty</h3>
     <p className={pClass}>
-      We proudly offer a 2-Year "Looks Good, Works Good" warranty on all
+  We proudly offer a 2-Year &quot;Looks Good, Works Good&quot; warranty on all
       products displayed on this site.
     </p>
     <ul className={ulClass}>
       <li>
-        <strong className={strongClass}>What's Covered:</strong> Any bugs,
+        <strong className={strongClass}>What&apos;s Covered:</strong> Any bugs,
         visual glitches, or slow load times you might find.
       </li>
       <li>
-        <strong className={strongClass}>What's Not Covered:</strong> Physical
-        hardware failure (since there is no physical hardware), damage from
-        dropping your non-existent mouse, or buyer's remorse over a virtual
-        purchase.
+        <strong className={strongClass}>What&apos;s Not Covered:</strong>{" "}
+        Physical hardware failure (since there is no physical hardware), damage
+  from dropping your non-existent mouse, or buyer&apos;s remorse over a
+        virtual purchase.
       </li>
     </ul>
     <p className={pClass}>
-      If you find a bug, please "file a claim" by letting the developer know!
+      If you find a bug, please &quot;file a claim&quot; by letting the
+      developer know!
     </p>
   </div>
 );
 
 const ReturnsContent = () => (
   <div className="text-white">
-    <h3 className={h3Class}>Our "No Hassle" Virtual Returns</h3>
+    <h3 className={h3Class}>Our &quot;No Hassle&quot; Virtual Returns</h3>
     <p className={pClass}>Not happy with your demo order? No problem.</p>
     <p className={pClass}>
-      You can "return" any order that has a status of{" "}
-      <strong className={strongClass}>"Pending"</strong> or{" "}
-      <strong className={strongClass}>"Cancelled"</strong>.
+      You can &quot;return&quot; any order that has a status of{" "}
+      <strong className={strongClass}>&quot;Pending&quot;</strong> or{" "}
+      <strong className={strongClass}>&quot;Cancelled&quot;</strong>.
     </p>
     <ul className={ulClass}>
-      <li>Go to your "My Orders" page.</li>
-      <li>Find the order you wish to "return".</li>
+      <li>Go to your &quot;My Orders&quot; page.</li>
+      <li>Find the order you wish to &quot;return&quot;.</li>
       <li>Click the red trash can icon to permanently delete it.</li>
     </ul>
     <p className={pClass}>
-      This demonstrates the "delete" functionality of the API on items that meet
-      a specific criteria (in this case, status). Orders marked "Processing" or
-      "Shipped" cannot be deleted by a user.
+      This demonstrates the &quot;delete&quot; functionality of the API on items
+      that meet a specific criteria (in this case, status). Orders marked
+      &quot;Processing&quot; or &quot;Shipped&quot; cannot be deleted by a user.
     </p>
   </div>
 );
