@@ -10,9 +10,11 @@ import {
   Truck,
   ShieldCheck,
   Undo2,
+  MessageSquare,
 } from "lucide-react";
 import { useEffect } from "react";
 import { ModalType } from "@/shared/types/types";
+import { ContactForm } from "@/features/contact/components/ContactForm";
 
 // Main component
 export default function InfoModal() {
@@ -39,6 +41,11 @@ export default function InfoModal() {
       content: React.ReactNode;
     }
   > = {
+    contact: {
+      icon: MessageSquare,
+      title: "Contact Us",
+      content: <ContactForm />,
+    },
     privacy: {
       icon: Shield,
       title: "Privacy Policy",
@@ -238,7 +245,7 @@ const CookieContent = () => (
   <div className="text-white">
     <h3 className={h3Class}>Cookie Policy</h3>
     <p className={pClass}>
-  You&apos;ll be happy to know this site has a very simple cookie policy.
+      You&apos;ll be happy to know this site has a very simple cookie policy.
     </p>
     <ul className={ulClass}>
       <li>
@@ -250,7 +257,7 @@ const CookieContent = () => (
         authentication token. This is essential for keeping you logged in.
       </li>
       <li>
-  <strong className={strongClass}>That&apos;s it.</strong> No analytics
+        <strong className={strongClass}>That&apos;s it.</strong> No analytics
         cookies, no tracking pixels, no third-party ad network cookies. Just the
         one we need for login.
       </li>
@@ -276,12 +283,12 @@ const FaqContent = () => (
       promise 2-day shipping, of course.
     </p>
 
-  <h3 className={h3Class}>What&apos;s your return policy?</h3>
+    <h3 className={h3Class}>What&apos;s your return policy?</h3>
     <p className={pClass}>
-  We have a fantastic 30-day &quot;virtual&quot; return policy. If
-  you&apos;re unhappy with a &quot;pending&quot; or &quot;cancelled&quot;
-  order in your order history, you can delete it. It&apos;s like it never
-  happened!
+      We have a fantastic 30-day &quot;virtual&quot; return policy. If
+      you&apos;re unhappy with a &quot;pending&quot; or &quot;cancelled&quot;
+      order in your order history, you can delete it. It&apos;s like it never
+      happened!
     </p>
 
     <h3 className={h3Class}>
@@ -304,7 +311,7 @@ const ShippingContent = () => (
     <p className={pClass}>
       Your demo products will be &quot;shipped&quot; to your &quot;My
       Orders&quot; page as soon as you complete the checkout flow (which is also
-  not yet implemented, but it&apos;s on the roadmap!).
+      not yet implemented, but it&apos;s on the roadmap!).
     </p>
     <p className={pClass}>
       No physical items will ever be sent. This is a portfolio project.
@@ -316,8 +323,8 @@ const WarrantyContent = () => (
   <div className="text-white">
     <h3 className={h3Class}>Our Portfolio-Grade Warranty</h3>
     <p className={pClass}>
-  We proudly offer a 2-Year &quot;Looks Good, Works Good&quot; warranty on all
-      products displayed on this site.
+      We proudly offer a 2-Year &quot;Looks Good, Works Good&quot; warranty on
+      all products displayed on this site.
     </p>
     <ul className={ulClass}>
       <li>
@@ -327,7 +334,7 @@ const WarrantyContent = () => (
       <li>
         <strong className={strongClass}>What&apos;s Not Covered:</strong>{" "}
         Physical hardware failure (since there is no physical hardware), damage
-  from dropping your non-existent mouse, or buyer&apos;s remorse over a
+        from dropping your non-existent mouse, or buyer&apos;s remorse over a
         virtual purchase.
       </li>
     </ul>

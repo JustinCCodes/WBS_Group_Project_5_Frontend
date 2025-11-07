@@ -130,7 +130,7 @@ ecommerce-frontend/
 
 - **Node.js:** v20 or higher
 - **npm:** v10 or higher
-- **Backend:** The [ecommerce-backend](../ecommerce-backend) must be running
+- **Backend:** The [ecommerce-backend](https://github.com/JustinCCodes/WBS_Group_Project_5_Backend) must be running
 
 ### Installation
 
@@ -253,12 +253,11 @@ const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
 - **Utility-First:** Rapid UI development
 - **Custom Theme:** Consistent brand colors
 - **Responsive:** Mobile-first breakpoints
-- **Dark Mode Ready:** System preference detection
 
 ### Design System
 
 - **Colors:** Amber/Yellow primary, Zinc grayscale
-- **Typography:** Inter font family
+- **Typography:** Roboto font family
 - **Spacing:** 4px base grid system
 - **Shadows:** Subtle elevation layers
 
@@ -347,8 +346,8 @@ npm start
 
 ## 🔗 Related Repositories
 
-- **Backend API:** [ecommerce-backend](../ecommerce-backend)
-- **Admin Panel:** [ecommerce-admin](../ecommerce-admin)
+- **Backend API:** [ecommerce-backend](https://github.com/JustinCCodes/WBS_Group_Project_5_Backend)
+- **Admin Dashboard:** [ecommerce-admin](https://github.com/JustinCCodes/WBS_Group_Project_5_Admin_Dashboard)
 
 ---
 
