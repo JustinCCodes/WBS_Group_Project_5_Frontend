@@ -282,7 +282,7 @@ export function OrdersPage() {
                             key={index}
                             className="flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-800 rounded-lg"
                           >
-                            {/* Product Image Placeholder */}
+                            {/* Product Image */}
                             <div className="w-16 h-16 bg-zinc-800 rounded-lg flex items-center justify-center shrink-0">
                               {item.productId.imageUrl ? (
                                 <Image

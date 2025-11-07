@@ -1,9 +1,12 @@
+"use client";
 import Link from "next/link";
 import { Github, Twitter, Instagram, Youtube } from "lucide-react";
+import { useModal } from "@/shared/context/ModalProvider";
 
 // Footer component
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { openModal } = useModal();
 
   return (
     <footer className="bg-zinc-950 border-t border-zinc-800 text-gray-400">
@@ -83,36 +86,36 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/faq"
+                <button
+                  onClick={() => openModal("faq")}
                   className="hover:text-amber-400 transition-colors"
                 >
                   FAQ
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
-                  href="/shipping"
+                <button
+                  onClick={() => openModal("shipping")}
                   className="hover:text-amber-400 transition-colors"
                 >
                   Shipping Info
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
-                  href="/returns"
+                <button
+                  onClick={() => openModal("returns")}
                   className="hover:text-amber-400 transition-colors"
                 >
                   Returns
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
-                  href="/warranty"
+                <button
+                  onClick={() => openModal("warranty")}
                   className="hover:text-amber-400 transition-colors"
                 >
                   Warranty
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
@@ -178,24 +181,24 @@ export default function Footer() {
               © {currentYear} Syntax. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
-              <Link
-                href="/privacy"
+              <button
+                onClick={() => openModal("privacy")}
                 className="hover:text-amber-400 transition-colors"
               >
                 Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
+              </button>
+              <button
+                onClick={() => openModal("terms")}
                 className="hover:text-amber-400 transition-colors"
               >
                 Terms of Service
-              </Link>
-              <Link
-                href="/cookies"
+              </button>
+              <button
+                onClick={() => openModal("cookies")}
                 className="hover:text-amber-400 transition-colors"
               >
                 Cookie Policy
-              </Link>
+              </button>
             </div>
           </div>
         </div>
