@@ -31,6 +31,7 @@ export type ModalType =
   | "shipping"
   | "warranty"
   | "returns"
+  | "contact"
   | null;
 
 export interface ModalContextType {

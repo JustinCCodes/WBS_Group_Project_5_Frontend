@@ -78,12 +78,12 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  href="/about"
+                <button
+                  onClick={() => openModal("contact")}
                   className="hover:text-amber-400 transition-colors"
                 >
                   Contact Us
-                </Link>
+                </button>
               </li>
               <li>
                 <button
