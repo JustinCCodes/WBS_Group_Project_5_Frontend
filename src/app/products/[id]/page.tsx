@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import ProductDetail from "@/features/products/components/ProductDetail";
 import { getProductByIdServer } from "@/features/products/data.server";
 
+// Revalidates the page every hour
+export const revalidate = 3600;
+
 // Generates dynamic metadata for SEO
 export async function generateMetadata({
   params,
