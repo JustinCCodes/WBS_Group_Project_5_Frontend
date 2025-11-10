@@ -1,3 +1,36 @@
+## 👤 Profile & Addresses
+
+### Profile Management
+
+- View and update user profile information
+- Change password, manage account settings (TBD)
+- See order history and address book
+
+### Address Book
+
+- Add, edit, and delete delivery addresses
+- Select address during checkout
+- Address validation and accessibility improvements
+
+### Orders
+
+- View Order details
+- Cancel orders, view product breakdown
+
+### Accessibility & UX
+
+- All modals support Escape key, outside click, and X/cancel button
+- Error boundaries for robust user experience
+
+### Type Safety & Architecture
+
+- Feature-based folder structure
+- Barrel imports for cleaner code
+- Centralized types in `types.ts`
+- Data fetching logic in `data.ts` files
+
+---
+
 # 🛍️ E-Commerce Frontend
 
 A modern, high-performance e-commerce customer-facing application built with Next.js 15, React 19, and TypeScript 5. Features a sleek shopping experience with cart management, order tracking, and user authentication.
@@ -80,12 +113,26 @@ ecommerce-frontend/
 │   │   │   ├── [id]/
 │   │   │   │   ├── page.tsx
 │   │   │   │   └── not-found.tsx
+│   │   ├── profile/
+│   │   │   ├── page.tsx
+│   │   │   ├── addresses/
+│   │   │   │   └── page.tsx
+│   │   │   ├── orders/
+│   │   │   │   └── page.tsx
 │   │   └── register/
 │   │       └── page.tsx
 │   ├── features/
 │   │   ├── about/
 │   │   │   ├── components/
 │   │   │   │   └── AboutPage.tsx
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── addresses/
+│   │   │   ├── components/
+│   │   │   │   ├── AddressFormModal.tsx
+│   │   │   │   ├── AddressSelectionModal.tsx
+│   │   │   │   └── AddressCard.tsx
 │   │   │   ├── data.ts
 │   │   │   ├── index.ts
 │   │   │   └── types.ts
@@ -140,6 +187,14 @@ ecommerce-frontend/
 │   │   │   │   ├── ProductDetail.tsx
 │   │   │   │   └── ProductList.tsx
 │   │   │   ├── data.server.ts
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── profile/
+│   │   │   ├── components/
+│   │   │   │   ├── ProfileCard.tsx
+│   │   │   │   ├── ProfilePage.tsx
+│   │   │   │   └── ProfileForm.tsx
 │   │   │   ├── data.ts
 │   │   │   ├── index.ts
 │   │   │   └── types.ts
