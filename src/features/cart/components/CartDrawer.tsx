@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "../context/CartProvider";
+import { useCart } from "../index";
 import Link from "next/link";
 import Image from "next/image";
 import { X, ShoppingBag, Package, Minus, Plus, Trash2 } from "lucide-react";
@@ -8,14 +8,8 @@ import { useEffect } from "react";
 
 // CartDrawer component
 export function CartDrawer() {
-  const {
-    cart,
-    isDrawerOpen,
-    closeDrawer,
-    updateQuantity,
-    removeFromCart,
-    clearCart,
-  } = useCart();
+  const { cart, isDrawerOpen, closeDrawer, updateQuantity, removeFromCart } =
+    useCart();
 
   // Prevents body scroll when drawer is open
   useEffect(() => {

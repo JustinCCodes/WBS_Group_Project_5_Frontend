@@ -8,8 +8,8 @@ import {
   ReactNode,
 } from "react";
 import { CartContextType, Cart, CartItem } from "../types";
-import { Product } from "@/features/products/types";
-import { validateProductIds } from "@/features/products/data";
+import type { Product } from "@/features/products";
+import { validateProductIds } from "@/features/products";
 import toast from "react-hot-toast";
 import {
   validateStockAvailability,
@@ -109,24 +109,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const currentCartQuantity =
       existingItemIndex > -1 ? cart.items[existingItemIndex].quantity : 0;
 
-    // Validate stock availability
+    // Validates stock availability
     const validation = validateStockAvailability(
       product,
       quantity,
       currentCartQuantity
     );
 
-    // If validation fails show error and do not update cart
+    // If validation fails shows error and do not update cart
     if (!validation.isValid) {
       toast.error(validation.errorMessage!);
       return;
     }
 
-    // Prepare new items array
+    // Prepares new items array
     let newItems: CartItem[];
 
     if (existingItemIndex > -1) {
-      // Update existing item quantity
+      // Updates existing item quantity
       newItems = cart.items.map((item, index) =>
         index === existingItemIndex
           ? { ...item, quantity: item.quantity + quantity }
@@ -174,7 +174,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (!item) return prevCart;
 
-      // Validate quantity update
+      // Validates quantity update
       const validation = validateQuantityUpdate(item.product, quantity);
 
       if (!validation.isValid) {
@@ -219,7 +219,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart, // Function to clear the cart
         isDrawerOpen, // Cart drawer open state
         openDrawer, // Function to open cart drawer
-        closeDrawer,
+        closeDrawer, // Function to close cart drawer
       }}
     >
       {children}

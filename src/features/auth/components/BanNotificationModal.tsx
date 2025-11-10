@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useAuth } from "@/features/auth/context/AuthProvider";
+import { useAuth } from "@/features/auth";
 
 export function BanNotificationModal() {
   const { banInfo, logout } = useAuth();
@@ -23,7 +23,7 @@ export function BanNotificationModal() {
     }
   }, [banInfo]);
 
-  // If not banned do not render the modal
+  // If not banned does not render modal
   if (!banInfo) return null;
 
   // Handles logout action

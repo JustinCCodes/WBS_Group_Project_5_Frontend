@@ -1,14 +1,13 @@
 "use client";
 
-import { useCart } from "../context/CartProvider";
+import { useCart } from "../index";
 import Link from "next/link";
 import Image from "next/image";
 import { Minus, Plus, Trash2, ShoppingBag, Package } from "lucide-react";
 
 // CartPage component
 export function CartPage() {
-  // Get clearCart from context
-  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { cart, updateQuantity, removeFromCart } = useCart();
 
   // Renders empty cart state
   if (cart.items.length === 0) {

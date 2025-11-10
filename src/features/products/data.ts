@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import { Product, ProductsResponse, Category } from "./types";
+import { Product, ProductsResponse, Category } from "./index";
 
 // Fetches all products with optional category filter and pagination
 export async function getProducts(params?: {

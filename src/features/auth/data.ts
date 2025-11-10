@@ -7,7 +7,7 @@ import {
   RegisterInputSchema,
   User,
   UserSchema,
-} from "./types";
+} from "./index";
 
 // Auth API Functions
 export async function login(input: LoginInput): Promise<User> {

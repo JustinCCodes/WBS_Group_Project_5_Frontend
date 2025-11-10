@@ -1,5 +1,5 @@
-import type { Product } from "@/features/products/types";
-import type { StockValidationResult } from "../types";
+import type { Product } from "@/features/products";
+import type { StockValidationResult } from "@/features/cart";
 
 // Validates if requested quantity can be added to cart
 export function validateStockAvailability(

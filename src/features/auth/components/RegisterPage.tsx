@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
-import { registerUser } from "@/features/auth/data";
+import { registerUser } from "@/features/auth";
 import { getErrorMessage } from "@/shared/lib/utils";
 import { useRouter } from "next/navigation";
 
@@ -62,6 +62,7 @@ export default function RegisterPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 disabled={loading}
+                autoComplete="off"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Enter your full name"
               />
@@ -80,6 +81,7 @@ export default function RegisterPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
+                autoComplete="off"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Enter your email"
               />
@@ -101,6 +103,7 @@ export default function RegisterPage() {
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                 title="Password must be at least 8 characters with uppercase, lowercase, number, and special character (@$!%*?&)"
                 disabled={loading}
+                autoComplete="off"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Enter a strong password"
               />

@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "@/features/auth/context/AuthProvider";
-import { CartProvider } from "@/features/cart/context/CartProvider";
-import Navbar from "@/shared/components/layout/Navbar";
-import Footer from "@/shared/components/layout/Footer";
-import { CartDrawer } from "@/features/cart/components/CartDrawer";
-import { getCategoriesServer } from "@/features/products/data.server";
+import { AuthProvider } from "@/features/auth";
+import { CartProvider, CartDrawer } from "@/features/cart";
+import { getCategoriesServer } from "@/features/products";
 import { Toaster } from "react-hot-toast";
 import { ErrorBoundary } from "@/shared/components/ErrorBoundary";
-import { ModalProvider } from "@/shared/context/ModalProvider";
-import InfoModal from "@/shared/components/layout/InfoModal";
+import { ModalProvider } from "@/shared/context";
+import { Navbar, Footer, InfoModal } from "@/shared/components";
 
 // Metadata for the entire application
 export const metadata: Metadata = {
   title: "Syntax | Online Shop",
-  description:
-    "Experience cutting-edge design and engineering. Syntax builds premium peripherals to elevate your entire setup.",
   icons: {
     icon: "/Company_Logo.png",
   },
@@ -26,7 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch categories for navbar
+  // Fetches categories for navbar
   const categories = await getCategoriesServer();
 
   return (

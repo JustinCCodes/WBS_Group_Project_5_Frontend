@@ -1,6 +1,6 @@
-import { OrderSummaryHeaderProps } from "../types";
-import { OrderStatusBadge } from "./OrderStatusBadge";
+import { OrderSummaryHeaderProps, OrderStatusBadge } from "../index";
 
+// Component to display order summary header
 export function OrderSummaryHeader({ order }: OrderSummaryHeaderProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

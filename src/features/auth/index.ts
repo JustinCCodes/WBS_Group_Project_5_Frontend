@@ -1,3 +1,4 @@
+export { LoginResponseSchema } from "./types";
 // Types
 export type {
   LoginInput,
@@ -14,9 +15,6 @@ export { LoginInputSchema, RegisterInputSchema, UserSchema } from "./types";
 
 // Data/API functions
 export { login, refresh, logout, getMe, registerUser } from "./data";
-
-// Server only functions
-export { getCurrentUser } from "./data.server";
 
 // Context & Hooks
 export { AuthProvider, useAuth } from "./context/AuthProvider";

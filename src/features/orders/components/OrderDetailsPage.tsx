@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getOrderById } from "@/features/orders/data";
+import { getOrderById } from "@/features/orders";
 import { getErrorMessage } from "@/shared/lib/utils";
-import { Order, OrderDetailsPageProps } from "../types";
+import { Order, OrderDetailsPageProps } from "../index";
 import { AlertCircle, ArrowLeft, ShoppingBag } from "lucide-react";
 import { getStatusConfig } from "./OrderStatusBadge";
 import { OrderItem } from "./OrderItem";
@@ -13,14 +12,15 @@ import { OrdersPageSkeleton } from "./OrdersPageSkeleton";
 
 // Component to display individual order details
 export function OrderDetailsPage({ params }: OrderDetailsPageProps) {
-  const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Resolves dynamic route parameters
   const resolvedParams = use(params);
   const orderId = resolvedParams.id;
 
+  // Fetches order details on mount
   useEffect(() => {
     if (!orderId) {
       setError("No order ID provided.");
@@ -28,6 +28,7 @@ export function OrderDetailsPage({ params }: OrderDetailsPageProps) {
       return;
     }
 
+    // Fetches order details
     async function fetchOrder() {
       try {
         setLoading(true);
@@ -54,7 +55,7 @@ export function OrderDetailsPage({ params }: OrderDetailsPageProps) {
           <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
           <p className="text-red-400 text-lg">{error || "Order not found."}</p>
           <Link
-            href="/orders"
+            href="/profile/orders"
             className="mt-6 inline-block px-6 py-3 bg-red-900/30 border border-red-800 text-red-400 rounded-lg hover:bg-red-900/50 transition-all"
           >
             Back to Orders
@@ -64,6 +65,7 @@ export function OrderDetailsPage({ params }: OrderDetailsPageProps) {
     );
   }
 
+  // Get status configuration
   const statusConfig = getStatusConfig(order.status);
   const StatusIcon = statusConfig.icon;
 
@@ -72,7 +74,7 @@ export function OrderDetailsPage({ params }: OrderDetailsPageProps) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <Link
-          href="/orders"
+          href="/profile/orders"
           className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-400 transition-colors mb-6 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

@@ -3,8 +3,11 @@
 import React, { useState, FormEvent } from "react";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { ContactFormData, ContactFormSchema } from "../types";
-import { sendContactMessage } from "../data";
+import {
+  ContactFormData,
+  ContactFormSchema,
+  sendContactMessage,
+} from "../index";
 import { getErrorMessage } from "@/shared/lib/utils";
 import { CheckCircle } from "lucide-react";
 
@@ -110,6 +113,7 @@ export function ContactForm() {
           onChange={handleChange}
           required
           disabled={loading}
+          autoComplete="off"
           className={inputClass}
           placeholder="Your Name"
         />
@@ -126,6 +130,7 @@ export function ContactForm() {
           onChange={handleChange}
           required
           disabled={loading}
+          autoComplete="off"
           className={inputClass}
           placeholder="your.email@example.com"
         />

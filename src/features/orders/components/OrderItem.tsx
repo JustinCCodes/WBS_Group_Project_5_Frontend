@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Package } from "lucide-react";
-import type { OrderItemProps } from "../types";
+import type { OrderItemProps } from "../index";
 
 // Component to display individual order item
 export function OrderItem({ item }: OrderItemProps) {

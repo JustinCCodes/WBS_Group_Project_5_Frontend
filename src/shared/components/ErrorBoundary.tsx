@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import Link from "next/link";
 import { AlertTriangle, RefreshCw, Home } from "lucide-react";
-import type { Props, State } from "@/shared/types/types";
+import type { Props, State } from "@/shared/types/index";
 
 // Error boundary component to catch runtime errors in the component tree
 export class ErrorBoundary extends Component<Props, State> {

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { OrderCardProps } from "../types";
-import { OrderSummaryHeader } from "./OrderSummaryHeader";
-import { OrderActions } from "./OrderActions";
-import { OrderProductList } from "./OrderProductList";
+import {
+  OrderCardProps,
+  OrderSummaryHeader,
+  OrderActions,
+  OrderProductList,
+} from "../index";
 import toast from "react-hot-toast";
 
 // Component to display individual order card

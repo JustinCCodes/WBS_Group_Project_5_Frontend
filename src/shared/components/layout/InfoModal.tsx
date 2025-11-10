@@ -1,6 +1,6 @@
 "use client";
 
-import { useModal } from "@/shared/context/ModalProvider";
+import { useModal } from "@/shared/context";
 import {
   X,
   Shield,
@@ -13,8 +13,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useEffect } from "react";
-import { ModalType } from "@/shared/types/types";
-import { ContactForm } from "@/features/contact/components/ContactForm";
+import { ModalType } from "@/shared/types";
+import { ContactForm } from "@/features/contact";
 
 // Main component
 export default function InfoModal() {
@@ -24,13 +24,20 @@ export default function InfoModal() {
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          closeModal();
+        }
+      };
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        document.body.style.overflow = "unset";
+        document.removeEventListener("keydown", handleEscape);
+      };
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isModalOpen]);
+  }, [isModalOpen, closeModal]);
 
   // Defines content for each modal type
   const modalContent: Record<
@@ -83,6 +90,7 @@ export default function InfoModal() {
     },
   };
 
+  // Determines current content based on modal type
   const CurrentContent = modalType ? modalContent[modalType] : null;
   const Icon = CurrentContent?.icon || Shield;
 

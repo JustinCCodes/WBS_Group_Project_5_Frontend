@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import ProductList from "@/features/products/components/ProductList";
 import {
+  ProductList,
   getCategoriesServer,
   getProductsServer,
-} from "@/features/products/data.server";
+} from "@/features/products";
 
 // Revalidates the page every hour
 export const revalidate = 3600;

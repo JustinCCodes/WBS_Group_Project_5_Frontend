@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import { ContactFormData, ContactFormSchema } from "./types";
+import { ContactFormData, ContactFormSchema } from "./index";
 
 // Sends the contact form message to the backend
 export async function sendContactMessage(

@@ -1,4 +1,4 @@
-import { OrderDetailsPage } from "@/features/orders/components/OrderDetailsPage";
+import { OrderDetailsPage } from "@/features/orders";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
