@@ -1,4 +1,4 @@
-import { Product } from "../products/types";
+import { Product } from "../products";
 
 // Individual item in the cart
 export interface CartItem {

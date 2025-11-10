@@ -4,13 +4,13 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
-import { getProducts } from "@/features/products/data";
-import { useCart } from "@/features/cart/context/CartProvider";
-import type {
+import {
+  getProducts,
   Product,
   Category,
   ProductListProps,
-} from "@/features/products/types";
+} from "@/features/products";
+import { useCart } from "@/features/cart";
 import { getCategoryName } from "@/shared/lib/utils";
 
 // ProductList component
@@ -42,7 +42,7 @@ export default function ProductList({
     }
   }, [categoryId, categories]);
 
-  // Fetch products when categoryId or currentPage changes
+  // Fetches products when categoryId or currentPage changes
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -66,7 +66,7 @@ export default function ProductList({
     }
 
     // Check that prevents fetching on the initial server render
-    // cause we have initialProducts
+    // cause initialProducts
     if (isInitialLoad.current) {
       isInitialLoad.current = false; // Set to false for all subsequent renders
       return;

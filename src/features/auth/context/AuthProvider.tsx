@@ -1,10 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getMe, logout } from "@/features/auth/data";
-import type { User, BanInfo, AuthContextValue } from "@/features/auth/types";
+import { getMe, logout, BanNotificationModal } from "@/features/auth";
+import type { User, BanInfo, AuthContextValue } from "@/features/auth";
 import { useRouter } from "next/navigation";
-import { BanNotificationModal } from "../components/BanNotificationModal";
 import { setGlobalBanHandler } from "@/shared/lib/api";
 
 // Creates authentication context

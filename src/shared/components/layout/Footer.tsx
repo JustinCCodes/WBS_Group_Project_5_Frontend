@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Github, Twitter, Instagram, Youtube } from "lucide-react";
-import { useModal } from "@/shared/context/ModalProvider";
+import { useModal } from "@/shared/context";
 
 // Footer component
 export default function Footer() {

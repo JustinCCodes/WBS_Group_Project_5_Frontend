@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import ProductDetail from "@/features/products/components/ProductDetail";
-import { getProductByIdServer } from "@/features/products/data.server";
+import { ProductDetail, getProductByIdServer } from "@/features/products";
 
 // Revalidates the page every hour
 export const revalidate = 3600;

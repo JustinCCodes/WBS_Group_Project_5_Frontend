@@ -38,7 +38,7 @@ export default function OrderSuccessPage() {
             <span>Continue Shopping</span>
           </Link>
           <Link
-            href="/orders"
+            href="/profile/orders"
             className="group relative px-8 py-4 bg-zinc-800 border border-zinc-700 rounded-lg font-semibold text-white text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:border-amber-500 flex items-center justify-center gap-2"
           >
             <ListOrdered className="w-5 h-5" />

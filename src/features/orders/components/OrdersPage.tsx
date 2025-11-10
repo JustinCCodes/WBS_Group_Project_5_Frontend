@@ -1,15 +1,19 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { getUserOrders, deleteOrder } from "../data";
-import type { Order } from "../types";
+import {
+  getUserOrders,
+  deleteOrder,
+  Order,
+  OrderCard,
+  ConfirmCancelModal,
+  OrdersPageSkeleton,
+} from "../index";
 import { ShoppingBag, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { getErrorMessage } from "@/shared/lib/utils";
 import toast from "react-hot-toast";
-import { OrderCard } from "./OrderCard";
-import { ConfirmCancelModal } from "./ConfirmCancelModal";
-import { OrdersPageSkeleton } from "./OrdersPageSkeleton";
+// ...existing code...
 
 // OrdersPage component
 export function OrdersPage() {
@@ -63,7 +67,7 @@ export function OrdersPage() {
 
     try {
       setCancellingOrderId(confirmCancelId);
-      await deleteOrder(confirmCancelId); // This is the "cancel" operation
+      await deleteOrder(confirmCancelId);
 
       // Removes cancelled order from state
       setOrders((prev) => prev.filter((o) => o.id !== confirmCancelId));
@@ -124,7 +128,7 @@ export function OrdersPage() {
               href="/products"
               className="inline-block px-8 py-3 bg-linear-to-r from-amber-500 to-yellow-600 text-black font-semibold rounded-lg hover:scale-105 transition-transform shadow-lg shadow-amber-500/20"
             >
-              Browse Products
+              View All Products
             </Link>
           </div>
         </div>

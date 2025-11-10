@@ -2,7 +2,7 @@
 
 import { Github, Linkedin, Code, Briefcase, Wrench } from "lucide-react";
 import Image from "next/image";
-import { teamMembers } from "../data";
+import { teamMembers } from "../index";
 
 export default function AboutPage() {
   return (

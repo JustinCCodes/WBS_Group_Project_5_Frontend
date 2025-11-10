@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import type { Order, OrdersResponse, CreateOrderPayload } from "./types";
+import type { Order, OrdersResponse, CreateOrderPayload } from "./index";
 
 // Fetches users orders
 export async function getUserOrders(

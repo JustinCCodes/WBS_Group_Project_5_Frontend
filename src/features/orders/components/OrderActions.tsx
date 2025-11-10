@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FileDown, Info, XCircle } from "lucide-react";
-import { OrderActionsProps } from "../types";
+import { OrderActionsProps } from "../index";
 
 // Component for order actions
 export function OrderActions({
@@ -16,7 +16,7 @@ export function OrderActions({
       <div className="flex flex-col sm:flex-row items-center gap-3">
         {/* View Details */}
         <Link
-          href={`/orders/${order.id}`}
+          href={`/profile/orders/${order.id}`}
           className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-linear-to-r from-amber-500 to-yellow-600 text-black font-bold rounded-lg hover:scale-105 transition-transform"
         >
           <Info className="w-5 h-5" />

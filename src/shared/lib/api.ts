@@ -173,7 +173,7 @@ api.interceptors.response.use(
               return api(original);
             })
             // Catches any errors during the retry
-            .catch((err) => {
+            .catch((err: unknown) => {
               return Promise.reject(err);
             })
         );

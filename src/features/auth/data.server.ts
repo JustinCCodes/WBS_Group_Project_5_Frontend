@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { UserSchema, type CurrentUser } from "./types";
+import { UserSchema, type CurrentUser } from "./index";
 
 // Server side functions
 export async function getCurrentUser(): Promise<CurrentUser> {

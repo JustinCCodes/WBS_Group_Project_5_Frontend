@@ -37,6 +37,11 @@ export interface OrdersResponse {
   };
 }
 
+// Props for Order Status Badge component
+export interface OrderStatusBadgeProps {
+  status: Order["status"];
+}
+
 // Type for the create order payload
 export interface CreateOrderPayload {
   products: {
@@ -90,6 +95,7 @@ export interface OrderDetailsPageProps {
 }
 
 // Props for client components receiving params
+// Status configuration interface for order statuses
 export interface StatusConfig {
   icon: ComponentType<{ className?: string }>;
   label: string;
@@ -98,4 +104,3 @@ export interface StatusConfig {
   bgColor: string;
   borderColor: string;
 }
-

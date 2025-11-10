@@ -2,10 +2,10 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAuth } from "@/features/auth/context/AuthProvider";
-import { useCart } from "@/features/cart/context/CartProvider";
+import { useAuth } from "@/features/auth";
+import { useCart } from "@/features/cart";
 import { ShoppingCart, User, Menu, X } from "lucide-react";
-import type { Category } from "@/features/products/types";
+import type { Category } from "@/features/products";
 
 interface NavbarProps {
   categories: Category[];
@@ -134,13 +134,6 @@ export default function Navbar({ categories }: NavbarProps) {
                       Profile
                     </Link>
                     <Link
-                      href="/orders"
-                      className="block px-4 py-3 text-gray-300 hover:bg-zinc-800 hover:text-amber-400 transition-colors"
-                      onClick={() => setIsProfileOpen(false)}
-                    >
-                      Orders
-                    </Link>
-                    <Link
                       href="/settings"
                       className="block px-4 py-3 text-gray-300 hover:bg-zinc-800 hover:text-amber-400 transition-colors"
                       onClick={() => setIsProfileOpen(false)}
@@ -211,13 +204,6 @@ export default function Navbar({ categories }: NavbarProps) {
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Profile
-                    </Link>
-                    <Link
-                      href="/orders"
-                      className="block text-gray-300 hover:text-amber-400 hover:bg-zinc-800 transition-colors py-3 border-b border-zinc-800"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Orders
                     </Link>
                     <button
                       onClick={() => {

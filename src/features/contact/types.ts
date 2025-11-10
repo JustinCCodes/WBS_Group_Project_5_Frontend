@@ -4,6 +4,7 @@ import { z } from "zod";
 const linkRegex =
   /(http|www\.|ftp\.|file:|\.com|\.net|\.org|\.io|\.dev|\.app)/i;
 
+// Contact form schema with honeypot field for bot detection
 export const ContactFormSchema = z
   .object({
     name: z

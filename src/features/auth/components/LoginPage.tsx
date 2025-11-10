@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
-import { login } from "@/features/auth/data";
+import { login } from "@/features/auth";
 import { getErrorMessage } from "@/shared/lib/utils";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/features/auth/context/AuthProvider";
+import { useAuth } from "@/features/auth";
 
+// LoginPage component
 export default function Login() {
   const router = useRouter();
   const { refreshUser } = useAuth();
@@ -60,6 +61,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="off"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 disabled={loading}
                 placeholder="Enter your email"
@@ -78,6 +80,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="off"
                 className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 disabled={loading}
                 placeholder="Enter your password"

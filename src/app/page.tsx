@@ -1,8 +1,5 @@
-import HomePage from "@/features/home/components/HomePage";
-import {
-  getCategoriesServer,
-  getProductsServer,
-} from "@/features/products/data.server";
+import { HomePage } from "@/features/home";
+import { getCategoriesServer, getProductsServer } from "@/features/products";
 
 // Revalidates the page every hour
 export const revalidate = 3600;

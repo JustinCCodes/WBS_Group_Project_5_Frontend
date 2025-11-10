@@ -1,5 +1,5 @@
 import { Clock, Package, Truck, XCircle } from "lucide-react";
-import { StatusConfig, Order } from "../types";
+import { StatusConfig, Order } from "../index";
 
 // Centralized status configuration
 const STATUS_CONFIG: Record<Order["status"], StatusConfig> = {
@@ -41,11 +41,9 @@ export function getStatusConfig(status: Order["status"]): StatusConfig {
   return STATUS_CONFIG[status];
 }
 
-// Props for Order Status Badge component
-interface OrderStatusBadgeProps {
-  status: Order["status"];
-}
+import type { OrderStatusBadgeProps } from "../types";
 
+// Component to display order status badge
 export function OrderStatusBadge({ status }: OrderStatusBadgeProps) {
   const config = getStatusConfig(status);
   const StatusIcon = config.icon;

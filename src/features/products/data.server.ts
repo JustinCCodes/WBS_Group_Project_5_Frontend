@@ -1,6 +1,6 @@
 // Server side data fetching for products
 import apiServer from "@/shared/lib/api-server";
-import type { Category, Product, ProductsResponse } from "./types";
+import type { Category, Product, ProductsResponse } from "./index";
 
 // Fetches all categories
 export async function getCategoriesServer(): Promise<Category[]> {

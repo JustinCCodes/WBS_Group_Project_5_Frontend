@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ShoppingCart, Package, Shield, Truck } from "lucide-react";
-import { useCart } from "@/features/cart/context/CartProvider";
-import type { ProductDetailProps } from "@/features/products/types";
+import { useCart } from "@/features/cart";
+import type { ProductDetailProps } from "@/features/products";
 import { getCategoryName } from "@/shared/lib/utils";
 
 // ProductDetail component
@@ -104,7 +104,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/95 backdrop-blur-lg border-t border-zinc-800 z-40 lg:z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              {/* Left Section - Price & Availability */}
+              {/* Left Section  Price + Availability */}
               <div className="flex items-center gap-6">
                 <div>
                   <div className="text-xs text-gray-400 mb-1">Price</div>
@@ -132,7 +132,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </div>
               </div>
 
-              {/* Middle Section - Quick Info (Hidden on mobile) */}
+              {/* Middle Section Quick Info (Hidden on mobile) */}
               <div className="hidden lg:flex items-center gap-6 text-sm text-gray-400">
                 <div className="flex items-center gap-2">
                   <Truck className="w-4 h-4 text-amber-400" />
@@ -148,7 +148,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </div>
               </div>
 
-              {/* Right Section - Action Buttons */}
+              {/* Right Section Action Buttons */}
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <button
                   onClick={() => addToCart(product)}

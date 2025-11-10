@@ -1,5 +1,4 @@
-import { OrderItem } from "./OrderItem";
-import { OrderProductListProps } from "../types";
+import { OrderItem, OrderProductListProps } from "../index";
 
 // Component to display list of order products
 export function OrderProductList({ products }: OrderProductListProps) {

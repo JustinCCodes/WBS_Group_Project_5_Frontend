@@ -1,4 +1,4 @@
-import type { Product } from "@/features/products/types";
+import type { Product } from "@/features/products";
 
 // Extracts the category name from a product
 export function getCategoryName(product: Product): string {

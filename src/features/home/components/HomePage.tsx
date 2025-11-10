@@ -14,7 +14,7 @@ import {
   Headset,
   Package,
 } from "lucide-react";
-import type { HomePageProps } from "@/features/products/types";
+import type { HomePageProps } from "@/features/products";
 
 // Icon mapping for categories
 const categoryIconMap: Record<
