@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import type { Order, OrdersResponse } from "./types";
+import type { Order, OrdersResponse, CreateOrderPayload } from "./types";
 
 // Fetches users orders
 export async function getUserOrders(
@@ -9,7 +9,8 @@ export async function getUserOrders(
   const response = await api.get<OrdersResponse>(
     `/orders?page=${page}&limit=${limit}`
   );
-  return response.data?.orders || [];
+  // The backend response wraps data in a 'data' property
+  return response.data?.data || [];
 }
 
 // Gets single order by ID
@@ -18,7 +19,13 @@ export async function getOrderById(orderId: string): Promise<Order> {
   return response.data;
 }
 
-// Deletes order (only for pending/cancelled orders)
+// Deletes/Cancels order (only for pending/cancelled orders)
 export async function deleteOrder(orderId: string): Promise<void> {
   await api.delete(`/orders/${orderId}`);
+}
+
+// Creates a new order by sending the cart products to the backend
+export async function createOrder(payload: CreateOrderPayload): Promise<Order> {
+  const response = await api.post<Order>("/orders", payload);
+  return response.data;
 }
