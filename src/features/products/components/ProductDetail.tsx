@@ -160,6 +160,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </button>
                 <button
                   disabled={product.stock === 0}
+                  onClick={() => {
+                    addToCart(product);
+                    window.location.href = "/checkout";
+                  }}
                   className="hidden md:block px-8 py-3 border-2 border-zinc-700 text-gray-300 font-semibold rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-all whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Buy Now

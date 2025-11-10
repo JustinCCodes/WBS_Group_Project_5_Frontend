@@ -7,7 +7,8 @@ import { Minus, Plus, Trash2, ShoppingBag, Package } from "lucide-react";
 
 // CartPage component
 export function CartPage() {
-  const { cart, updateQuantity, removeFromCart } = useCart();
+  // Get clearCart from context
+  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
 
   // Renders empty cart state
   if (cart.items.length === 0) {
@@ -177,9 +178,12 @@ export function CartPage() {
                 </div>
               </div>
 
-              <button className="w-full py-4 bg-linear-to-r from-amber-500 to-yellow-600 text-white font-bold text-lg rounded-lg hover:scale-105 transition-transform shadow-lg shadow-amber-500/20">
+              <Link
+                href="/checkout"
+                className="w-full py-4 bg-linear-to-r from-amber-500 to-yellow-600 text-white font-bold text-lg rounded-lg hover:scale-105 transition-transform shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed text-center block"
+              >
                 Proceed to Checkout
-              </button>
+              </Link>
 
               <Link
                 href="/products"

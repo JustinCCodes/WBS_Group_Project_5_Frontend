@@ -8,8 +8,14 @@ import { useEffect } from "react";
 
 // CartDrawer component
 export function CartDrawer() {
-  const { cart, isDrawerOpen, closeDrawer, updateQuantity, removeFromCart } =
-    useCart();
+  const {
+    cart,
+    isDrawerOpen,
+    closeDrawer,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+  } = useCart();
 
   // Prevents body scroll when drawer is open
   useEffect(() => {
@@ -148,9 +154,15 @@ export function CartDrawer() {
             >
               View Cart
             </Link>
-            <button className="w-full py-3 border border-zinc-700 text-white font-semibold rounded-lg hover:border-amber-500/50 transition-colors">
+            <Link
+              href="/checkout"
+              onClick={() => {
+                closeDrawer();
+              }}
+              className="w-full py-3 border border-zinc-700 text-white font-semibold rounded-lg hover:border-amber-500/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-center block"
+            >
               Checkout
-            </button>
+            </Link>
           </div>
         )}
       </div>

@@ -59,12 +59,14 @@ A modern, high-performance e-commerce customer-facing application built with Nex
 
 ```
 ecommerce-frontend/
+├── public/
+│   └── Company_Logo.png
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx
 │   │   ├── globals.css
-│   │   ├── page.tsx
+│   │   ├── layout.tsx
 │   │   ├── not-found.tsx
+│   │   ├── page.tsx
 │   │   ├── about/
 │   │   │   └── page.tsx
 │   │   ├── cart/
@@ -108,13 +110,28 @@ ecommerce-frontend/
 │   │   │   ├── types.ts
 │   │   │   ├── utils/
 │   │   │   │   └── stockValidation.ts
+│   │   ├── contact/
+│   │   │   ├── components/
+│   │   │   │   └── ContactForm.tsx
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
 │   │   ├── home/
 │   │   │   ├── components/
 │   │   │   │   └── HomePage.tsx
 │   │   │   └── index.ts
 │   │   ├── orders/
 │   │   │   ├── components/
-│   │   │   │   └── OrdersPage.tsx
+│   │   │   │   ├── ConfirmCancelModal.tsx
+│   │   │   │   ├── OrderActions.tsx
+│   │   │   │   ├── OrderCard.tsx
+│   │   │   │   ├── OrderDetailsPage.tsx
+│   │   │   │   ├── OrderItem.tsx
+│   │   │   │   ├── OrderProductList.tsx
+│   │   │   │   ├── OrderStatusBadge.tsx
+│   │   │   │   ├── OrderSummaryHeader.tsx
+│   │   │   │   ├── OrdersPage.tsx
+│   │   │   │   ├── OrdersPageSkeleton.tsx
 │   │   │   ├── data.ts
 │   │   │   ├── index.ts
 │   │   │   └── types.ts
@@ -126,19 +143,13 @@ ecommerce-frontend/
 │   │   │   ├── data.ts
 │   │   │   ├── index.ts
 │   │   │   └── types.ts
-│   │   ├── contact/
-│   │   │   ├── components/
-│   │   │   │   └── ContactForm.tsx
-│   │   │   ├── data.ts
-│   │   │   ├── index.ts
-│   │   │   └── types.ts
 │   ├── shared/
 │   │   ├── components/
+│   │   │   ├── ErrorBoundary.tsx
 │   │   │   ├── layout/
 │   │   │   │   ├── Footer.tsx
 │   │   │   │   ├── InfoModal.tsx
 │   │   │   │   └── Navbar.tsx
-│   │   │   └── ErrorBoundary.tsx
 │   │   ├── constants/
 │   │   │   └── apiPaths.ts
 │   │   ├── context/
@@ -149,10 +160,11 @@ ecommerce-frontend/
 │   │   │   └── utils.ts
 │   │   ├── types/
 │   │   │   └── types.ts
-├── public/
-│   └── Company_Logo.png
 ├── .env.local.example
+├── eslint.config.mjs
+├── next-env.d.ts
 ├── next.config.ts
+├── package.json
 ├── postcss.config.mjs
 ├── tailwind.config.js
 ├── tsconfig.json

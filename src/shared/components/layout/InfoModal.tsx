@@ -230,7 +230,7 @@ const TermsContent = () => (
     </p>
     <ul className={ulClass}>
       <li>
-        Don&apos;t try to *actually* buy anything. No products will be shipped.
+        Don&apos;t try to actually buy anything. No products will be shipped.
       </li>
       <li>Don&apos;t use a real password you use anywhere else.</li>
       <li>
@@ -266,14 +266,13 @@ const CookieContent = () => (
 );
 
 // Content Components
-
 const FaqContent = () => (
   <div className="text-white">
     <h3 className={h3Class}>Is this a real store?</h3>
     <p className={pClass}>
       No, this is a portfolio project to demonstrate full-stack development
       skills (Next.js, React, Node.js, Express.js, etc.). You can&apos;t
-      *actually* buy anything.
+      actually buy anything.
     </p>
 
     <h3 className={h3Class}>How long does shipping take?</h3>
@@ -310,8 +309,7 @@ const ShippingContent = () => (
     </p>
     <p className={pClass}>
       Your demo products will be &quot;shipped&quot; to your &quot;My
-      Orders&quot; page as soon as you complete the checkout flow (which is also
-      not yet implemented, but it&apos;s on the roadmap!).
+      Orders&quot; page as soon as you complete the checkout flow.
     </p>
     <p className={pClass}>
       No physical items will ever be sent. This is a portfolio project.
