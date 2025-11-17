@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { CheckCircle, ShoppingBag, ListOrdered } from "lucide-react";
-import { metadata } from "./metadata";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

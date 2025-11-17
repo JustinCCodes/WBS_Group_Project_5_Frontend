@@ -25,7 +25,6 @@ export function OrdersPage() {
   const [confirmCancelOrder, setConfirmCancelOrder] = useState<Order | null>(
     null
   );
-  const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
 
   // Fetches user orders from the server
   const fetchOrders = useCallback(async () => {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Github, Twitter, Instagram, Youtube } from "lucide-react";
 import { useModal } from "@/shared/context";
 import type { Category } from "@/features/products"; // Import the Category type
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
 
 // Define props for the component
 interface FooterProps {
@@ -14,10 +15,7 @@ export default function Footer({ categories }: FooterProps) {
   const currentYear = new Date().getFullYear();
   const { openModal, isModalOpen } = useModal();
   // Lock scroll when any modal is open
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  require("@/shared/lib/useDisableBodyScroll").useDisableBodyScroll(
-    isModalOpen
-  );
+  useDisableBodyScroll(isModalOpen);
 
   return (
     <footer className="bg-zinc-950 border-t border-zinc-800 text-gray-400">
