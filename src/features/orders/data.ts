@@ -20,8 +20,9 @@ export async function getOrderById(orderId: string): Promise<Order> {
 }
 
 // Deletes/Cancels order (only for pending/cancelled orders)
-export async function deleteOrder(orderId: string): Promise<void> {
-  await api.delete(`/orders/${orderId}`);
+export async function deleteOrder(orderId: string): Promise<Order> {
+  const response = await api.delete(`/orders/${orderId}`);
+  return response.data; // Returns the cancelled order object
 }
 
 // Creates a new order by sending the cart products to the backend

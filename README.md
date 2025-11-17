@@ -1,36 +1,3 @@
-## 👤 Profile & Addresses
-
-### Profile Management
-
-- View and update user profile information
-- Change password, manage account settings (TBD)
-- See order history and address book
-
-### Address Book
-
-- Add, edit, and delete delivery addresses
-- Select address during checkout
-- Address validation and accessibility improvements
-
-### Orders
-
-- View Order details
-- Cancel orders, view product breakdown
-
-### Accessibility & UX
-
-- All modals support Escape key, outside click, and X/cancel button
-- Error boundaries for robust user experience
-
-### Type Safety & Architecture
-
-- Feature-based folder structure
-- Barrel imports for cleaner code
-- Centralized types in `types.ts`
-- Data fetching logic in `data.ts` files
-
----
-
 # 🛍️ E-Commerce Frontend
 
 A modern, high-performance e-commerce customer-facing application built with Next.js 15, React 19, and TypeScript 5. Features a sleek shopping experience with cart management, order tracking, and user authentication.
@@ -51,40 +18,38 @@ A modern, high-performance e-commerce customer-facing application built with Nex
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### 🛒 Customer Shopping Experience
+### 🛒 Shopping Experience
 
-- **Product Browsing:** Browse products by category with rich filtering
-- **Product Details:** Detailed product pages with image galleries and descriptions
-- **Shopping Cart:** Persistent cart with real-time stock validation
-- **Checkout:** Secure order placement with Stripe integration
-- **Order Tracking:** View order history and status updates
+- Browse products by category with rich filtering
+- Detailed product pages with image galleries
+- Persistent shopping cart with real-time stock validation
+- Secure checkout with Stripe integration
+- Order history and tracking (with actual order numbers)
 
-### 🔐 Authentication & Security
+### 👤 User Management
 
-- **JWT Authentication:** Secure token-based auth with httpOnly cookies
-- **CSRF Protection:** Double-submit cookie pattern for all state-changing requests
-- **Automatic Token Refresh:** Seamless token renewal with queued request handling
-- **Ban Detection:** User-friendly notifications when accounts are banned
-- **Error Boundaries:** Graceful error handling to prevent app crashes
+- JWT authentication with httpOnly cookies
+- Profile management and password updates
+- Address book with CRUD operations
+- Order cancellation and detailed breakdowns
+
+### 🔐 Security & Performance
+
+- **CSRF Protection:** Double-submit cookie pattern
+- **Auto Token Refresh:** Seamless renewal with request queuing
+- **SSR:** Fast initial page loads with SEO optimization
+- **ISR:** Home, Products, and Product pages revalidate hourly
+- **Error Boundaries:** Graceful error handling throughout
 
 ### 🎨 User Experience
 
-**Server-Side Rendering (SSR):** Fast initial page loads with SEO optimization
-**Incremental Static Regeneration (ISR):** Home, Products, and Product ID pages use ISR with a revalidation interval of one hour (set higher for portfolio/demo purposes to save DB requests).
-**Client-Side Navigation:** Smooth SPA-like transitions
-**Responsive Design:** Mobile-first, works on all screen sizes
-**Loading States:** Skeleton screens and spinners for better UX
-**Toast Notifications:** Real-time feedback for user actions
-
-### 🏗️ Architecture
-
-- **Feature-Based Structure:** Organized by business domain
-- **Clean Separation:** Client/Server component patterns
-- **Type Safety:** Full TypeScript coverage with Zod validation
-- **Reusable Components:** DRY principles with shared utilities
-- **Error Handling:** Centralized error management
+- Mobile-first responsive design
+- Smooth SPA-like client-side navigation
+- Skeleton screens and loading states
+- Real-time toast notifications
+- Keyboard-accessible modals (Escape, outside click, X button)
 
 ---
 
@@ -92,10 +57,8 @@ A modern, high-performance e-commerce customer-facing application built with Nex
 
 ```
 ecommerce-frontend/
-├── public/
-│   └── Company_Logo.png
 ├── src/
-│   ├── app/
+│   ├── app/                    # Next.js App Router pages
 │   │   ├── globals.css
 │   │   ├── layout.tsx
 │   │   ├── not-found.tsx
@@ -110,121 +73,95 @@ ecommerce-frontend/
 │   │   │   └── page.tsx
 │   │   ├── products/
 │   │   │   ├── page.tsx
-│   │   │   ├── [id]/
-│   │   │   │   ├── page.tsx
-│   │   │   │   └── not-found.tsx
-│   │   ├── profile/
-│   │   │   ├── page.tsx
-│   │   │   ├── addresses/
-│   │   │   │   └── page.tsx
-│   │   │   ├── orders/
-│   │   │   │   └── page.tsx
-│   │   └── register/
-│   │       └── page.tsx
-│   ├── features/
+│   │   │   └── [id]/
+│   │   │       ├── not-found.tsx
+│   │   │       └── page.tsx
+│   │   ├── register/
+│   │   │   └── page.tsx
+│   ├── features/               # Feature-based modules
 │   │   ├── about/
-│   │   │   ├── components/
-│   │   │   │   └── AboutPage.tsx
 │   │   │   ├── data.ts
 │   │   │   ├── index.ts
-│   │   │   └── types.ts
-│   │   ├── addresses/
-│   │   │   ├── components/
-│   │   │   │   ├── AddressFormModal.tsx
-│   │   │   │   ├── AddressSelectionModal.tsx
-│   │   │   │   └── AddressCard.tsx
-│   │   │   ├── data.ts
-│   │   │   ├── index.ts
-│   │   │   └── types.ts
+│   │   │   ├── types.ts
+│   │   │   └── components/
+│   │   │       └── AboutPage.tsx
 │   │   ├── auth/
+│   │   │   ├── data.server.ts
+│   │   │   ├── data.ts
+│   │   │   ├── index.ts
+│   │   │   ├── types.ts
 │   │   │   ├── components/
 │   │   │   │   ├── BanNotificationModal.tsx
 │   │   │   │   ├── LoginPage.tsx
 │   │   │   │   └── RegisterPage.tsx
-│   │   │   ├── context/
-│   │   │   │   └── AuthProvider.tsx
-│   │   │   ├── data.server.ts
-│   │   │   ├── data.ts
-│   │   │   ├── index.ts
-│   │   │   └── types.ts
+│   │   │   └── context/
+│   │   │       └── AuthProvider.tsx
 │   │   ├── cart/
+│   │   │   ├── index.ts
+│   │   │   ├── types.ts
 │   │   │   ├── components/
 │   │   │   │   ├── CartDrawer.tsx
 │   │   │   │   └── CartPage.tsx
-│   │   │   ├── context/
-│   │   │   │   └── CartProvider.tsx
+│   │   │   └── context/
+│   │   │       └── CartProvider.tsx
+│   │   │   └── utils/
+│   │   │       └── stockValidation.ts
+│   │   ├── home/
+│   │   │   ├── index.ts
+│   │   │   └── components/
+│   │   │       └── HomePage.tsx
+│   │   ├── orders/
+│   │   │   ├── data.ts
 │   │   │   ├── index.ts
 │   │   │   ├── types.ts
-│   │   │   ├── utils/
-│   │   │   │   └── stockValidation.ts
-│   │   ├── contact/
-│   │   │   ├── components/
-│   │   │   │   └── ContactForm.tsx
-│   │   │   ├── data.ts
-│   │   │   ├── index.ts
-│   │   │   └── types.ts
-│   │   ├── home/
-│   │   │   ├── components/
-│   │   │   │   └── HomePage.tsx
-│   │   │   └── index.ts
-│   │   ├── orders/
-│   │   │   ├── components/
-│   │   │   │   ├── ConfirmCancelModal.tsx
-│   │   │   │   ├── OrderActions.tsx
-│   │   │   │   ├── OrderCard.tsx
-│   │   │   │   ├── OrderDetailsPage.tsx
-│   │   │   │   ├── OrderItem.tsx
-│   │   │   │   ├── OrderProductList.tsx
-│   │   │   │   ├── OrderStatusBadge.tsx
-│   │   │   │   ├── OrderSummaryHeader.tsx
-│   │   │   │   ├── OrdersPage.tsx
-│   │   │   │   ├── OrdersPageSkeleton.tsx
-│   │   │   ├── data.ts
-│   │   │   ├── index.ts
-│   │   │   └── types.ts
+│   │   │   └── components/
+│   │   │       └── OrdersPage.tsx
 │   │   ├── products/
-│   │   │   ├── components/
-│   │   │   │   ├── ProductDetail.tsx
-│   │   │   │   └── ProductList.tsx
 │   │   │   ├── data.server.ts
 │   │   │   ├── data.ts
 │   │   │   ├── index.ts
-│   │   │   └── types.ts
-│   │   ├── profile/
-│   │   │   ├── components/
-│   │   │   │   ├── ProfileCard.tsx
-│   │   │   │   ├── ProfilePage.tsx
-│   │   │   │   └── ProfileForm.tsx
-│   │   │   ├── data.ts
-│   │   │   ├── index.ts
-│   │   │   └── types.ts
-│   ├── shared/
-│   │   ├── components/
-│   │   │   ├── ErrorBoundary.tsx
-│   │   │   ├── layout/
-│   │   │   │   ├── Footer.tsx
-│   │   │   │   ├── InfoModal.tsx
-│   │   │   │   └── Navbar.tsx
-│   │   ├── constants/
-│   │   │   └── apiPaths.ts
-│   │   ├── context/
-│   │   │   └── ModalProvider.tsx
-│   │   ├── lib/
-│   │   │   ├── api-server.ts
-│   │   │   ├── api.ts
-│   │   │   └── utils.ts
-│   │   ├── types/
-│   │   │   └── types.ts
+│   │   │   ├── types.ts
+│   │   │   └── components/
+│   │   │       ├── ProductDetail.tsx
+│   │   │       └── ProductList.tsx
+│   └── shared/                 # Shared utilities
+│       ├── components/
+│       │   ├── ErrorBoundary.tsx
+│       │   └── layout/
+│       │       ├── Footer.tsx
+│       │       ├── InfoModal.tsx
+│       │       └── Navbar.tsx
+│       │       └── InfoModal.tsx
+│       ├── constants/
+│       │   └── apiPaths.ts
+│       ├── context/
+│       │   └── ModalProvider.tsx
+│       ├── lib/
+│       │   ├── api-server.ts
+│       │   ├── api.ts
+│       │   └── utils.ts
+│       └── types/
+│           └── types.ts
+├── public/
+│   └── Company_Logo.png
+├── scripts/
+│   └── wait-and-start-tauri.sh
 ├── .env.local.example
+├── package.json
 ├── eslint.config.mjs
 ├── next-env.d.ts
 ├── next.config.ts
-├── package.json
 ├── postcss.config.mjs
-├── tailwind.config.js
 ├── tsconfig.json
 └── README.md
 ```
+
+**Architecture Principles:**
+
+- Feature-based organization by business domain
+- Clear client/server component separation
+- Barrel imports for cleaner code
+- Centralized types and data fetching logic
 
 ---
 
@@ -232,151 +169,123 @@ ecommerce-frontend/
 
 ### Prerequisites
 
-- **Node.js:** v20 or higher
-- **npm:** v10 or higher
-- **Backend:** The [ecommerce-backend](https://github.com/JustinCCodes/WBS_Group_Project_5_Backend) must be running
+- Node.js v20+
+- npm v10+
+- Running [backend server](https://github.com/JustinCCodes/WBS_Group_Project_5_Backend)
 
 ### Installation
 
-1. **Clone the repository:**
+1. **Clone and install:**
 
    ```bash
    cd ecommerce-frontend
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
    npm install
    ```
 
-3. **Set up environment variables:**
+2. **Configure environment:**
 
    ```bash
    cp .env.local.example .env.local
    ```
 
-4. **Edit `.env.local` with your configuration:**
+3. **Edit `.env.local`:**
 
    ```bash
-   # API Configuration
+   # Client-side (browser-exposed)
    NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api/v1
    NEXT_PUBLIC_AUTH_SERVER_URL=http://localhost:8001/api/v1/auth
 
-   # SSR Fallbacks
+   # Server-side (SSR only)
    API_BASE_URL=http://localhost:8000/api/v1
    AUTH_SERVER_URL=http://localhost:8001/api/v1/auth
    ```
 
-5. **Run the development server:**
+4. **Start development server:**
 
    ```bash
    npm run dev
    ```
 
-6. **Open your browser:**
-   ```
-   http://localhost:3000
-   ```
+5. **Open:** `http://localhost:3000`
 
 ---
 
 ## 📜 Available Scripts
 
-| Command         | Description                           |
-| --------------- | ------------------------------------- |
-| `npm run dev`   | Start development server on port 3000 |
-| `npm run build` | Build production-ready application    |
-| `npm start`     | Start production server               |
-| `npm run lint`  | Run ESLint for code quality           |
-| `npm run tauri` | Run Tauri desktop app (optional)      |
+| Command         | Description                      |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Start dev server (port 3000)     |
+| `npm run build` | Build for production             |
+| `npm start`     | Start production server          |
+| `npm run lint`  | Run ESLint                       |
+| `npm run tauri` | Run Tauri desktop app (optional) |
 
 ---
 
 ## 🔌 API Integration
 
-### Proxy Configuration
+### Proxy Architecture
 
-The frontend uses Next.js API routes as a proxy to avoid CORS issues:
+All API calls route through Next.js API routes to avoid CORS:
 
-```typescript
-// All API calls go through /api/* which proxies to backend
+```
 Client → /api/products → http://localhost:8000/api/v1/products
 ```
 
-### API Client Configuration
+### Dual API Clients
 
-**Client-Side (`api.ts`):**
+**Client-Side (`api.ts`)**
 
-- Used in client components
+- Used in Client Components
 - Automatic token refresh on 401
 - CSRF token attachment
 - Ban detection
 
-**Server-Side (`api-server.ts`):**
+**Server-Side (`api-server.ts`)**
 
-- Used in Server Components and SSR
-- No cookies/tokens (public data only)
+- Used in Server Components/SSR
+- Public data only (no cookies)
 - Production environment validation
 
 ---
 
 ## 🔐 Authentication Flow
 
-1. **Login/Register:** User credentials sent to `/auth/login` or `/users`
-2. **Token Storage:** httpOnly cookie set by backend (secure)
-3. **Automatic Refresh:** Token refreshed before expiry
-4. **Protected Routes:** Cart, Orders, Profile require authentication
-5. **Logout:** Token cleared, user redirected to homepage
+1. User logs in → JWT stored in httpOnly cookie
+2. Client requests include cookie automatically
+3. Token refreshed before expiry (queued requests)
+4. Protected routes require valid token
+5. Logout clears token and redirects home
+
+**Ban Detection:** Users receive friendly notification if account is banned
 
 ---
 
-## 🛒 Shopping Cart
+## 🛒 Cart Management
 
-### Features
-
-- **Persistent Storage:** Cart saved to localStorage
-- **Stock Validation:** Real-time inventory checks
-- **Quantity Controls:** Increase/decrease with stock limits
-- **Remove Items:** One-click item removal
-- **Total Calculation:** Dynamic price updates
-
-### Implementation
+**Implementation:**
 
 ```typescript
-// Cart context provides global state
 const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
 ```
 
+**Features:**
+
+- localStorage persistence
+- Real-time stock validation
+- Dynamic price calculations
+- One-click item removal
+
 ---
 
-## 🎨 Styling
+## 🎨 Design System
 
-### Tailwind CSS 4
-
-- **Utility-First:** Rapid UI development
-- **Custom Theme:** Consistent brand colors
-- **Responsive:** Mobile-first breakpoints
-
-### Design System
+**Tailwind CSS 4 Theme:**
 
 - **Colors:** Amber/Yellow primary, Zinc grayscale
 - **Typography:** Roboto font family
-- **Spacing:** 4px base grid system
-- **Shadows:** Subtle elevation layers
-
----
-
-## 🔧 Environment Variables
-
-| Variable                      | Purpose                           | Example                             |
-| ----------------------------- | --------------------------------- | ----------------------------------- |
-| `NEXT_PUBLIC_API_BASE_URL`    | Client-side API base URL          | `http://localhost:8000/api/v1`      |
-| `NEXT_PUBLIC_AUTH_SERVER_URL` | Client-side auth server URL       | `http://localhost:8001/api/v1/auth` |
-| `API_BASE_URL`                | Server-side API base URL (SSR)    | `http://localhost:8000/api/v1`      |
-| `AUTH_SERVER_URL`             | Server-side auth server URL (SSR) | `http://localhost:8001/api/v1/auth` |
-
-**Note:** Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
+- **Spacing:** 4px base grid
+- **Approach:** Utility-first, mobile-first
 
 ---
 
@@ -384,22 +293,12 @@ const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
 
 ### Vercel (Recommended)
 
-1. **Connect Repository:**
+1. Import repository to Vercel
+2. Add environment variables from `.env.local`
+3. Update URLs to production backend
+4. Deploy with `vercel --prod`
 
-   - Import project to Vercel
-   - Connect GitHub repository
-
-2. **Configure Environment Variables:**
-
-   - Add all `.env.local` variables to Vercel
-   - Set production URLs for backend
-
-3. **Deploy:**
-   ```bash
-   vercel --prod
-   ```
-
-### Build for Production
+### Manual Build
 
 ```bash
 npm run build
@@ -410,62 +309,31 @@ npm start
 
 ## 🐛 Troubleshooting
 
-### Common Issues
-
-**1. "Cannot connect to backend"**
-
-- Ensure backend is running on port 8000/8001
-- Check `.env.local` URLs are correct
-- Verify CORS settings in backend
-
-**2. "Authentication not working"**
-
-- Clear browser cookies and localStorage
-- Check backend JWT secret is set
-- Verify httpOnly cookies are enabled
-
-**3. "Cart not persisting"**
-
-- Check browser localStorage is enabled
-- Clear localStorage and try again
-- Verify cart key matches in CartProvider
-
-**4. "Build errors"**
-
-- Run `npm install` to ensure dependencies are up to date
-- Delete `.next` folder and rebuild
-- Check for TypeScript errors with `npm run lint`
+| Issue                    | Solution                                                       |
+| ------------------------ | -------------------------------------------------------------- |
+| Can't connect to backend | Verify backend is running and `.env.local` URLs are correct    |
+| Authentication fails     | Clear cookies/localStorage, check backend JWT configuration    |
+| Cart not persisting      | Enable localStorage in browser, verify cart key in provider    |
+| Build errors             | Delete `.next` folder, run `npm install`, check `npm run lint` |
 
 ---
 
-## 📝 Code Style
-
-- **TypeScript:** Strict mode enabled
-- **ESLint:** Next.js recommended config
-- **Formatting:** Consistent spacing and indentation
-- **Naming:** camelCase for variables, PascalCase for components
-- **Comments:** Clear, concise explanations for complex logic
-
----
-
-## 🔗 Related Repositories
+## 🔗 Related Projects
 
 - **Backend API:** [ecommerce-backend](https://github.com/JustinCCodes/WBS_Group_Project_5_Backend)
 - **Admin Dashboard:** [ecommerce-admin](https://github.com/JustinCCodes/WBS_Group_Project_5_Admin_Dashboard)
 
 ---
 
-## 📄 License
-
-Private project for educational purposes.
-
----
-
-## � Project
+## 👨‍💻 Author
 
 **Justin Sturm**
 
-- **GitHub** - [GitHub](https://github.com/JustinCCodes)
-- **LinkedIn**: [LinkedIn](https://www.linkedin.com/in/sturmjustin/)
+- [GitHub](https://github.com/JustinCCodes)
+- [LinkedIn](https://www.linkedin.com/in/sturmjustin/)
 
 ---
+
+## 📄 License
+
+Private project for educational purposes.

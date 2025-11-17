@@ -13,7 +13,6 @@ import { ShoppingBag, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { getErrorMessage } from "@/shared/lib/utils";
 import toast from "react-hot-toast";
-// ...existing code...
 
 // OrdersPage component
 export function OrdersPage() {
@@ -23,7 +22,9 @@ export function OrdersPage() {
   const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(
     null
   );
-  const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
+  const [confirmCancelOrder, setConfirmCancelOrder] = useState<Order | null>(
+    null
+  );
 
   // Fetches user orders from the server
   const fetchOrders = useCallback(async () => {
@@ -50,27 +51,30 @@ export function OrdersPage() {
   // Handles starting the order cancellation process
   const handleCancelOrder = useCallback(
     (orderId: string, orderStatus: Order["status"]) => {
-      // Only allows cancellation for pending orders
       if (orderStatus !== "pending") {
         toast.error("Only pending orders can be cancelled.");
         return;
       }
-      // Shows confirmation dialog
-      setConfirmCancelId(orderId);
+      // Finds full order object from state
+      const orderToCancel = orders.find((o) => o.id === orderId);
+      setConfirmCancelOrder(orderToCancel || null);
     },
-    []
+    [orders] // Add orders dependency
   );
 
   // Confirms and processes the cancellation
   const confirmCancel = useCallback(async () => {
-    if (!confirmCancelId) return;
+    if (!confirmCancelOrder) return;
+    const orderIdToCancel = confirmCancelOrder.id;
 
     try {
-      setCancellingOrderId(confirmCancelId);
-      await deleteOrder(confirmCancelId);
+      setCancellingOrderId(orderIdToCancel);
+      const cancelledOrder = await deleteOrder(orderIdToCancel);
 
-      // Removes cancelled order from state
-      setOrders((prev) => prev.filter((o) => o.id !== confirmCancelId));
+      // Updates the order in our state list
+      setOrders((prev) =>
+        prev.map((o) => (o.id === orderIdToCancel ? cancelledOrder : o))
+      );
       toast.success("Order cancelled successfully");
     } catch (err) {
       toast.error(
@@ -78,9 +82,9 @@ export function OrdersPage() {
       );
     } finally {
       setCancellingOrderId(null);
-      setConfirmCancelId(null);
+      setConfirmCancelOrder(null); // Close modal
     }
-  }, [confirmCancelId]);
+  }, [confirmCancelOrder]); // Add dependency
 
   // Renders loading state
   if (loading) {
@@ -167,11 +171,11 @@ export function OrdersPage() {
 
         {/* Confirmation Modal */}
         <ConfirmCancelModal
-          isOpen={!!confirmCancelId}
-          orderId={confirmCancelId}
-          isCancelling={cancellingOrderId === confirmCancelId}
+          isOpen={!!confirmCancelOrder}
+          order={confirmCancelOrder}
+          isCancelling={cancellingOrderId === confirmCancelOrder?.id}
           onConfirm={confirmCancel}
-          onCancel={() => setConfirmCancelId(null)}
+          onCancel={() => setConfirmCancelOrder(null)}
         />
       </div>
     </div>

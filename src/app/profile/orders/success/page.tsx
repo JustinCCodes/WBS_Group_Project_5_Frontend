@@ -1,13 +1,34 @@
+"use client";
+
 import Link from "next/link";
 import { CheckCircle, ShoppingBag, ListOrdered } from "lucide-react";
-import type { Metadata } from "next";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export const metadata: Metadata = {
-  title: "Order Confirmed | Syntax",
-  description: "Thank you for your purchase.",
-};
-
+// Page shown after a successful order placement
 export default function OrderSuccessPage() {
+  const router = useRouter();
+  const [isAllowed, setIsAllowed] = useState(false);
+
+  useEffect(() => {
+    // Checks session storage for flag
+    const orderSuccess = sessionStorage.getItem("orderSuccess");
+
+    if (orderSuccess === "true") {
+      setIsAllowed(true);
+      // Removes the flag so the page cant be revisited
+      sessionStorage.removeItem("orderSuccess");
+    } else {
+      // If no flag redirects to the main orders page
+      router.replace("/profile/orders");
+    }
+  }, [router]);
+
+  // If not allowed render nothing while redirecting
+  if (!isAllowed) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center py-20 px-4">
       <div className="relative z-10 text-center max-w-2xl mx-auto">

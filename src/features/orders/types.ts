@@ -14,6 +14,8 @@ export interface OrderProduct {
 // Main Order interface
 export interface Order {
   id: string;
+  orderNumber: string;
+  orderSequence: number;
   userId: {
     id: string;
     name: string;
@@ -53,7 +55,7 @@ export interface CreateOrderPayload {
 // Props for Confirm Cancel Modal component
 export interface ConfirmCancelModalProps {
   isOpen: boolean;
-  orderId: string | null;
+  order: Order | null;
   isCancelling: boolean;
   onConfirm: () => void;
   onCancel: () => void;

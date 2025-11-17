@@ -2,11 +2,20 @@
 import Link from "next/link";
 import { Github, Twitter, Instagram, Youtube } from "lucide-react";
 import { useModal } from "@/shared/context";
+import type { Category } from "@/features/products"; // Import the Category type
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
+
+// Define props for the component
+interface FooterProps {
+  categories: Category[];
+}
 
 // Footer component
-export default function Footer() {
+export default function Footer({ categories }: FooterProps) {
   const currentYear = new Date().getFullYear();
-  const { openModal } = useModal();
+  const { openModal, isModalOpen } = useModal();
+  // Lock scroll when any modal is open
+  useDisableBodyScroll(isModalOpen);
 
   return (
     <footer className="bg-zinc-950 border-t border-zinc-800 text-gray-400">
@@ -26,7 +35,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Shop Section */}
+          {/* Shop Section - Now dynamic */}
           <div className="text-center lg:text-left">
             <h3 className="text-white font-semibold mb-4">Shop</h3>
             <ul className="space-y-2 text-sm">
@@ -38,38 +47,17 @@ export default function Footer() {
                   All Products
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/products?category=headsets"
-                  className="hover:text-amber-400 transition-colors"
-                >
-                  Headsets
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products?category=mice"
-                  className="hover:text-amber-400 transition-colors"
-                >
-                  Mice
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products?category=keyboards"
-                  className="hover:text-amber-400 transition-colors"
-                >
-                  Keyboards
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products?category=accessories"
-                  className="hover:text-amber-400 transition-colors"
-                >
-                  Accessories
-                </Link>
-              </li>
+              {/* Map over categories */}
+              {categories.map((category) => (
+                <li key={category.id}>
+                  <Link
+                    href={`/products?categoryId=${category.id}`}
+                    className="hover:text-amber-400 transition-colors capitalize"
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
