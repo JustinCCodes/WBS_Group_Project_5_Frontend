@@ -18,7 +18,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
-              The talented developers behind this e-commerce platform
+              Der Entwickler hinter dieser E-Commerce Platform
             </p>
           </div>
         </div>
@@ -30,42 +30,42 @@ export default function AboutPage() {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all group">
-              <div className="w-16 h-16 bg-linear-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all group text-center lg:text-left">
+              <div className="w-16 h-16 bg-linear-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform mx-auto lg:mx-0">
                 <Code className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-amber-400">
                 Modern Stack
               </h3>
               <p className="text-gray-400 leading-relaxed">
-                Built with Next.js, TypeScript, and Tailwind CSS for a fast,
-                type-safe, and beautiful user experience.
+                Entwickelt mit Next.js, TypeScript und Tailwind CSS für eine
+                schnelle, typsichere und ansprechende Benutzererfahrung.
               </p>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all group">
-              <div className="w-16 h-16 bg-linear-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all group text-center lg:text-left">
+              <div className="w-16 h-16 bg-linear-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform mx-auto lg:mx-0">
                 <Briefcase className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-amber-400">
                 Business Focused
               </h3>
               <p className="text-gray-400 leading-relaxed">
-                Understanding both technical implementation and business value
-                to deliver solutions that matter.
+                Technisches Know-how mit Geschäftssinn verbinden, um Lösungen
+                mit echtem Mehrwert zu schaffen.
               </p>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all group">
-              <div className="w-16 h-16 bg-linear-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all group text-center lg:text-left">
+              <div className="w-16 h-16 bg-linear-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform mx-auto lg:mx-0">
                 <Wrench className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-amber-400">
                 User Centric
               </h3>
               <p className="text-gray-400 leading-relaxed">
-                Solving real problems with practical solutions designed from the
-                end-user perspective.
+                Reale Probleme mit praktischen Lösungen angehen, die aus der
+                Perspektive des Endbenutzers entwickelt wurden.
               </p>
             </div>
           </div>
@@ -84,7 +84,8 @@ export default function AboutPage() {
               </span>
             </h2>
             <p className="text-gray-400 text-lg">
-              Passionate about creating exceptional digital experiences
+              Angetrieben von der Leidenschaft, außergewöhnliche digitale
+              Erlebnisse zu schaffen.
             </p>
           </div>
 
@@ -221,8 +222,12 @@ export default function AboutPage() {
             </span>
           </h2>
           <p className="text-gray-400 text-lg mb-8 mt-15">
-            Feel free to reach out to any of our team members via LinkedIn or
-            GitHub.
+            Ich freue mich über jede Gelegenheit, mich zu vernetzen. Da ich
+            derzeit aktiv auf der Suche nach einem Praktikum oder einer Junior
+            Stelle im Bereich Software Engineering bin, bin ich besonders an
+            einem Austausch über Einstiegsmöglichkeiten interessiert.
+            Kontaktiere mich gerne über LinkedIn oder wirf einen Blick auf meine
+            Projekte bei GitHub. Ich freue mich auf deine Nachricht!
           </p>
         </div>
       </section>

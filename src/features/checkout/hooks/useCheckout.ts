@@ -90,6 +90,10 @@ export function useCheckout(): UseCheckoutReturn {
 
       toast.dismiss();
       toast.success(`Order #${newOrder.id.slice(-8)} placed successfully!`);
+
+      // Sets a flag in session storage to verify the success page view
+      sessionStorage.setItem("orderSuccess", "true");
+
       clearCart();
       router.push("/profile/orders/success");
     } catch (error) {

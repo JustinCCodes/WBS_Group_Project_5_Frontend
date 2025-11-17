@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
 import { X } from "lucide-react";
 import type { AddressFormModalProps, FormData } from "../types";
 
@@ -36,6 +37,9 @@ export function AddressFormModal({
       });
     }
   }, [address, isOpen]);
+
+  // Disable body scroll when modal is open
+  useDisableBodyScroll(isOpen);
 
   // Add Escape key handler to close modal
   useEffect(() => {

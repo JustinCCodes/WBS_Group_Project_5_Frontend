@@ -1,21 +1,24 @@
 "use client";
 import { XCircle } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
 import type { ConfirmCancelModalProps } from "../index";
 
 // ConfirmCancelModal component
 export function ConfirmCancelModal({
   isOpen,
-  orderId,
+  order,
   isCancelling,
   onConfirm,
   onCancel,
 }: ConfirmCancelModalProps) {
+  // Disable body scroll when modal is open
+  useDisableBodyScroll(isOpen && !!order);
   // Focus confirm button when modal opens
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || !order) return;
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && !isCancelling) {
@@ -27,9 +30,9 @@ export function ConfirmCancelModal({
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, isCancelling, onCancel]);
+  }, [isOpen, isCancelling, onCancel, order]);
 
-  if (!isOpen || !orderId) return null;
+  if (!isOpen || !order) return null;
 
   // RGB animated border wrapper styles
   const rgbBorderWrapper = `relative w-full max-w-md
@@ -69,7 +72,7 @@ export function ConfirmCancelModal({
                 Cancel Order?
               </h3>
               <p className="text-sm text-gray-400">
-                Order #{orderId.slice(-8).toUpperCase()}
+                Order #{order.orderNumber}
               </p>
             </div>
           </div>

@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
 import { useAuth } from "@/features/auth";
 
 export function BanNotificationModal() {
   const { banInfo, logout } = useAuth();
+  // Disable body scroll when modal is open
+  useDisableBodyScroll(!!banInfo);
 
   // Prevents navigation while banned
   useEffect(() => {

@@ -13,6 +13,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useEffect } from "react";
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
 import { ModalType } from "@/shared/types";
 import { ContactForm } from "@/features/contact";
 
@@ -20,23 +21,21 @@ import { ContactForm } from "@/features/contact";
 export default function InfoModal() {
   const { isModalOpen, modalType, closeModal } = useModal();
 
-  // Prevents body scroll when modal is open
+  // Disable body scroll when modal is open
+  useDisableBodyScroll(isModalOpen);
+
+  // Escape key closes modal
   useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-      const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-          closeModal();
-        }
-      };
-      document.addEventListener("keydown", handleEscape);
-      return () => {
-        document.body.style.overflow = "unset";
-        document.removeEventListener("keydown", handleEscape);
-      };
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    if (!isModalOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, [isModalOpen, closeModal]);
 
   // Defines content for each modal type
@@ -153,7 +152,7 @@ export default function InfoModal() {
   );
 }
 
-// Content Components
+// Style classes for content components
 const h3Class = "text-xl font-bold text-amber-400 mb-3 mt-5 first:mt-0";
 const pClass = "text-gray-400 mb-4 leading-relaxed";
 const ulClass = "list-disc list-inside space-y-2 mb-4 pl-4 text-gray-400";
@@ -161,8 +160,7 @@ const codeClass =
   "bg-zinc-800 text-amber-300 px-1.5 py-0.5 rounded-md font-mono text-sm";
 const strongClass = "text-amber-300 font-semibold";
 
-// Existing Content
-
+// Content Components
 const PrivacyContent = () => (
   <div className="text-white">
     <h3 className={h3Class}>Heads Up: This is a Portfolio Project</h3>
@@ -181,7 +179,9 @@ const PrivacyContent = () => (
       <li>
         <strong className={strongClass}>Account Info:</strong> When you
         register, I store your name, email, and a hashed (scrambled) version of
-        your password. I need this so the login feature actually works.
+        your password. I need this so the login feature actually works. Also I
+        save all address (and soon bank info) with encryption to my DB. But
+        still do not use real information.
       </li>
       <li>
         <strong className={strongClass}>Cart Items:</strong> Your shopping cart
@@ -191,10 +191,10 @@ const PrivacyContent = () => (
         this data.
       </li>
       <li>
-        <strong className={strongClass}>Order History:</strong> If you
-        &quot;place an order,&quot; I save that information (what you bought,
-        the total price) in the database. This is just to populate the &quot;My
-        Orders&quot; page for you.
+        <strong className={strongClass}>Orders:</strong> If you &quot;place an
+        order,&quot; I save that information (what you bought, the total price)
+        in the database. This is just to populate the &quot;My Orders&quot; page
+        for you. Also all orders are saved on the DB under your user account.
       </li>
     </ul>
 

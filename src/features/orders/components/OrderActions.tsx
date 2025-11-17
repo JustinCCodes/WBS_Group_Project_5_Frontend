@@ -13,11 +13,11 @@ export function OrderActions({
 
   return (
     <div className="flex flex-col sm:flex-row items-center gap-3 justify-between w-full">
-      <div className="flex flex-col sm:flex-row items-center gap-3">
+      <div className="flex flex-row items-center gap-3 w-full sm:w-auto">
         {/* View Details */}
         <Link
           href={`/profile/orders/${order.id}`}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-linear-to-r from-amber-500 to-yellow-600 text-black font-bold rounded-lg hover:scale-105 transition-transform"
+          className="grow sm:grow-0 flex items-center justify-center gap-2 px-5 py-3 bg-linear-to-r from-amber-500 to-yellow-600 text-black font-bold rounded-lg hover:scale-105 transition-transform"
         >
           <Info className="w-5 h-5" />
           Order Details
@@ -26,7 +26,7 @@ export function OrderActions({
         {/* Secondary Actions */}
         <button
           onClick={onDownloadBill}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white font-semibold rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-colors"
+          className="grow sm:grow-0 flex items-center justify-center gap-2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white font-semibold rounded-lg hover:border-amber-500/50 hover:text-amber-400 transition-colors"
         >
           <FileDown className="w-5 h-5" />
           Download Bill

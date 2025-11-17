@@ -3,6 +3,7 @@
 import { X, CheckCircle, Circle } from "lucide-react";
 import type { AddressSelectionModalProps } from "../types";
 import { useEffect } from "react";
+import { useDisableBodyScroll } from "@/shared/lib/useDisableBodyScroll";
 
 // Modal component for selecting an address
 export function AddressSelectionModal({
@@ -12,6 +13,9 @@ export function AddressSelectionModal({
   addresses,
   selectedAddressId,
 }: AddressSelectionModalProps) {
+  // Disable body scroll when modal is open
+  useDisableBodyScroll(isOpen);
+
   // Add Escape key handler to close modal
   useEffect(() => {
     if (!isOpen) return;

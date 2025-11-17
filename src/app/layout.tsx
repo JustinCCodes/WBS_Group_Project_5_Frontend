@@ -21,7 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetches categories for navbar
+  // Fetches categories for navbar and footer
   const categories = await getCategoriesServer();
 
   return (
@@ -60,7 +60,7 @@ export default async function RootLayout({
                 <div className="rgb-border"></div>
                 <main className="flex-1">{children}</main>
                 <div className="rgb-border"></div>
-                <Footer />
+                <Footer categories={categories} />
               </ModalProvider>
             </CartProvider>
           </AuthProvider>

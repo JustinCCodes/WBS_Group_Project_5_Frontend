@@ -8,7 +8,7 @@ export function OrderSummaryHeader({ order }: OrderSummaryHeaderProps) {
         <OrderStatusBadge status={order.status} />
         <div>
           <h3 className="text-lg font-bold text-white leading-tight">
-            Order #{order.id.slice(-8).toUpperCase()}
+            Order #{order.orderNumber}
           </h3>
           <p className="text-sm text-gray-400">
             Placed on{" "}

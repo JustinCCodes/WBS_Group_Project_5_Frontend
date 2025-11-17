@@ -87,9 +87,7 @@ export function OrderDetailsPage({ params }: OrderDetailsPageProps) {
             <h1 className="text-4xl font-bold bg-linear-to-r from-amber-500 to-yellow-600 bg-clip-text text-transparent mb-2">
               Order Details
             </h1>
-            <p className="text-gray-400">
-              Order #{order.id.slice(-8).toUpperCase()}
-            </p>
+            <p className="text-gray-400">Order #{order.orderNumber}</p>
           </div>
           <div
             className={`flex items-center gap-3 px-4 py-2 rounded-lg ${statusConfig.bgColor} border ${statusConfig.borderColor}`}
